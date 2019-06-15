@@ -1,0 +1,46 @@
+{
+  "extends": "tslint-config-airbnb",
+  "rules": {
+    "semicolon": false,
+    "trailing-comma": false,
+    "eofline": {
+      "severity": "warn"
+    },
+    "no-consecutive-blank-lines": {
+      "severity": "warn"
+    },
+    "quotemark": {
+      "severity": "warn",
+      "options": ["single", "jsx-double"]
+    },
+    "no-trailing-whitespace": {
+      "severity": "warn"
+    },
+    "ordered-imports": {
+      "severity": "warn"
+    },
+    "import-name": [
+      false,
+      {
+        "react": "React",
+        "reactDom": "ReactDOM",
+        "graphqlTag": "gql",
+        "moleculerDbAdapterMongoose": "MongooseAdapter",
+        "mongodbMemoryServer": "MongoMemoryServer",
+        "classnames": "classNames",
+        "useReactRouter": "useRouter",
+        "reactHelmet": "Helmet",
+        "constate": "createContainer",
+        "bluebird": "Bluebird"
+      }
+    ],
+    "align": {
+      "severity": "warn"
+    },
+    "object-curly-spacing": {
+      "severity": "warn"
+    },
+    "ter-arrow-parens": [true, "always"],
+    "max-line-length": false
+  }
+}
