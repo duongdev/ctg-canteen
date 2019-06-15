@@ -19,21 +19,7 @@
     "ordered-imports": {
       "severity": "warn"
     },
-    "import-name": [
-      false,
-      {
-        "react": "React",
-        "reactDom": "ReactDOM",
-        "graphqlTag": "gql",
-        "moleculerDbAdapterMongoose": "MongooseAdapter",
-        "mongodbMemoryServer": "MongoMemoryServer",
-        "classnames": "classNames",
-        "useReactRouter": "useRouter",
-        "reactHelmet": "Helmet",
-        "constate": "createContainer",
-        "bluebird": "Bluebird"
-      }
-    ],
+    "import-name": [false],
     "align": {
       "severity": "warn"
     },
@@ -41,6 +27,7 @@
       "severity": "warn"
     },
     "ter-arrow-parens": [true, "always"],
-    "max-line-length": false
+    "max-line-length": false,
+    "variable-name": false
   }
 }
