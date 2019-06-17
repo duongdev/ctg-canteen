@@ -12,15 +12,18 @@
     "lodash": "4.17.11",
     "material-table": "1.39.2",
     "mdi-material-ui": "6.0.0",
+    "numeral": "2.0.6",
     "query-string": "6.7.0",
     "react": "^16.8.6",
     "react-dom": "^16.8.6",
+    "react-dropzone": "10.1.5",
     "react-helmet": "5.2.1",
     "react-router-dom": "5.0.1",
     "react-scripts": "3.0.1",
     "react-undraw": "1.14.0",
     "typescript": "3.5.2",
-    "use-react-router": "1.0.7"
+    "use-react-router": "1.0.7",
+    "xlsx": "0.14.3"
   },
   "scripts": {
     "start": "react-scripts start",
@@ -46,6 +49,7 @@
   "devDependencies": {
     "@types/classnames": "2.2.8",
     "@types/lodash": "4.14.134",
+    "@types/numeral": "0.0.25",
     "@types/react-helmet": "5.0.8",
     "@types/react-router-dom": "4.3.4",
     "eslint": "5.16.0"
