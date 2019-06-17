@@ -10,6 +10,7 @@
     "@types/react-dom": "16.8.4",
     "formik": "1.5.7",
     "lodash": "4.17.11",
+    "material-table": "1.39.2",
     "mdi-material-ui": "6.0.0",
     "query-string": "6.7.0",
     "react": "^16.8.6",
@@ -17,6 +18,7 @@
     "react-helmet": "5.2.1",
     "react-router-dom": "5.0.1",
     "react-scripts": "3.0.1",
+    "react-undraw": "1.14.0",
     "typescript": "3.5.2",
     "use-react-router": "1.0.7"
   },
