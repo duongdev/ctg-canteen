@@ -14,10 +14,13 @@ const UserImportDropzone: React.FC<UserImportDropzoneProps> = (props) => {
   const classes = useStyles()
   const { file, setFile } = props
 
-  const onDrop = React.useCallback((acceptedFiles: File[]) => {
-    setFile(acceptedFiles[0])
-    // Do something with the files
-  }, [setFile])
+  const onDrop = React.useCallback(
+    (acceptedFiles: File[]) => {
+      setFile(acceptedFiles[0])
+      // Do something with the files
+    },
+    [setFile],
+  )
   const onClear = React.useCallback(() => setFile(null), [setFile])
 
   const { getRootProps, getInputProps, isDragActive } = useDropzone({
@@ -31,7 +34,7 @@ const UserImportDropzone: React.FC<UserImportDropzoneProps> = (props) => {
         <Grid container alignItems="center">
           <Grid item>
             <Typography variant="h6">
-              {file.name} ({numeral(file.size).format('0.0 b')} bytes)
+              {file.name} ({numeral(file.size).format('0.0 b')})
             </Typography>
           </Grid>
           <Grid item xs />

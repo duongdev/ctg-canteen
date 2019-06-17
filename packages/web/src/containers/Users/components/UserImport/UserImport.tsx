@@ -1,16 +1,18 @@
 import React from 'react'
 
-import { Box, Container, Grid } from '@material-ui/core'
+import { Box, Container, Fade, Grid } from '@material-ui/core'
 import * as XLSX from 'xlsx'
 import UserImportDropzone from './components/UserImportDropzone'
+import UserImportPreview from './components/UserImportPreview'
 
 type UserImportProps = {}
 
 const UserImport: React.FC<UserImportProps> = () => {
   const [file, setFile] = React.useState<File | null>(null)
+  const [data, setData] = React.useState<any[]>([])
 
   React.useEffect(() => {
-    if (!file) return
+    if (!file) return setData([])
 
     const reader = new FileReader()
     const rABS = !!reader.readAsBinaryString
@@ -24,7 +26,7 @@ const UserImport: React.FC<UserImportProps> = () => {
       /* Convert array of arrays */
       const data = XLSX.utils.sheet_to_json(ws, { header: 2 })
       /* Update state */
-      console.log(data)
+      setData(data)
     }
     if (rABS) reader.readAsBinaryString(file)
     else reader.readAsArrayBuffer(file)
@@ -37,6 +39,13 @@ const UserImport: React.FC<UserImportProps> = () => {
           <Grid item>
             <UserImportDropzone file={file} setFile={setFile} />
           </Grid>
+          {data.length > 0 && (
+            <Fade in>
+              <Grid item>
+                <UserImportPreview data={data} />
+              </Grid>
+            </Fade>
+          )}
         </Grid>
       </Container>
     </Box>

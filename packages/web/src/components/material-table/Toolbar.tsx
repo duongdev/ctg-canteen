@@ -1,15 +1,19 @@
 import React from 'react'
 
-import { Box, Toolbar as MUIToolbar } from '@material-ui/core'
+import { makeStyles, Toolbar as MUIToolbar } from '@material-ui/core'
 
 type ToolbarProps = {}
 
 const Toolbar: React.FC<ToolbarProps> = (props) => {
-  return (
-    <Box component={MUIToolbar} bgcolor="background.default" pt={0.5} pb={0.75}>
-      {props.children}
-    </Box>
-  )
+  const classes = useStyles(props)
+  return <MUIToolbar className={classes.root}>{props.children}</MUIToolbar>
 }
+
+const useStyles = makeStyles(({ spacing, palette }) => ({
+  root: {
+    padding: spacing(0.25, 2, 0.5, 2),
+    backgroundColor: palette.background.default,
+  },
+}))
 
 export default Toolbar
