@@ -1,14 +1,17 @@
 import React from 'react'
 
 import { Container, makeStyles } from '@material-ui/core'
+import { ContainerProps } from '@material-ui/core/Container'
 
-type ContentContainerProps = {}
+type ContentContainerProps = {
+  maxWidth?: ContainerProps['maxWidth']
+}
 
 const ContentContainer: React.FC<ContentContainerProps> = (props) => {
   const classes = useStyles(props)
 
   return (
-    <Container maxWidth="md" className={classes.root}>
+    <Container maxWidth={props.maxWidth || 'md'} className={classes.root}>
       {props.children}
     </Container>
   )
