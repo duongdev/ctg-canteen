@@ -1,6 +1,7 @@
 import React from 'react'
 
-import { Box, Container, Fade, Grid } from '@material-ui/core'
+import { Fade, Grid } from '@material-ui/core'
+import ContentContainer from 'components/ContentContainer'
 import * as XLSX from 'xlsx'
 import UserImportDropzone from './components/UserImportDropzone'
 import UserImportPreview from './components/UserImportPreview'
@@ -33,22 +34,20 @@ const UserImport: React.FC<UserImportProps> = () => {
   }, [file])
 
   return (
-    <Box mt={8} mb={8}>
-      <Container maxWidth="md">
-        <Grid container spacing={2} direction="column">
-          <Grid item>
-            <UserImportDropzone file={file} setFile={setFile} />
-          </Grid>
-          {data.length > 0 && (
-            <Fade in>
-              <Grid item>
-                <UserImportPreview data={data} />
-              </Grid>
-            </Fade>
-          )}
+    <ContentContainer>
+      <Grid container spacing={2} direction="column">
+        <Grid item>
+          <UserImportDropzone file={file} setFile={setFile} />
         </Grid>
-      </Container>
-    </Box>
+        {data.length > 0 && (
+          <Fade in>
+            <Grid item>
+              <UserImportPreview data={data} />
+            </Grid>
+          </Fade>
+        )}
+      </Grid>
+    </ContentContainer>
   )
 }
 

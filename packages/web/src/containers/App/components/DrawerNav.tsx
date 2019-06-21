@@ -15,7 +15,8 @@ import clsx from 'clsx'
 import { APP_NAME } from 'constants/global'
 import { DRAWER_WIDTH } from 'constants/layout'
 import { AccountMultiple, CashRegister, Food, Home } from 'mdi-material-ui'
-import { Link } from 'react-router-dom'
+import { Link, matchPath } from 'react-router-dom'
+import useRouter from 'use-react-router'
 
 const categories = [
   {
@@ -42,6 +43,7 @@ type DrawerNavProps = {}
 
 const DrawerNav: React.FC<DrawerNavProps> = (props) => {
   const classes = useStyles(props)
+  const { location } = useRouter()
 
   return (
     <Drawer variant="permanent" classes={{ paper: classes.root }}>
@@ -75,28 +77,31 @@ const DrawerNav: React.FC<DrawerNavProps> = (props) => {
                   {id}
                 </ListItemText>
               </ListItem>
-              {children.map(({ id: childId, icon, active, to }) => (
-                <Link key={childId} to={to}>
-                  <ListItem
-                    button
-                    className={clsx(
-                      classes.item,
-                      active && classes.itemActiveItem,
-                    )}
-                  >
-                    <ListItemIcon className={classes.itemIcon}>
-                      {icon}
-                    </ListItemIcon>
-                    <ListItemText
-                      classes={{
-                        primary: classes.itemPrimary,
-                      }}
+              {children.map(({ id: childId, icon, to }) => {
+                const active = matchPath(location.pathname, to)
+                return (
+                  <Link key={childId} to={to}>
+                    <ListItem
+                      button
+                      className={clsx(
+                        classes.item,
+                        active && classes.itemActiveItem,
+                      )}
                     >
-                      {childId}
-                    </ListItemText>
-                  </ListItem>
-                </Link>
-              ))}
+                      <ListItemIcon className={classes.itemIcon}>
+                        {icon}
+                      </ListItemIcon>
+                      <ListItemText
+                        classes={{
+                          primary: classes.itemPrimary,
+                        }}
+                      >
+                        {childId}
+                      </ListItemText>
+                    </ListItem>
+                  </Link>
+                )
+              })}
               <Divider className={classes.divider} />
             </React.Fragment>
           ))}
