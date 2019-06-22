@@ -23,7 +23,8 @@
     "react-undraw": "1.14.0",
     "typescript": "3.5.2",
     "use-react-router": "1.0.7",
-    "xlsx": "0.14.3"
+    "xlsx": "0.14.3",
+    "yup": "0.27.0"
   },
   "scripts": {
     "start": "react-scripts start",
@@ -52,6 +53,7 @@
     "@types/numeral": "0.0.25",
     "@types/react-helmet": "5.0.8",
     "@types/react-router-dom": "4.3.4",
+    "@types/yup": "0.26.17",
     "eslint": "5.16.0"
   }
 }
