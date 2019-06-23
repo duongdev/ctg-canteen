@@ -2,6 +2,8 @@ import * as bcrypt from 'bcrypt'
 import * as Chance from 'chance'
 import Debug from 'debug'
 import { environment } from 'environment'
+import IUser from 'interfaces/User'
+import { verify } from 'jsonwebtoken'
 import User from 'models/User'
 
 const chance = new Chance()
@@ -37,4 +39,17 @@ export const createDefaultAdmin = async () => {
   log(`Created default admin user`)
 
   return admin
+}
+
+export const getUserFromToken = async (token: string) => {
+  const log = debug.extend('getUserFromToken')
+  try {
+    const decoded = verify(token, environment.jwtSecret) as { id: string }
+
+    const user = await User.findById(decoded.id)
+
+    return user.toJSON() as IUser
+  } catch (error) {
+    return null
+  }
 }

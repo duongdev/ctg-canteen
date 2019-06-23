@@ -6,6 +6,10 @@ export default gql`
     name: String!
   }
 
+  extend type Query {
+    authenticate: User
+  }
+
   extend type Mutation {
     signIn(username: String!, password: String!): String
   }

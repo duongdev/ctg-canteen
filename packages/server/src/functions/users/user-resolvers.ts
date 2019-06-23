@@ -1,27 +1,48 @@
 import { compareSync } from 'bcrypt'
+import chalk from 'chalk'
+import Debug from 'debug'
 import { environment } from 'environment'
 import { sign } from 'jsonwebtoken'
 import { pick } from 'lodash'
 import User from 'models/User'
 
+const debug = Debug('app:users:resolvers')
+
 const signIn = async (_, args: { username: string; password: string }) => {
+  const log = debug.extend('signIn-mutation')
+
+  log(`Signing in user with username ${chalk.green(args.username)}`)
+
   const user = await User.findOne({ username: args.username })
 
-  if (!user) throw new Error('Không tìm thấy tài khoản')
+  if (!user) {
+    log(`User not found`)
+    throw new Error('Không tìm thấy tài khoản')
+  }
 
   if (!compareSync(args.password, user.password)) {
+    log(`Wrong password`)
     throw new Error('Mật khẩu không đúng')
   }
 
-  return sign(
+  const token = sign(
     pick(user, ['username', 'id', 'roles', 'password']),
     environment.jwtSecret,
   )
+
+  log('Signed in successfully')
+  return token
+}
+
+const authenticate = async (_, args, ctx) => {
+  return ctx.user
 }
 
 const Mutation = {
   signIn,
 }
-const Query = {}
+const Query = {
+  authenticate,
+}
 
 export default { Query, Mutation }

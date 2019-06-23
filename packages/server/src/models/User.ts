@@ -1,7 +1,8 @@
+import { createSchema } from 'helpers/mongoose'
 import IUser from 'interfaces/User'
-import { Document, model, Schema } from 'mongoose'
+import { Document, model } from 'mongoose'
 
-const userSchema = new Schema(
+const userSchema = createSchema(
   {
     username: {
       type: String,

@@ -9,6 +9,7 @@ import { environment } from './environment'
 import resolvers from './resolvers'
 import typeDefs from './schemas'
 
+import { getUserFromToken } from 'functions/users/user-services'
 import startup from 'startup'
 import userGql from './functions/users/user.gql'
 
@@ -17,6 +18,20 @@ const server = new ApolloServer({
   typeDefs: [typeDefs, userGql],
   introspection: environment.apollo.introspection,
   playground: environment.apollo.playground,
+  context: async ({ req }) => {
+    // get the user token from the headers
+    const token = req.headers['x-access-token']
+
+    if (token) {
+      // try to retrieve a user with the token
+      const user = await getUserFromToken(token)
+
+      console.log(user)
+
+      // add the user to the context
+      return { user }
+    }
+  },
 })
 
 mongoose
