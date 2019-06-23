@@ -9,6 +9,7 @@ import { environment } from './environment'
 import resolvers from './resolvers'
 import typeDefs from './schemas'
 
+import startup from 'startup'
 import userGql from './functions/users/user.gql'
 
 const server = new ApolloServer({
@@ -23,9 +24,11 @@ mongoose
   .then(() => {
     log(`MongoDB connected: ${chalk.green(environment.mongoUri)}`)
 
-    server
-      .listen(environment.port)
-      .then(({ url }) => log(`Server ready at ${chalk.green(url)}.`))
+    server.listen(environment.port).then(async ({ url }) => {
+      log(`Server ready at ${chalk.green(url)}.`)
+
+      await startup()
+    })
   })
   .catch(() => {
     log(`Couldn't connect to MongoDB at ${chalk.red(environment.mongoUri)}`)

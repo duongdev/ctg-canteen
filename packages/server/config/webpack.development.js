@@ -17,4 +17,5 @@ module.exports = merge.smart(common, {
   mode: 'development',
   plugins: [new CleanWebpackPlugin(), new webpack.HotModuleReplacementPlugin()],
   watch: true,
+  resolve: { modules: ['../src', 'node_modules'] },
 })

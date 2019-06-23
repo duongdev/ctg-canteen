@@ -11,4 +11,5 @@ module.exports = merge(common, {
   externals: [nodeExternals({})],
   mode: 'production',
   plugins: [new CleanWebpackPlugin()],
+  resolve: { modules: ['../dist', 'node_modules'] },
 })

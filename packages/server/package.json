@@ -11,14 +11,16 @@
   },
   "scripts": {
     "build": "webpack --config config/webpack.$NODE_ENV.js",
-    "start": "node --require dotenv/config dist/server"
+    "start": "NODE_ENV=development NODE_PATH=src tsnd --require dotenv/config --respawn --transpileOnly ./src/main.ts"
   },
   "bugs": {
     "url": "https://github.com/duongdev/ctg-canteen/issues"
   },
   "devDependencies": {
+    "@types/bcrypt": "3.0.0",
     "@types/bluebird": "3.5.27",
     "@types/chalk": "2.2.0",
+    "@types/chance": "1.0.4",
     "@types/debug": "4.1.4",
     "@types/lodash": "4.14.134",
     "@types/mongoose": "5.5.6",
@@ -34,12 +36,15 @@
   },
   "dependencies": {
     "apollo-server": "2.6.4",
+    "bcrypt": "3.0.6",
     "bluebird": "3.5.5",
     "chalk": "2.4.2",
+    "chance": "1.0.18",
     "debug": "4.1.1",
     "dotenv": "8.0.0",
     "graphql": "14.3.1",
     "lodash": "4.17.11",
-    "mongoose": "5.6.0"
+    "mongoose": "5.6.0",
+    "ts-node-dev": "1.0.0-pre.40"
   }
 }
