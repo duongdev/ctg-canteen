@@ -12,6 +12,7 @@
     "lodash": "4.17.11",
     "material-table": "1.39.2",
     "mdi-material-ui": "6.1.0",
+    "numeral": "2.0.6",
     "query-string": "6.8.1",
     "react": "16.8.6",
     "react-dom": "16.8.6",
