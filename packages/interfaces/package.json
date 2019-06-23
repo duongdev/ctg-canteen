@@ -5,13 +5,6 @@
   "author": "Dương Đỗ <dustin.do95@gmail.com>",
   "homepage": "https://github.com/duongdev/ctg-canteen#readme",
   "license": "ISC",
-  "directories": {
-    "lib": "lib",
-    "test": "__tests__"
-  },
-  "files": [
-    "lib"
-  ],
   "repository": {
     "type": "git",
     "url": "git+https://github.com/duongdev/ctg-canteen.git"
