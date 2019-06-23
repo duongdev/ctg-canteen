@@ -1,10 +1,14 @@
 import { gql } from 'apollo-server'
 
 export default gql`
+  scalar JSON
+  scalar DateTime
+  scalar Any
+
   type Query {
-    """
-    Test Message.
-    """
-    testMessage: String!
+    _empty: String
+  }
+  type Mutation {
+    _empty: String
   }
 `

@@ -6,6 +6,7 @@ interface Environment {
     playground: boolean
   }
   port: number | string
+  mongoUri: string
 }
 
 export const environment: Environment = {
@@ -14,4 +15,5 @@ export const environment: Environment = {
     playground: process.env.APOLLO_PLAYGROUND === 'true',
   },
   port: process.env.PORT || defaultPort,
+  mongoUri: process.env.MONGO_URI,
 }

@@ -15,16 +15,7 @@ module.exports = {
     path: path.resolve(__dirname, '../dist'),
   },
   resolve: {
-    extensions: [
-      '*',
-      '.mjs',
-      '.js',
-      '.vue',
-      '.json',
-      '.gql',
-      '.graphql',
-      '.ts',
-    ],
+    extensions: ['*', '.mjs', '.js', '.vue', '.json', '.ts'],
   },
   target: 'node',
 }

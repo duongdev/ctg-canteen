@@ -1,7 +1,7 @@
-interface Dish {
+interface IDish {
   id: string
   name: string
   description: string
 }
 
-export default Dish
+export default IDish
