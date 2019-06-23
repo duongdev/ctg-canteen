@@ -36,13 +36,13 @@ const server = new ApolloServer({
 
 mongoose
   .connect(environment.mongoUri, { useNewUrlParser: true })
-  .then(() => {
+  .then(async () => {
     log(`MongoDB connected: ${chalk.green(environment.mongoUri)}`)
+
+    await startup()
 
     server.listen(environment.port).then(async ({ url }) => {
       log(`Server ready at ${chalk.green(url)}.`)
-
-      await startup()
     })
   })
   .catch(() => {
