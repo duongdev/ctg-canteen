@@ -1,12 +1,7 @@
 import React from 'react'
 
-import {
-  Container,
-  Grid,
-  InputAdornment,
-  makeStyles,
-  TextField,
-} from '@material-ui/core'
+import { Grid, InputAdornment, TextField } from '@material-ui/core'
+import ContentContainer from 'components/ContentContainer'
 import Toolbar from 'components/material-table/Toolbar'
 import MaterialTable from 'material-table'
 import { Magnify } from 'mdi-material-ui'
@@ -24,10 +19,8 @@ const users = [
 type UserListProps = {}
 
 const UserList: React.FC<UserListProps> = () => {
-  const classes = useStyles()
-
   return (
-    <Container maxWidth="md" className={classes.container}>
+    <ContentContainer>
       <MaterialTable
         title=""
         columns={[
@@ -71,15 +64,8 @@ const UserList: React.FC<UserListProps> = () => {
         }}
         style={{ overflow: 'hidden' }}
       />
-    </Container>
+    </ContentContainer>
   )
 }
-
-const useStyles = makeStyles(({ spacing }) => ({
-  container: {
-    marginTop: spacing(8),
-    marginBottom: spacing(8),
-  },
-}))
 
 export default UserList

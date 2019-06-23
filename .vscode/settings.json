@@ -6,5 +6,8 @@
     "javascriptreact",
     "typescript",
     "typescriptreact"
-  ]
+  ],
+  "editor.codeActionsOnSave": {
+    "source.fixAll.tslint": true
+  }
 }

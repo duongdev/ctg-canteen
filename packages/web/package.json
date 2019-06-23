@@ -15,12 +15,15 @@
     "query-string": "6.8.1",
     "react": "16.8.6",
     "react-dom": "16.8.6",
+    "react-dropzone": "10.1.5",
     "react-helmet": "5.2.1",
     "react-router-dom": "5.0.1",
     "react-scripts": "3.0.1",
     "react-undraw": "1.14.0",
     "typescript": "3.5.2",
-    "use-react-router": "1.0.7"
+    "use-react-router": "1.0.7",
+    "xlsx": "0.14.3",
+    "yup": "0.27.0"
   },
   "scripts": {
     "start": "react-scripts start",
@@ -46,8 +49,10 @@
   "devDependencies": {
     "@types/classnames": "2.2.8",
     "@types/lodash": "4.14.134",
+    "@types/numeral": "0.0.25",
     "@types/react-helmet": "5.0.8",
     "@types/react-router-dom": "4.3.4",
+    "@types/yup": "0.26.17",
     "eslint": "6.0.0"
   }
 }
