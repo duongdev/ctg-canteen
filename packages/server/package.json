@@ -1,7 +1,7 @@
 {
-  "name": "interfaces",
+  "name": "server",
   "version": "0.0.0",
-  "description": "Typescript defitations for ctg-canteen projects",
+  "description": "Apollo GraphQL server for ctg-canteen project",
   "author": "Dương Đỗ <dustin.do95@gmail.com>",
   "homepage": "https://github.com/duongdev/ctg-canteen#readme",
   "license": "ISC",
