@@ -48,8 +48,3 @@ mongoose
   .catch(() => {
     log(`Couldn't connect to MongoDB at ${chalk.red(environment.mongoUri)}`)
   })
-
-if (module.hot) {
-  module.hot.accept()
-  module.hot.dispose(() => server.stop())
-}
