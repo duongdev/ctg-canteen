@@ -34,6 +34,7 @@ export const createDefaultAdmin = async () => {
     password,
     username: defaultAdmin.username,
     name: chance.name(),
+    roles: ['admin'],
   })
 
   log(`Created default admin user`)
