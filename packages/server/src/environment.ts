@@ -7,6 +7,7 @@ interface Environment {
   }
   port: number | string
   mongoUri: string
+  jwtSecret: string
 
   defaultAdmin: {
     username: string
@@ -21,6 +22,7 @@ export const environment: Environment = {
   },
   port: process.env.PORT || defaultPort,
   mongoUri: process.env.MONGO_URI,
+  jwtSecret: process.env.JWT_SECRET,
   defaultAdmin: {
     username: process.env.DEFAULT_ADMIN_USERNAME,
     password: process.env.DEFAULT_ADMIN_PASSWORD,

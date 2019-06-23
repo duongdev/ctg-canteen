@@ -5,4 +5,8 @@ export default gql`
     id: ID!
     name: String!
   }
+
+  extend type Mutation {
+    signIn(username: String!, password: String!): String
+  }
 `

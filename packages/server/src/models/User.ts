@@ -21,6 +21,6 @@ const userSchema = new Schema(
   { timestamps: true },
 )
 
-const User = model<IUser & Document>('User', userSchema)
+const User = model<IUser & Document & { password: string }>('User', userSchema)
 
 export default User
