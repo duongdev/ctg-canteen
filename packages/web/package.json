@@ -5,17 +5,16 @@
   "dependencies": {
     "@material-ui/core": "4.1.1",
     "@types/jest": "24.0.14",
-    "@types/node": "12.0.8",
+    "@types/node": "12.0.10",
     "@types/react": "16.8.20",
     "@types/react-dom": "16.8.4",
     "formik": "1.5.7",
     "lodash": "4.17.11",
     "material-table": "1.39.2",
-    "mdi-material-ui": "6.0.0",
-    "numeral": "2.0.6",
+    "mdi-material-ui": "6.1.0",
     "query-string": "6.7.0",
-    "react": "^16.8.6",
-    "react-dom": "^16.8.6",
+    "react": "16.8.6",
+    "react-dom": "16.8.6",
     "react-dropzone": "10.1.5",
     "react-helmet": "5.2.1",
     "react-router-dom": "5.0.1",
@@ -53,7 +52,7 @@
     "@types/numeral": "0.0.25",
     "@types/react-helmet": "5.0.8",
     "@types/react-router-dom": "4.3.4",
+    "eslint": "6.0.0"
     "@types/yup": "0.26.17",
-    "eslint": "5.16.0"
   }
 }
