@@ -30,7 +30,7 @@
     "graphql-import-node": "0.0.4",
     "ts-loader": "6.0.4",
     "typescript": "3.5.2",
-    "webpack": "4.35.0",
+    "webpack": "4.35.2",
     "webpack-cli": "3.3.4",
     "webpack-merge": "4.2.1",
     "webpack-node-externals": "1.7.2"
