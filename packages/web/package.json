@@ -9,7 +9,7 @@
     "@types/react": "16.8.22",
     "@types/react-dom": "16.8.4",
     "formik": "1.5.7",
-    "lodash": "4.17.11",
+    "lodash": "4.17.14",
     "material-table": "1.40.1",
     "mdi-material-ui": "6.1.0",
     "numeral": "2.0.6",
