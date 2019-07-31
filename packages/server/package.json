@@ -36,7 +36,7 @@
     "webpack-node-externals": "1.7.2"
   },
   "dependencies": {
-    "apollo-server": "2.8.0",
+    "apollo-server": "2.8.1",
     "bcrypt": "3.0.6",
     "bluebird": "3.5.5",
     "chalk": "2.4.2",
