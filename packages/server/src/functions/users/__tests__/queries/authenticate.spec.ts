@@ -20,7 +20,7 @@ const AUTHENTICATE = gql`
   }
 `
 
-describe('Test authenticate', () => {
+describe('Test authenticate query', () => {
   const { query } = createTestClient()
 
   it('should return null if has no user specified', async () => {
