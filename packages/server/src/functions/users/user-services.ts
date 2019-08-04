@@ -1,4 +1,4 @@
-import bcrypt from 'bcrypt'
+import bcrypt from 'bcryptjs'
 import Chance from 'chance'
 import Debug from 'debug'
 import { environment } from 'environment'

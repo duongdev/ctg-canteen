@@ -1,4 +1,4 @@
-import { compareSync } from 'bcrypt'
+import { compareSync } from 'bcryptjs'
 import chalk from 'chalk'
 import Debug from 'debug'
 import { environment } from 'environment'
