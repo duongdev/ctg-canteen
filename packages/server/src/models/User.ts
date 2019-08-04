@@ -34,12 +34,7 @@ const userSchema = createSchema(
       default: ['student'],
     },
     checker: {
-      id: {
-        type: String,
-        unique: true,
-        index: true,
-        required: true,
-      },
+      id: String,
       name: String,
       card: String,
     },

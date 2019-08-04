@@ -21,10 +21,12 @@ export const environment: Environment = {
     playground: process.env.APOLLO_PLAYGROUND === 'true',
   },
   port: process.env.PORT || defaultPort,
-  mongoUri: process.env.MONGO_URI,
+  mongoUri: process.env.MONGO_URI || process.env.MONGODB_URI,
   jwtSecret: process.env.JWT_SECRET,
   defaultAdmin: {
     username: process.env.DEFAULT_ADMIN_USERNAME,
     password: process.env.DEFAULT_ADMIN_PASSWORD,
   },
 }
+
+console.log(environment)

@@ -5,6 +5,9 @@
     "clean": "lerna clean -y && rm -f {packages/*/,}yarn.lock",
     "reinstall": "yarn clean && yarn install"
   },
+  "engines": {
+    "node": "8"
+  },
   "devDependencies": {
     "@commitlint/cli": "8.1.0",
     "@commitlint/config-conventional": "8.1.0",
