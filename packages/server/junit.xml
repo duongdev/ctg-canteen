@@ -1,3 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuites name="jest tests" tests="0" failures="0" time="0.013">
+<testsuites name="jest tests" tests="6" failures="0" time="2.985">
+  <testsuite name="Test signIn mutation" errors="0" failures="0" skipped="0" timestamp="2019-08-04T10:34:13" time="2.423" tests="4">
+    <testcase classname="Test signIn mutation should throw error if username or password was not provided" name="Test signIn mutation should throw error if username or password was not provided" time="0.015">
+    </testcase>
+    <testcase classname="Test signIn mutation should throw error if user not found" name="Test signIn mutation should throw error if user not found" time="0.011">
+    </testcase>
+    <testcase classname="Test signIn mutation should throw error if the password incorrectly" name="Test signIn mutation should throw error if the password incorrectly" time="0.007">
+    </testcase>
+    <testcase classname="Test signIn mutation should return user correctly if the user has accessing permission" name="Test signIn mutation should return user correctly if the user has accessing permission" time="0.026">
+    </testcase>
+  </testsuite>
+  <testsuite name="Test authenticate" errors="0" failures="0" skipped="0" timestamp="2019-08-04T10:34:15" time="0.306" tests="2">
+    <testcase classname="Test authenticate should return null if has no user specified" name="Test authenticate should return null if has no user specified" time="0.005">
+    </testcase>
+    <testcase classname="Test authenticate should return user correctly" name="Test authenticate should return user correctly" time="0.021">
+    </testcase>
+  </testsuite>
 </testsuites>
