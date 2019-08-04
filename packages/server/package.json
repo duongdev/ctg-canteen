@@ -19,6 +19,7 @@
     "url": "https://github.com/duongdev/ctg-canteen/issues"
   },
   "devDependencies": {
+    "@types/bcryptjs": "2.4.2",
     "@types/bluebird": "3.5.27",
     "@types/chalk": "2.2.0",
     "@types/chance": "1.0.5",
@@ -34,6 +35,7 @@
     "graphql-import-node": "0.0.4",
     "jest": "24.8.0",
     "jest-junit": "7.0.0",
+    "mockingoose": "2.13.2",
     "ts-jest": "24.0.2",
     "ts-loader": "6.0.4",
     "typescript": "3.5.3",
