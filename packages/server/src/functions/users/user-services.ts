@@ -2,9 +2,8 @@ import * as bcrypt from 'bcrypt'
 import * as Chance from 'chance'
 import Debug from 'debug'
 import { environment } from 'environment'
-import IUser from 'interfaces/User'
 import { verify } from 'jsonwebtoken'
-import User from 'models/User'
+import UserModel, { IUser } from 'models/User'
 
 const chance = new Chance()
 
@@ -17,7 +16,7 @@ export const createDefaultAdmin = async () => {
 
   const defaultAdmin = environment.defaultAdmin
 
-  const createdUser = await User.findOne({
+  const createdUser = await UserModel.findOne({
     username: defaultAdmin.username,
   })
 
@@ -30,7 +29,7 @@ export const createDefaultAdmin = async () => {
 
   const password = bcrypt.hashSync(defaultAdmin.password, 2)
 
-  const admin = await User.create({
+  const admin = await UserModel.create({
     password,
     username: defaultAdmin.username,
     name: chance.name(),
@@ -47,7 +46,7 @@ export const getUserFromToken = async (token: string) => {
   try {
     const decoded = verify(token, environment.jwtSecret) as { id: string }
 
-    const user = await User.findById(decoded.id)
+    const user = await UserModel.findById(decoded.id)
 
     return user.toJSON() as IUser
   } catch (error) {

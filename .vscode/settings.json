@@ -9,5 +9,9 @@
   ],
   "editor.codeActionsOnSave": {
     "source.fixAll.tslint": true
-  }
+  },
+  "cSpell.words": [
+    "typegoose",
+    "virtuals"
+  ]
 }

@@ -20,3 +20,18 @@ export const createSchema = (
   // schema.plugin(mongoosePaginateV2)
   return schema
 }
+
+export const getSchemaOptions = (options?: mongoose.SchemaOptions) => {
+  return {
+    timestamps: true,
+    toJSON: {
+      getters: true,
+      virtuals: true,
+    },
+    toObject: {
+      getters: true,
+      virtuals: true,
+    },
+    ...options,
+  }
+}

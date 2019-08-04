@@ -4,7 +4,7 @@ import Debug from 'debug'
 import { environment } from 'environment'
 import { sign } from 'jsonwebtoken'
 import { pick } from 'lodash'
-import User from 'models/User'
+import UserModel from 'models/User'
 
 const debug = Debug('app:users:resolvers')
 
@@ -13,7 +13,7 @@ const signIn = async (_, args: { username: string; password: string }) => {
 
   log(`Signing in user with username ${chalk.green(args.username)}`)
 
-  const user = await User.findOne({ username: args.username })
+  const user = await UserModel.findOne({ username: args.username })
 
   if (!user) {
     log(`User not found`)
