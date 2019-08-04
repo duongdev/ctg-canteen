@@ -1,5 +1,5 @@
-import * as bcrypt from 'bcrypt'
-import * as Chance from 'chance'
+import bcrypt from 'bcrypt'
+import Chance from 'chance'
 import Debug from 'debug'
 import { environment } from 'environment'
 import { verify } from 'jsonwebtoken'
