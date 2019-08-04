@@ -36,4 +36,3 @@ jobs:
       # run tests!
       - run: |
           yarn workspace server test:ci
-          yarn workspace web build
