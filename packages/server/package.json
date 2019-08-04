@@ -13,7 +13,7 @@
     "build": "webpack --config config/webpack.$NODE_ENV.js",
     "start": "NODE_ENV=development NODE_PATH=src tsnd --require dotenv/config --debounce --respawn --transpileOnly ./src/server.ts",
     "test": "NODE_ENV=test jest --coverage --passWithNoTests",
-    "test:ci": "yarn test --runInBand --reporters=default --reporters=jest-junit --ci --forceExit && cat ./coverage/lcov.info | yarn coveralls"
+    "test:ci": "yarn test --passWithNoTests --runInBand --reporters=default --reporters=jest-junit --ci --forceExit && cat ./coverage/lcov.info | yarn coveralls"
   },
   "bugs": {
     "url": "https://github.com/duongdev/ctg-canteen/issues"
