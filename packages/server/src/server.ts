@@ -45,6 +45,7 @@ mongoose
       log(`Server ready at ${chalk.green(url)}.`)
     })
   })
-  .catch(() => {
-    log(`Couldn't connect to MongoDB at ${chalk.red(environment.mongoUri)}`)
+  .catch((error) => {
+    log(`Couldn't start server`)
+    log(error)
   })
