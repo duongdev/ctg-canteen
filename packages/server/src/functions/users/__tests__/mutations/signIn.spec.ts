@@ -35,7 +35,7 @@ describe('Test signIn mutation', () => {
     expect(errors[0].message).toEqual('Không tìm thấy tài khoản')
     expect(errors[0].path).toEqual(['signIn'])
   })
-  it('should throw error if the password incorrectly', async () => {
+  it('should throw error if the password is incorrectly', async () => {
     expect.assertions(2)
     const user = {
       username: 'testsignin',

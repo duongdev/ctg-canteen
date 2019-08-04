@@ -23,7 +23,7 @@ const AUTHENTICATE = gql`
 describe('Test authenticate query', () => {
   const { query } = createTestClient()
 
-  it('should return null if has no user specified', async () => {
+  it('should return null if no user is specified', async () => {
     expect.assertions(1)
 
     const { data } = await query({ query: AUTHENTICATE })
