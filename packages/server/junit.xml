@@ -1,3 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuites name="jest tests" tests="0" failures="0" time="0.23">
+<testsuites name="jest tests" tests="2" failures="0" time="2.722">
+  <testsuite name="Test authenticate" errors="0" failures="0" skipped="0" timestamp="2019-08-04T09:07:22" time="2.658" tests="2">
+    <testcase classname="Test authenticate should return null if has no user specified" name="Test authenticate should return null if has no user specified" time="0.005">
+    </testcase>
+    <testcase classname="Test authenticate should return user correctly" name="Test authenticate should return user correctly" time="0.023">
+    </testcase>
+  </testsuite>
 </testsuites>
