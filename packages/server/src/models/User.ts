@@ -14,6 +14,9 @@ class Checker extends Typegoose {
 }
 
 export class User extends Typegoose {
+  @prop({ index: true, unique: true, required: true })
+  studentId: string
+
   @prop({ index: true, required: true, unique: true })
   username: string
 
@@ -36,6 +39,7 @@ export class User extends Typegoose {
   @arrayProp({
     required: true,
     index: true,
+    items: String,
     default: ['student'],
     enum: ['admin', 'student', 'deactivated'],
   })
