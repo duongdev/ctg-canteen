@@ -11,6 +11,7 @@
     "source.fixAll.tslint": true
   },
   "cSpell.words": [
+    "mockingoose",
     "typegoose",
     "virtuals"
   ]

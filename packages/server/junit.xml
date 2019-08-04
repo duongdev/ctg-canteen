@@ -1,9 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuites name="jest tests" tests="2" failures="0" time="2.722">
-  <testsuite name="Test authenticate" errors="0" failures="0" skipped="0" timestamp="2019-08-04T09:07:22" time="2.658" tests="2">
-    <testcase classname="Test authenticate should return null if has no user specified" name="Test authenticate should return null if has no user specified" time="0.005">
+<testsuites name="jest tests" tests="6" failures="0" time="14.007">
+  <testsuite name="Test authenticate" errors="0" failures="0" skipped="0" timestamp="2019-08-04T10:22:45" time="5.365" tests="2">
+    <testcase classname="Test authenticate should return null if has no user specified" name="Test authenticate should return null if has no user specified" time="0.05">
     </testcase>
-    <testcase classname="Test authenticate should return user correctly" name="Test authenticate should return user correctly" time="0.023">
+    <testcase classname="Test authenticate should return user correctly" name="Test authenticate should return user correctly" time="0.101">
+    </testcase>
+  </testsuite>
+  <testsuite name="Test signIn mutation" errors="0" failures="0" skipped="0" timestamp="2019-08-04T10:22:46" time="11.762" tests="4">
+    <testcase classname="Test signIn mutation should throw error if username or password was not provided" name="Test signIn mutation should throw error if username or password was not provided" time="0.021">
+    </testcase>
+    <testcase classname="Test signIn mutation should throw error if user not found" name="Test signIn mutation should throw error if user not found" time="0.012">
+    </testcase>
+    <testcase classname="Test signIn mutation should throw error if the password incorrectly" name="Test signIn mutation should throw error if the password incorrectly" time="0.008">
+    </testcase>
+    <testcase classname="Test signIn mutation should return user correctly if the user has accessing permission" name="Test signIn mutation should return user correctly if the user has accessing permission" time="0.026">
     </testcase>
   </testsuite>
 </testsuites>

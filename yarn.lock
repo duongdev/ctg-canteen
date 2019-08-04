@@ -2420,6 +2420,11 @@
   dependencies:
     "@babel/types" "^7.3.0"
 
+"@types/bcryptjs@2.4.2":
+  version "2.4.2"
+  resolved "https://registry.yarnpkg.com/@types/bcryptjs/-/bcryptjs-2.4.2.tgz#e3530eac9dd136bfdfb0e43df2c4c5ce1f77dfae"
+  integrity sha512-LiMQ6EOPob/4yUL66SZzu6Yh77cbzJFYll+ZfaPiPPFswtIlA/Fs1MzdKYA7JApHU49zQTbJGX3PDmCpIdDBRQ==
+
 "@types/bluebird@3.5.27":
   version "3.5.27"
   resolved "https://registry.yarnpkg.com/@types/bluebird/-/bluebird-3.5.27.tgz#61eb4d75dc6bfbce51cf49ee9bbebe941b2cb5d0"
@@ -9600,6 +9605,11 @@ mkdirp@*, mkdirp@0.5.1, mkdirp@0.5.x, mkdirp@0.x, mkdirp@^0.5.0, mkdirp@^0.5.1, 
   integrity sha1-MAV0OOrGz3+MR2fzhkjWaX11yQM=
   dependencies:
     minimist "0.0.8"
+
+mockingoose@2.13.2:
+  version "2.13.2"
+  resolved "https://registry.yarnpkg.com/mockingoose/-/mockingoose-2.13.2.tgz#32a23f4dd39542673ce7954583d89946be8abf7c"
+  integrity sha512-KP+rweeXjP5P1SMoBQTS7NQG4xIZLbrlJ24dKDjuRRX3kzn+pCAg4w1e+Er6UQEoBtqjbXDM9PTbQkXUk4S7iw==
 
 modify-values@^1.0.0:
   version "1.0.1"
