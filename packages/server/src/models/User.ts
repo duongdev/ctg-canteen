@@ -1,52 +1,61 @@
-import { createSchema } from 'helpers/mongoose'
-import IUser from 'interfaces/User'
-import { Document, model, Types } from 'mongoose'
+import { arrayProp, InstanceType, prop, Typegoose } from 'typegoose'
 
-const userSchema = createSchema(
-  {
-    username: {
-      type: String,
-      required: true,
-      unique: true,
-      index: true,
-    },
-    name: {
-      type: String,
-      required: true,
-    },
-    group: {
-      type: String,
-      required: true,
-      enum: ['boarding', 'outpatient', 'semi-boarding', 'teacher', 'other'],
-      default: 'other',
-    },
-    boardingRoom: { type: String },
-    class: { type: String },
-    roles: {
-      type: [
-        {
-          type: String,
-          enum: ['admin', 'student', 'deactivated'],
-        },
-      ],
-      required: true,
-      index: true,
-      default: ['student'],
-    },
-    checker: {
-      id: String,
-      name: String,
-      card: String,
-    },
+import { getSchemaOptions } from 'helpers/mongoose'
 
-    password: {
-      type: String,
-      required: true,
-    },
-  },
-  { timestamps: true },
-)
+class Checker extends Typegoose {
+  @prop({ index: true, required: true, unique: true })
+  id: string
 
-const User = model<IUser & Document & { password: string }>('User', userSchema)
+  @prop()
+  name?: string
 
-export default User
+  @prop()
+  card?: string
+}
+
+export class User extends Typegoose {
+  @prop({ index: true, unique: true, required: true })
+  studentId: string
+
+  @prop({ index: true, required: true, unique: true })
+  username: string
+
+  @prop({ required: true })
+  name: string
+
+  @prop({
+    required: true,
+    default: 'other',
+    enum: ['boarding', 'outpatient', 'semi-boarding', 'teacher', 'other'],
+  })
+  group: string
+
+  @prop()
+  boardingRoom?: string
+
+  @prop()
+  class?: string
+
+  @arrayProp({
+    required: true,
+    index: true,
+    items: String,
+    default: ['student'],
+    enum: ['admin', 'student', 'deactivated'],
+  })
+  roles: string[]
+
+  @prop({ index: true })
+  checker: Checker
+
+  @prop({ required: true })
+  password: string
+}
+
+export type IUser = InstanceType<User>
+
+const UserModel = new User().getModelForClass(User, {
+  schemaOptions: getSchemaOptions(),
+})
+
+export default UserModel

@@ -28,5 +28,3 @@ export const environment: Environment = {
     password: process.env.DEFAULT_ADMIN_PASSWORD,
   },
 }
-
-console.log(environment)

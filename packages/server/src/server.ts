@@ -20,7 +20,7 @@ const server = new ApolloServer({
   playground: environment.apollo.playground,
   context: async ({ req }) => {
     // get the user token from the headers
-    const token = req.headers['x-access-token']
+    const token = req.headers['x-access-token'] as string
 
     if (token) {
       // try to retrieve a user with the token

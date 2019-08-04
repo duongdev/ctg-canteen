@@ -9,6 +9,7 @@ export default gql`
 
   type User {
     id: ID!
+    studentId: String!
     name: String!
     group: String!
     boardingRoom: String
