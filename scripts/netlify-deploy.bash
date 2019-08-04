@@ -9,4 +9,4 @@ fi
 
 echo REACT_APP_SERVER_URI=$REACT_APP_SERVER_URI
 
-yarn workspace @guru-erp/web build
+yarn workspace web build
