@@ -3,10 +3,12 @@ import React, { FC } from 'react'
 import {
   AppBar,
   Grid,
+  Hidden,
   IconButton,
   makeStyles,
   Toolbar,
 } from '@material-ui/core'
+import useIsMobile from 'hooks/useIsMobile'
 import { Menu } from 'mdi-material-ui'
 
 export type DashboardAppBarProps = {
@@ -15,28 +17,36 @@ export type DashboardAppBarProps = {
 
 const DashboardAppBar: FC<DashboardAppBarProps> = (props) => {
   const classes = useStyles(props)
+  const isMobile = useIsMobile()
 
   return (
-    <AppBar color="inherit" elevation={1}>
+    <AppBar color="inherit" elevation={1} position="sticky">
       <Toolbar>
-        <Grid container>
-          <Grid item>
-            <IconButton
-              onClick={props.onOpenDrawer}
-              className={classes.menuButton}
-            >
-              <Menu />
-            </IconButton>
-          </Grid>
+        <Grid container alignItems="center">
+          <Hidden mdUp>
+            <Grid item>
+              <IconButton
+                onClick={props.onOpenDrawer}
+                className={classes.menuButton}
+                size={isMobile ? 'small' : 'medium'}
+              >
+                <Menu />
+              </IconButton>
+            </Grid>
+          </Hidden>
         </Grid>
       </Toolbar>
     </AppBar>
   )
 }
 
-const useStyles = makeStyles(({ spacing }) => ({
+const useStyles = makeStyles(({ spacing, breakpoints }) => ({
   menuButton: {
+    [breakpoints.down('xs')]: {
+      marginLeft: 0,
+    },
     marginLeft: -spacing(2),
+    marginRight: spacing(1),
   },
 }))
 

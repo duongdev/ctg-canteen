@@ -52,6 +52,11 @@ const theme = createMuiTheme({
         textTransform: 'initial',
       },
     },
+    MuiTooltip: {
+      tooltip: {
+        borderRadius: 4,
+      },
+    },
   },
 })
 

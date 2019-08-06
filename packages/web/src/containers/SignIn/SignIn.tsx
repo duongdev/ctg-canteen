@@ -2,64 +2,73 @@ import React, { FC } from 'react'
 
 import {
   Box,
-  Button,
   Grid,
   makeStyles,
   Paper,
   TextField,
   Typography,
 } from '@material-ui/core'
+import LinkButton from 'components/LinkButton'
 import { ArrowRight } from 'mdi-material-ui'
+import Helmet from 'react-helmet'
 
 const SignIn: FC = (props) => {
   const classes = useStyles(props)
 
   return (
-    <Box
-      display="flex"
-      alignItems="center"
-      justifyContent="center"
-      minHeight="100vh"
-    >
-      <Box component={Paper} padding={4} minWidth="300px">
-        <Grid container spacing={2} direction="column">
-          <Grid item className={classes.header}>
-            <Typography variant="h4">Welcome back</Typography>
-          </Grid>
+    <>
+      <Helmet title="Đăng nhập" />
+      <Box
+        display="flex"
+        alignItems="center"
+        justifyContent="center"
+        minHeight="100vh"
+      >
+        <Box component={Paper} padding={4} minWidth="300px" maxWidth="90vw">
+          <Grid container spacing={2} direction="column">
+            <Grid item className={classes.header}>
+              <Typography variant="h4">Welcome back</Typography>
+            </Grid>
 
-          <Grid item>
-            <TextField
-              fullWidth
-              autoFocus
-              variant="outlined"
-              label="Tên đăng nhập"
-              placeholder="Tên đăng nhập"
-              margin="normal"
-            />
-            <TextField
-              fullWidth
-              variant="outlined"
-              label="Mật khẩu"
-              placeholder="••••••••••"
-              type="password"
-              margin="normal"
-            />
-          </Grid>
+            <Grid item>
+              <TextField
+                fullWidth
+                autoFocus
+                variant="outlined"
+                label="Tên đăng nhập"
+                placeholder="Tên đăng nhập"
+                margin="normal"
+              />
+              <TextField
+                fullWidth
+                variant="outlined"
+                label="Mật khẩu"
+                placeholder="••••••••••"
+                type="password"
+                margin="normal"
+              />
+            </Grid>
 
-          <Grid item className={classes.actions}>
-            <Grid container alignItems="center">
-              <Grid item xs />
-              <Grid item>
-                <Button size="large" color="primary" variant="contained">
-                  Đăng nhập
-                  <Box component={ArrowRight} marginLeft={2} />
-                </Button>
+            <Grid item className={classes.actions}>
+              <Grid container alignItems="center">
+                <Grid item xs />
+                <Grid item>
+                  <LinkButton
+                    to="/dashboard"
+                    size="large"
+                    color="primary"
+                    variant="contained"
+                  >
+                    Đăng nhập
+                    <Box component={ArrowRight} marginLeft={2} />
+                  </LinkButton>
+                </Grid>
               </Grid>
             </Grid>
           </Grid>
-        </Grid>
+        </Box>
       </Box>
-    </Box>
+    </>
   )
 }
 
