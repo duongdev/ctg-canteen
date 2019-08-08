@@ -1,17 +1,7 @@
 import { arrayProp, InstanceType, prop, Typegoose } from 'typegoose'
 
 import { getSchemaOptions } from 'helpers/mongoose'
-
-class Checker extends Typegoose {
-  @prop({ index: true, required: true, unique: true })
-  id: string
-
-  @prop()
-  name?: string
-
-  @prop()
-  card?: string
-}
+import { USER_GROUPS } from 'utils/constants'
 
 export class User extends Typegoose {
   @prop({ index: true, unique: true, required: true })
@@ -35,7 +25,7 @@ export class User extends Typegoose {
   @prop({
     required: true,
     default: 'other',
-    enum: ['boarding', 'outpatient', 'semi-boarding', 'teacher', 'other'],
+    enum: USER_GROUPS,
   })
   group: string
 
@@ -55,7 +45,7 @@ export class User extends Typegoose {
   roles: string[]
 
   @prop({ index: true })
-  checker: Checker
+  checkerId: string
 
   @prop({ required: true })
   password: string

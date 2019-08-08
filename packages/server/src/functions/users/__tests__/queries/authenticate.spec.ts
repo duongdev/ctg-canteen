@@ -1,5 +1,7 @@
 import { gql } from 'apollo-server'
 import { createTestClient } from 'helpers/test-helpers'
+import mockingoose from 'mockingoose'
+import CheckerModel from 'models/Checker'
 
 const AUTHENTICATE = gql`
   query Authenticate {
@@ -11,6 +13,7 @@ const AUTHENTICATE = gql`
       boardingRoom
       class
       roles
+      checkerId
       checker {
         id
         name
@@ -42,12 +45,16 @@ describe('Test authenticate query', () => {
       boardingRoom: 'A-Class',
       class: 'A-Class',
       roles: ['student'],
-      checker: {
-        id: '0901000239112',
-        name: 'Máy chấm công 1',
-        card: '',
-      },
+      checkerId: '0901000239112',
     }
+
+    const checker = {
+      id: '0901000239112',
+      name: 'Máy chấm công 1',
+      card: '',
+    }
+
+    mockingoose(CheckerModel).toReturn(checker, 'findOne')
 
     const { query: contextQuery } = createTestClient({
       context: () => {
@@ -57,6 +64,6 @@ describe('Test authenticate query', () => {
 
     const { data } = await contextQuery({ query: AUTHENTICATE })
 
-    expect(data).toEqual({ authenticate: user })
+    expect(data).toEqual({ authenticate: { ...user, checker } })
   })
 })

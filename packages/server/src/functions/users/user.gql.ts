@@ -1,12 +1,6 @@
 import { gql } from 'apollo-server'
 
 export default gql`
-  type UserChecker {
-    id: ID!
-    name: String
-    card: String
-  }
-
   type User {
     id: ID!
     studentId: String!
@@ -19,7 +13,8 @@ export default gql`
     boardingRoom: String
     class: String
     roles: [String]
-    checker: UserChecker
+    checkerId: String
+    checker: Checker
   }
 
   extend type Query {
