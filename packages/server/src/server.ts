@@ -9,9 +9,9 @@ import { environment } from './environment'
 import resolvers from './resolvers'
 import typeDefs from './schemas'
 
-import { getUserFromToken } from 'functions/users/user-services'
+import userGql from 'functions/users/user.gql'
+import { getUserFromToken } from 'functions/users/user.services'
 import startup from 'startup'
-import userGql from './functions/users/user.gql'
 
 const server = new ApolloServer({
   resolvers,

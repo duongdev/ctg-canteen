@@ -8,7 +8,10 @@ import UserModel from 'models/User'
 
 const debug = Debug('app:users:resolvers')
 
-const signIn = async (_, args: { username: string; password: string }) => {
+export const signIn = async (
+  _parent,
+  args: { username: string; password: string },
+) => {
   const log = debug.extend('signIn-mutation')
 
   log(`Signing in user with username ${chalk.green(args.username)}`)
@@ -33,16 +36,3 @@ const signIn = async (_, args: { username: string; password: string }) => {
   log('Signed in successfully')
   return token
 }
-
-const authenticate = async (_, args, ctx) => {
-  return ctx.user
-}
-
-const Mutation = {
-  signIn,
-}
-const Query = {
-  authenticate,
-}
-
-export default { Query, Mutation }
