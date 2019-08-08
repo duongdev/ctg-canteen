@@ -17,11 +17,20 @@ export class User extends Typegoose {
   @prop({ index: true, unique: true, required: true })
   studentId: string
 
-  @prop({ index: true, required: true, unique: true })
-  username: string
-
   @prop({ required: true })
   name: string
+
+  @prop({ required: true })
+  birthday: Date
+
+  @prop({ required: true })
+  hometown: string
+
+  @prop({ required: true })
+  sex: string
+
+  @prop({ required: true })
+  schoolYear: number
 
   @prop({
     required: true,

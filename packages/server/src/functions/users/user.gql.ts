@@ -11,6 +11,10 @@ export default gql`
     id: ID!
     studentId: String!
     name: String!
+    birthday: DateTime
+    hometown: String!
+    sex: String!
+    schoolYear: Int!
     group: String!
     boardingRoom: String
     class: String
