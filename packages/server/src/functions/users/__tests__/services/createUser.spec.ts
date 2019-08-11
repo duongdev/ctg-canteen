@@ -26,19 +26,69 @@ describe('Test createUser service', () => {
         birthdate: new Date(),
         boardingRoom: 'not_specified',
         checkerId: 'not_specified',
-        class: 'not_specified',
+        class: 'math',
         group: 'boarding',
         // password: 'password',
         hometown: 'not_specified',
         schoolYear: 2013,
         name: 'not_specified',
-        sex: 'not_specified',
+        sex: 'male',
       }
 
       await createUser(user as any)
     } catch (error) {
       expect.assertions(1)
       expect(error.message).toEqual('password is a required field')
+    }
+  })
+
+  it('should throw an error if class is not specified', async () => {
+    try {
+      const user = {
+        studentId: 'not_specified',
+        username: 'not_specified',
+        birthdate: new Date(),
+        boardingRoom: 'not_specified',
+        checkerId: 'not_specified',
+        // class: 'math',
+        group: 'boarding',
+        password: 'password',
+        hometown: 'not_specified',
+        schoolYear: 2013,
+        name: 'not_specified',
+        sex: 'male',
+      }
+
+      await createUser(user as any)
+    } catch (error) {
+      expect.assertions(1)
+      expect(error.message).toEqual('class is a required field')
+    }
+  })
+
+  it('should throw an error if class is incorrect', async () => {
+    try {
+      const user = {
+        studentId: 'not_specified',
+        username: 'not_specified',
+        birthdate: new Date(),
+        boardingRoom: 'not_specified',
+        checkerId: 'not_specified',
+        class: 'math_incorrect',
+        group: 'boarding',
+        password: 'password',
+        hometown: 'not_specified',
+        schoolYear: 2013,
+        name: 'not_specified',
+        sex: 'male',
+      }
+
+      await createUser(user as any)
+    } catch (error) {
+      expect.assertions(1)
+      expect(error.message).toEqual(
+        'class must be one of the following values: none, math, informatics, physics, chemistry, biology, english, literature, history, geography, normal',
+      )
     }
   })
 
@@ -50,13 +100,13 @@ describe('Test createUser service', () => {
         birthdate: new Date(),
         boardingRoom: 'not_specified',
         checkerId: 'not_specified',
-        class: 'not_specified',
+        class: 'math',
         group: 'boarding',
         password: 'password',
         hometown: 'not_specified',
         schoolYear: 2013,
         name: 'not_specified',
-        sex: 'not_specified',
+        sex: 'male',
       }
 
       await createUser(user as any)
@@ -75,13 +125,13 @@ describe('Test createUser service', () => {
         // birthdate: new Date(),
         boardingRoom: 'not_specified',
         checkerId: 'not_specified',
-        class: 'not_specified',
+        class: 'math',
         group: 'boarding',
         password: 'password',
         hometown: 'not_specified',
         schoolYear: 2013,
         name: 'not_specified',
-        sex: 'not_specified',
+        sex: 'male',
       }
 
       await createUser(user as any)
@@ -98,13 +148,13 @@ describe('Test createUser service', () => {
         birthdate: new Date(),
         // boardingRoom: 'not_specified',
         checkerId: 'not_specified',
-        class: 'not_specified',
+        class: 'math',
         group: 'boarding',
         password: 'password',
         hometown: 'not_specified',
         schoolYear: 2013,
         name: 'not_specified',
-        sex: 'not_specified',
+        sex: 'male',
       }
 
       await createUser(user as any)
@@ -121,13 +171,13 @@ describe('Test createUser service', () => {
         birthdate: new Date(),
         boardingRoom: 'not_specified',
         checkerId: 'not_specified',
-        class: 'not_specified',
+        class: 'math',
         // group: 'boarding',
         password: 'password',
         hometown: 'not_specified',
         schoolYear: 2013,
         name: 'not_specified',
-        sex: 'not_specified',
+        sex: 'male',
       }
 
       await createUser(user as any)
@@ -144,13 +194,13 @@ describe('Test createUser service', () => {
         birthdate: new Date(),
         boardingRoom: 'not_specified',
         checkerId: 'not_specified',
-        class: 'not_specified',
+        class: 'math',
         group: 'boarding',
         password: 'password',
         // hometown: 'not_specified',
         schoolYear: 2013,
         name: 'not_specified',
-        sex: 'not_specified',
+        sex: 'male',
       }
 
       await createUser(user as any)
@@ -167,13 +217,13 @@ describe('Test createUser service', () => {
         birthdate: new Date(),
         boardingRoom: 'not_specified',
         checkerId: 'not_specified',
-        class: 'not_specified',
+        class: 'math',
         group: 'boarding',
         password: 'password',
         hometown: 'not_specified',
         // schoolYear: 2013,
         name: 'not_specified',
-        sex: 'not_specified',
+        sex: 'male',
       }
 
       await createUser(user as any)
@@ -190,13 +240,13 @@ describe('Test createUser service', () => {
         birthdate: new Date(),
         boardingRoom: 'not_specified',
         checkerId: 'not_specified',
-        class: 'not_specified',
+        class: 'math',
         group: 'boarding',
         password: 'password',
         hometown: 'not_specified',
         schoolYear: 2013,
         // name: 'not_specified',
-        sex: 'not_specified',
+        sex: 'male',
       }
 
       await createUser(user as any)
@@ -213,19 +263,44 @@ describe('Test createUser service', () => {
         birthdate: new Date(),
         boardingRoom: 'not_specified',
         checkerId: 'not_specified',
-        class: 'not_specified',
+        class: 'math',
         group: 'boarding',
         password: 'password',
         hometown: 'not_specified',
         schoolYear: 2013,
         name: 'not_specified',
-        // sex: 'not_specified',
+        // sex: 'male',
       }
 
       await createUser(user as any)
     } catch (error) {
       expect.assertions(1)
       expect(error.message).toEqual('sex is a required field')
+    }
+  })
+
+  it('should throw an error if sex is incorrect', async () => {
+    try {
+      const user = {
+        username: 'not_specified',
+        birthdate: new Date(),
+        boardingRoom: 'not_specified',
+        checkerId: 'not_specified',
+        class: 'math',
+        group: 'boarding',
+        password: 'password',
+        hometown: 'not_specified',
+        schoolYear: 2013,
+        name: 'not_specified',
+        sex: 'male_incorrect',
+      }
+
+      await createUser(user as any)
+    } catch (error) {
+      expect.assertions(1)
+      expect(error.message).toEqual(
+        'sex must be one of the following values: male, female',
+      )
     }
   })
 
@@ -236,13 +311,13 @@ describe('Test createUser service', () => {
         birthdate: new Date(),
         boardingRoom: 'not_specified',
         checkerId: 'not_specified',
-        class: 'not_specified',
+        class: 'math',
         group: 'not_specified',
         password: 'password',
         hometown: 'not_specified',
         schoolYear: 2013,
         name: 'not_specified',
-        sex: 'not_specified',
+        sex: 'male',
       }
 
       await createUser(user as any)
@@ -261,13 +336,13 @@ describe('Test createUser service', () => {
         birthdate: 'new Date()',
         boardingRoom: 'not_specified',
         checkerId: 'not_specified',
-        class: 'not_specified',
+        class: 'math',
         group: 'boarding',
         password: 'password',
         hometown: 'not_specified',
         schoolYear: 2013,
         name: 'not_specified',
-        sex: 'not_specified',
+        sex: 'male',
       }
 
       await createUser(user as any)
@@ -287,7 +362,7 @@ describe('Test createUser service', () => {
         birthdate: new Date(),
         boardingRoom: 'Phòng 202',
         checkerId: 'does_not_exist',
-        class: 'Chuyên Văn A',
+        class: 'math',
         group: 'boarding',
         password: 'password',
         hometown: 'Nghệ An',
@@ -305,14 +380,14 @@ describe('Test createUser service', () => {
 
   /** It conflict with "tài khoản đã được sử dụng",
    * because the user data has return by mockingoose
-    */
+   */
   // it('should throw error if checkerId has assigned to an existing user', async () => {
   //   const existedUser = {
   //     username: 'existed_username',
   //     birthdate: new Date(),
   //     boardingRoom: 'Phòng 202',
   //     checkerId: '09010002391121',
-  //     class: 'Chuyên Văn A',
+  //     class: 'math',
   //     group: 'boarding',
   //     password: 'password',
   //     hometown: 'Nghệ An',
@@ -326,7 +401,7 @@ describe('Test createUser service', () => {
   //     birthdate: new Date(),
   //     boardingRoom: 'Phòng 202',
   //     checkerId: '09010002391121',
-  //     class: 'Chuyên Văn A',
+  //     class: 'math',
   //     group: 'boarding',
   //     password: 'password',
   //     hometown: 'Nghệ An',
@@ -358,7 +433,7 @@ describe('Test createUser service', () => {
       birthdate: new Date(),
       boardingRoom: 'Phòng 202',
       checkerId: '09010002391121',
-      class: 'Chuyên Văn A',
+      class: 'math',
       group: 'boarding',
       password: 'password',
       hometown: 'Nghệ An',
@@ -384,13 +459,13 @@ describe('Test createUser service', () => {
     }
   })
 
-  it('should throw error if has studentId user and studentId is existed', async () => {
+  it('should throw error if has studentId user and studentId already exist', async () => {
     const user = {
       studentId: 'test_studentId',
       birthdate: new Date(),
       boardingRoom: 'Phòng 202',
       checkerId: '09010002391121',
-      class: 'Chuyên Văn A',
+      class: 'math',
       group: 'boarding',
       password: 'password',
       hometown: 'Nghệ An',
@@ -423,7 +498,7 @@ describe('Test createUser service', () => {
       birthdate: new Date(),
       boardingRoom: 'Phòng 202',
       checkerId: '09010002391121',
-      class: 'Chuyên Văn A',
+      class: 'math',
       group: 'boarding',
       password: 'password',
       hometown: 'Nghệ An',
@@ -453,7 +528,7 @@ describe('Test createUser service', () => {
       birthdate: new Date(),
       boardingRoom: 'Phòng 202',
       checkerId: '09010002391121',
-      class: 'Chuyên Văn A',
+      class: 'math',
       group: 'boarding',
       password: 'password',
       hometown: 'Nghệ An',

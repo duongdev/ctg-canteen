@@ -1,4 +1,4 @@
-import { USER_GROUPS, USER_ROLES } from 'models/User'
+import { USER_CLASSES, USER_GROUPS, USER_ROLES, USER_SEX } from 'models/User'
 import * as yup from 'yup'
 
 export const createUserValidation = yup
@@ -19,10 +19,12 @@ export const createUserValidation = yup
     sex: yup
       .string()
       .trim()
+      .oneOf(USER_SEX)
       .required(),
     class: yup
       .string()
       .trim()
+      .oneOf(USER_CLASSES)
       .required(),
     schoolYear: yup
       .number()
@@ -76,10 +78,12 @@ export const createStudentsValidation = yup
         sex: yup
           .string()
           .trim()
+          .oneOf(USER_SEX)
           .required(),
         class: yup
           .string()
           .trim()
+          .oneOf(USER_CLASSES)
           .required(),
         schoolYear: yup
           .number()

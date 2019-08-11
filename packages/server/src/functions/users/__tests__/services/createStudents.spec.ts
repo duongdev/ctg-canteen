@@ -24,12 +24,12 @@ describe('Test createStudents service', () => {
           birthdate: new Date(),
           boardingRoom: 'not_specified',
           checkerId: 'not_specified',
-          class: 'not_specified',
+          class: 'english',
           group: 'boarding',
           hometown: 'not_specified',
           schoolYear: 2013,
           name: 'not_specified',
-          sex: 'not_specified',
+          sex: 'male',
         },
       ]
       await createStudents(mockUserList as any)
@@ -47,12 +47,12 @@ describe('Test createStudents service', () => {
           // birthdate: new Date(),
           boardingRoom: 'not_specified',
           checkerId: 'not_specified',
-          class: 'not_specified',
+          class: 'english',
           group: 'boarding',
           hometown: 'not_specified',
           schoolYear: 2013,
           name: 'not_specified',
-          sex: 'not_specified',
+          sex: 'male',
         },
       ]
       await createStudents(mockUserList as any)
@@ -70,12 +70,12 @@ describe('Test createStudents service', () => {
           birthdate: new Date(),
           // boardingRoom: 'not_specified',
           checkerId: 'not_specified',
-          class: 'not_specified',
+          class: 'english',
           group: 'boarding',
           hometown: 'not_specified',
           schoolYear: 2013,
           name: 'not_specified',
-          sex: 'not_specified',
+          sex: 'male',
         },
       ]
       await createStudents(mockUserList as any)
@@ -93,12 +93,12 @@ describe('Test createStudents service', () => {
           birthdate: new Date(),
           boardingRoom: 'not_specified',
           checkerId: 'not_specified',
-          // class: 'not_specified',
+          // class: 'english',
           group: 'boarding',
           hometown: 'not_specified',
           schoolYear: 2013,
           name: 'not_specified',
-          sex: 'not_specified',
+          sex: 'male',
         },
       ]
       await createStudents(mockUserList as any)
@@ -116,12 +116,12 @@ describe('Test createStudents service', () => {
           birthdate: new Date(),
           boardingRoom: 'not_specified',
           checkerId: 'not_specified',
-          class: 'not_specified',
+          class: 'english',
           // group: 'boarding',
           hometown: 'not_specified',
           schoolYear: 2013,
           name: 'not_specified',
-          sex: 'not_specified',
+          sex: 'male',
         },
       ]
       await createStudents(mockUserList as any)
@@ -139,12 +139,12 @@ describe('Test createStudents service', () => {
           birthdate: new Date(),
           boardingRoom: 'not_specified',
           checkerId: 'not_specified',
-          class: 'not_specified',
+          class: 'english',
           group: 'boarding',
           // hometown: 'not_specified',
           schoolYear: 2013,
           name: 'not_specified',
-          sex: 'not_specified',
+          sex: 'male',
         },
       ]
       await createStudents(mockUserList as any)
@@ -162,12 +162,12 @@ describe('Test createStudents service', () => {
           birthdate: new Date(),
           boardingRoom: 'not_specified',
           checkerId: 'not_specified',
-          class: 'not_specified',
+          class: 'english',
           group: 'boarding',
           hometown: 'not_specified',
           // schoolYear: 2013,
           name: 'not_specified',
-          sex: 'not_specified',
+          sex: 'male',
         },
       ]
       await createStudents(mockUserList as any)
@@ -185,12 +185,12 @@ describe('Test createStudents service', () => {
           birthdate: new Date(),
           boardingRoom: 'not_specified',
           checkerId: 'not_specified',
-          class: 'not_specified',
+          class: 'english',
           group: 'boarding',
           hometown: 'not_specified',
           schoolYear: 2013,
           // name: 'not_specified',
-          sex: 'not_specified',
+          sex: 'male',
         },
       ]
       await createStudents(mockUserList as any)
@@ -208,18 +208,43 @@ describe('Test createStudents service', () => {
           birthdate: new Date(),
           boardingRoom: 'not_specified',
           checkerId: 'not_specified',
-          class: 'not_specified',
+          class: 'english',
           group: 'boarding',
           hometown: 'not_specified',
           schoolYear: 2013,
           name: 'not_specified',
-          // sex: 'not_specified',
+          // sex: 'male',
         },
       ]
       await createStudents(mockUserList as any)
     } catch (error) {
       expect.assertions(1)
       expect(error.message).toEqual('[0].sex is a required field')
+    }
+  })
+
+  it('should throw an error if sex is incorrect', async () => {
+    try {
+      const mockUserList = [
+        {
+          studentId: 'not_specified',
+          birthdate: new Date(),
+          boardingRoom: 'not_specified',
+          checkerId: 'not_specified',
+          class: 'english',
+          group: 'boarding',
+          hometown: 'not_specified',
+          schoolYear: 2013,
+          name: 'not_specified',
+          sex: 'incorrect',
+        },
+      ]
+      await createStudents(mockUserList as any)
+    } catch (error) {
+      expect.assertions(1)
+      expect(error.message).toEqual(
+        '[0].sex must be one of the following values: male, female',
+      )
     }
   })
 
@@ -231,12 +256,12 @@ describe('Test createStudents service', () => {
           birthdate: new Date(),
           boardingRoom: 'not_specified',
           checkerId: 'not_specified',
-          class: 'not_specified',
+          class: 'english',
           group: 'not_specified',
           hometown: 'not_specified',
           schoolYear: 2013,
           name: 'not_specified',
-          sex: 'not_specified',
+          sex: 'male',
         },
       ]
       await createStudents(mockUserList as any)
@@ -256,12 +281,12 @@ describe('Test createStudents service', () => {
           birthdate: 'new Date()',
           boardingRoom: 'not_specified',
           checkerId: 'not_specified',
-          class: 'not_specified',
+          class: 'english',
           group: 'boarding',
           hometown: 'not_specified',
           schoolYear: 2013,
           name: 'not_specified',
-          sex: 'not_specified',
+          sex: 'male',
         },
       ]
       await createStudents(mockUserList as any)
@@ -282,7 +307,7 @@ describe('Test createStudents service', () => {
           birthdate: new Date(),
           boardingRoom: 'Phòng 202',
           checkerId: 'does_not_exist',
-          class: 'Chuyên Văn A',
+          class: 'history',
           group: 'boarding',
           hometown: 'Nghệ An',
           schoolYear: 2013,
@@ -305,7 +330,7 @@ describe('Test createStudents service', () => {
       birthdate: new Date(),
       boardingRoom: 'Phòng 202',
       checkerId: '09010002391121',
-      class: 'Chuyên Văn A',
+      class: 'history',
       group: 'boarding',
       hometown: 'Nghệ An',
       schoolYear: 2013,
@@ -334,7 +359,7 @@ describe('Test createStudents service', () => {
       birthdate: new Date(),
       boardingRoom: 'Phòng 202',
       checkerId: '09010002391121',
-      class: 'Chuyên Văn A',
+      class: 'history',
       group: 'boarding',
       hometown: 'Nghệ An',
       schoolYear: 2013,
@@ -347,7 +372,7 @@ describe('Test createStudents service', () => {
       birthdate: new Date(),
       boardingRoom: 'Phòng 202',
       checkerId: '09010002391121',
-      class: 'Chuyên Văn A',
+      class: 'history',
       group: 'boarding',
       hometown: 'Nghệ An',
       schoolYear: 2013,
@@ -385,7 +410,7 @@ describe('Test createStudents service', () => {
       birthdate: new Date(),
       boardingRoom: 'Phòng 202',
       checkerId: '09010002391121',
-      class: 'Chuyên Văn A',
+      class: 'history',
       group: 'boarding',
       password: 'password',
       hometown: 'Nghệ An',
@@ -423,7 +448,7 @@ describe('Test createStudents service', () => {
       birthdate: new Date(),
       boardingRoom: 'Phòng 202',
       checkerId: '09010002391121',
-      class: 'Chuyên Văn A',
+      class: 'history',
       group: 'boarding',
       hometown: 'Nghệ An',
       schoolYear: 2013,
@@ -460,7 +485,7 @@ describe('Test createStudents service', () => {
       birthdate: new Date(),
       boardingRoom: 'Phòng 202',
       checkerId: '09010002391121',
-      class: 'Chuyên Văn A',
+      class: 'history',
       group: 'boarding',
       hometown: 'Nghệ An',
       schoolYear: 2013,

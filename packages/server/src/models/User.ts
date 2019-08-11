@@ -2,6 +2,8 @@ import { arrayProp, InstanceType, prop, Typegoose } from 'typegoose'
 
 import { getSchemaOptions } from 'helpers/mongoose'
 
+export const USER_SEX = ['male', 'female']
+
 export const USER_GROUPS = [
   'boarding',
   'outpatient',
@@ -11,6 +13,20 @@ export const USER_GROUPS = [
 ]
 
 export const USER_ROLES = ['admin', 'student', 'deactivated']
+
+export const USER_CLASSES = [
+  'none',
+  'math',
+  'informatics',
+  'physics',
+  'chemistry',
+  'biology',
+  'english',
+  'literature',
+  'history',
+  'geography',
+  'normal',
+]
 
 export class User extends Typegoose {
   /** User does not have studentId if user roles is not student */
@@ -29,7 +45,7 @@ export class User extends Typegoose {
   @prop({ required: true })
   hometown: string
 
-  @prop({ required: true, enum: ['male', 'female'] })
+  @prop({ required: true, enum: USER_SEX })
   sex: string
 
   @prop({ required: true })
@@ -45,8 +61,12 @@ export class User extends Typegoose {
   @prop()
   boardingRoom?: string
 
-  @prop()
-  class?: string
+  @prop({
+    required: true,
+    default: 'none',
+    enum: USER_CLASSES,
+  })
+  class: string
 
   @arrayProp({
     required: true,
