@@ -108,6 +108,31 @@ describe('Test createStudents service', () => {
     }
   })
 
+  it('should throw an error if class is incorrect', async () => {
+    try {
+      const mockUserList = [
+        {
+          studentId: 'not_specified',
+          birthdate: new Date(),
+          boardingRoom: 'not_specified',
+          checkerId: 'not_specified',
+          class: 'english_incorrect',
+          group: 'boarding',
+          hometown: 'not_specified',
+          schoolYear: 2013,
+          name: 'not_specified',
+          sex: 'male',
+        },
+      ]
+      await createStudents(mockUserList as any)
+    } catch (error) {
+      expect.assertions(1)
+      expect(error.message).toEqual(
+        '[0].class must be one of the following values: none, math, informatics, physics, chemistry, biology, english, literature, history, geography, normal',
+      )
+    }
+  })
+
   it('should throw an error if group is not specified', async () => {
     try {
       const mockUserList = [
