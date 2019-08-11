@@ -1,6 +1,7 @@
 import React, { FC, useState } from 'react'
 
 import { makeStyles } from '@material-ui/core'
+import CreateUser from 'containers/CreateUser/CreateUser'
 import UserList from 'containers/UserList'
 import { Route, Switch } from 'react-router-dom'
 import DashboardAppBar from './components/DashboardAppBar'
@@ -23,7 +24,8 @@ const Dashboard: FC = (props) => {
         <DashboardAppBar onOpenDrawer={() => setDrawerOpen(true)} />
 
         <Switch>
-          <Route path="/dashboard/users" component={UserList} />
+          <Route path="/dashboard/users" exact component={UserList} />
+          <Route path="/dashboard/users/create" component={CreateUser} />
         </Switch>
       </div>
     </>
