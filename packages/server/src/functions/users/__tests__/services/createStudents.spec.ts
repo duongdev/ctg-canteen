@@ -2,7 +2,6 @@ import bcrypt from 'bcryptjs'
 import { createStudents } from 'functions/users/user.services'
 import { mockingooseResetAll } from 'helpers/test-helpers'
 import mockingoose from 'mockingoose'
-import CheckerModel from 'models/Checker'
 import UserModel from 'models/User'
 
 describe('Test createStudents service', () => {
@@ -324,30 +323,6 @@ describe('Test createStudents service', () => {
     }
   })
 
-  it('should throw error if has one checkerId does not exist', async () => {
-    try {
-      const mockUserList = [
-        {
-          studentId: 'test_studentId',
-          birthdate: new Date(),
-          boardingRoom: 'Phòng 202',
-          checkerId: 'does_not_exist',
-          class: 'history',
-          group: 'boarding',
-          hometown: 'Nghệ An',
-          schoolYear: 2013,
-          name: 'Nguyễn Văn A',
-          sex: 'male',
-        },
-      ]
-
-      await createStudents(mockUserList)
-    } catch (error) {
-      expect.assertions(1)
-      expect(error.message).toEqual('checker_not_found')
-    }
-  })
-
   it('createdStudent.roles should be ["student"]', async () => {
     expect.assertions(1)
     const user = {
@@ -363,14 +338,7 @@ describe('Test createStudents service', () => {
       sex: 'male',
     }
 
-    const checker = {
-      id: '09010002391121',
-      name: 'Máy chấm công 1',
-      card: '',
-    }
-
     mockingoose(UserModel).toReturn(user, 'findOneAndUpdate')
-    mockingoose(CheckerModel).toReturn(checker, 'findOne')
 
     const createdStudent = await createStudents([user])
 
@@ -405,15 +373,8 @@ describe('Test createStudents service', () => {
       sex: 'male',
     }
 
-    const checker = {
-      id: '09010002391121',
-      name: 'Máy chấm công 1',
-      card: '',
-    }
-
     mockingoose(UserModel).toReturn(existedUser, 'findOne')
     mockingoose(UserModel).toReturn(user, 'findOneAndUpdate')
-    mockingoose(CheckerModel).toReturn(checker, 'findOne')
 
     const data = await createStudents([user])
 
@@ -444,12 +405,6 @@ describe('Test createStudents service', () => {
       sex: 'male',
     }
 
-    const checker = {
-      id: '09010002391121',
-      name: 'Máy chấm công 1',
-      card: '',
-    }
-
     const hashPass = bcrypt.hashSync(user.password, 2)
 
     mockingoose(UserModel).toReturn(
@@ -459,7 +414,6 @@ describe('Test createStudents service', () => {
       },
       'findOneAndUpdate',
     )
-    mockingoose(CheckerModel).toReturn(checker, 'findOne')
 
     const data = await createStudents([user])
 
@@ -481,12 +435,6 @@ describe('Test createStudents service', () => {
       sex: 'male',
     }
 
-    const checker = {
-      id: '09010002391121',
-      name: 'Máy chấm công 1',
-      card: '',
-    }
-
     const hashPass = bcrypt.hashSync(user.studentId, 2)
 
     mockingoose(UserModel).toReturn(
@@ -496,7 +444,6 @@ describe('Test createStudents service', () => {
       },
       'findOneAndUpdate',
     )
-    mockingoose(CheckerModel).toReturn(checker, 'findOne')
 
     const data = await createStudents([user])
 
@@ -518,14 +465,7 @@ describe('Test createStudents service', () => {
       sex: 'male',
     }
 
-    const checker = {
-      id: '09010002391121',
-      name: 'Máy chấm công 1',
-      card: '',
-    }
-
     mockingoose(UserModel).toReturn(user, 'findOneAndUpdate')
-    mockingoose(CheckerModel).toReturn(checker, 'findOne')
 
     const data = await createStudents([user])
 

@@ -1,7 +1,6 @@
 import { createUser } from 'functions/users/user.services'
 import { mockingooseResetAll } from 'helpers/test-helpers'
 import mockingoose from 'mockingoose'
-import CheckerModel from 'models/Checker'
 import UserModel from 'models/User'
 
 describe('Test createUser service', () => {
@@ -355,29 +354,6 @@ describe('Test createUser service', () => {
     }
   })
 
-  it('should throw error if has one checkerId does not exist', async () => {
-    try {
-      const user = {
-        username: 'test_username',
-        birthdate: new Date(),
-        boardingRoom: 'Phòng 202',
-        checkerId: 'does_not_exist',
-        class: 'math',
-        group: 'boarding',
-        password: 'password',
-        hometown: 'Nghệ An',
-        schoolYear: 2013,
-        name: 'Nguyễn Văn A',
-        sex: 'male',
-      }
-
-      await createUser(user as any)
-    } catch (error) {
-      expect.assertions(1)
-      expect(error.message).toEqual('checker_not_found')
-    }
-  })
-
   /** It conflict with "tài khoản đã được sử dụng",
    * because the user data has return by mockingoose
    */
@@ -410,15 +386,9 @@ describe('Test createUser service', () => {
   //     sex: 'male',
   //   }
 
-  //   const checker = {
-  //     id: '09010002391121',
-  //     name: 'Máy chấm công 1',
-  //     card: '',
-  //   }
-
   //   mockingoose(UserModel).toReturn(existedUser, 'findOne')
   //   mockingoose(UserModel).toReturn(user, 'save')
-  //   mockingoose(CheckerModel).toReturn(checker, 'findOne')
+
   //   try {
   //     await createUser(user as any)
   //   } catch (error) {
@@ -442,15 +412,9 @@ describe('Test createUser service', () => {
       sex: 'male',
     }
 
-    const checker = {
-      id: '09010002391121',
-      name: 'Máy chấm công 1',
-      card: '',
-    }
-
     mockingoose(UserModel).toReturn(user, 'findOne')
     mockingoose(UserModel).toReturn(user, 'save')
-    mockingoose(CheckerModel).toReturn(checker, 'findOne')
+
     try {
       await createUser(user as any)
     } catch (error) {
@@ -474,15 +438,9 @@ describe('Test createUser service', () => {
       sex: 'male',
     }
 
-    const checker = {
-      id: '09010002391121',
-      name: 'Máy chấm công 1',
-      card: '',
-    }
-
     mockingoose(UserModel).toReturn(user, 'findOne')
     mockingoose(UserModel).toReturn(user, 'save')
-    mockingoose(CheckerModel).toReturn(checker, 'findOne')
+
     try {
       await createUser(user as any)
     } catch (error) {
@@ -507,14 +465,7 @@ describe('Test createUser service', () => {
       sex: 'male',
     }
 
-    const checker = {
-      id: '09010002391121',
-      name: 'Máy chấm công 1',
-      card: '',
-    }
-
     mockingoose(UserModel).toReturn(user, 'save')
-    mockingoose(CheckerModel).toReturn(checker, 'findOne')
 
     const data = await createUser(user as any)
 
@@ -537,14 +488,7 @@ describe('Test createUser service', () => {
       sex: 'male',
     }
 
-    const checker = {
-      id: '09010002391121',
-      name: 'Máy chấm công 1',
-      card: '',
-    }
-
     mockingoose(UserModel).toReturn(user, 'save')
-    mockingoose(CheckerModel).toReturn(checker, 'findOne')
 
     const data = await createUser(user as any)
 

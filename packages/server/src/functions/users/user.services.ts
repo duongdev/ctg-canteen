@@ -3,7 +3,6 @@ import bluebird from 'bluebird'
 import Chance from 'chance'
 import Debug from 'debug'
 import { environment } from 'environment'
-import { findChecker } from 'functions/checkers/checker.services'
 import { CreateStudentInput, CreateUserInput } from 'functions/users/user.types'
 import {
   createStudentsValidation,
@@ -78,12 +77,6 @@ export const createUser = async (user: CreateUserInput) => {
     throw new Error('tài khoản đã được sử dụng')
   }
 
-  const checker = await findChecker({ input: { id: user.checkerId } })
-
-  if (!checker) {
-    throw new Error('checker_not_found')
-  }
-
   const assignedUser = await UserModel.findOne({
     checkerId: user.checkerId,
   }).exec()
@@ -112,12 +105,6 @@ export const createStudents = async (userList: CreateStudentInput[]) => {
   const userNotCreatedList: { user: CreateStudentInput; reason: string }[] = []
 
   const createdUsers = (await bluebird.map(userList, async (user) => {
-    const checker = await findChecker({ input: { id: user.checkerId } })
-
-    if (!checker) {
-      throw new Error('checker_not_found')
-    }
-
     const assignedUser = await UserModel.findOne({
       checkerId: user.checkerId,
     }).exec()

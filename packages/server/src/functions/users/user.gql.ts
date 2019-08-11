@@ -14,7 +14,6 @@ export default gql`
     class: String
     roles: [String]
     checkerId: String
-    checker: Checker
   }
 
   extend type Query {
