@@ -1,4 +1,4 @@
-import { USER_GROUPS, USER_ROLES } from 'utils/constants'
+import { USER_GROUPS, USER_ROLES } from 'models/User'
 import * as yup from 'yup'
 
 export const createUserValidation = yup
@@ -11,7 +11,7 @@ export const createUserValidation = yup
       .trim()
       .required(),
     checkerId: yup.string().trim(),
-    birthday: yup.date().required(),
+    birthdate: yup.date().required(),
     hometown: yup
       .string()
       .trim()
@@ -68,7 +68,7 @@ export const createStudentsValidation = yup
           .trim()
           .required(),
         checkerId: yup.string().trim(),
-        birthday: yup.date().required(),
+        birthdate: yup.date().required(),
         hometown: yup
           .string()
           .trim()

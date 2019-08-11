@@ -5,7 +5,7 @@ export default gql`
     id: ID!
     studentId: String!
     name: String!
-    birthday: DateTime
+    birthdate: DateTime
     hometown: String!
     sex: String!
     schoolYear: Int!

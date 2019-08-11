@@ -3,7 +3,7 @@ import { IUser } from 'models/User'
 type UserInput = {
   name: IUser['name']
   checkerId?: IUser['checkerId']
-  birthday: IUser['birthday']
+  birthdate: IUser['birthdate']
   hometown: IUser['hometown']
   sex: IUser['sex']
   class: IUser['class']

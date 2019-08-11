@@ -23,7 +23,7 @@ describe('Test createUser service', () => {
       const user = {
         studentId: 'not_specified',
         username: 'not_specified',
-        birthday: new Date(),
+        birthdate: new Date(),
         boardingRoom: 'not_specified',
         checkerId: 'not_specified',
         class: 'not_specified',
@@ -47,7 +47,7 @@ describe('Test createUser service', () => {
       const user = {
         // studentId: 'not_specified',
         // username: 'not_specified',
-        birthday: new Date(),
+        birthdate: new Date(),
         boardingRoom: 'not_specified',
         checkerId: 'not_specified',
         class: 'not_specified',
@@ -68,11 +68,11 @@ describe('Test createUser service', () => {
     }
   })
 
-  it('should throw an error if birthday is not specified', async () => {
+  it('should throw an error if birthdate is not specified', async () => {
     try {
       const user = {
         username: 'not_specified',
-        // birthday: new Date(),
+        // birthdate: new Date(),
         boardingRoom: 'not_specified',
         checkerId: 'not_specified',
         class: 'not_specified',
@@ -87,7 +87,7 @@ describe('Test createUser service', () => {
       await createUser(user as any)
     } catch (error) {
       expect.assertions(1)
-      expect(error.message).toEqual('birthday is a required field')
+      expect(error.message).toEqual('birthdate is a required field')
     }
   })
 
@@ -95,7 +95,7 @@ describe('Test createUser service', () => {
     try {
       const user = {
         username: 'not_specified',
-        birthday: new Date(),
+        birthdate: new Date(),
         // boardingRoom: 'not_specified',
         checkerId: 'not_specified',
         class: 'not_specified',
@@ -118,7 +118,7 @@ describe('Test createUser service', () => {
     try {
       const user = {
         username: 'not_specified',
-        birthday: new Date(),
+        birthdate: new Date(),
         boardingRoom: 'not_specified',
         checkerId: 'not_specified',
         class: 'not_specified',
@@ -141,7 +141,7 @@ describe('Test createUser service', () => {
     try {
       const user = {
         username: 'not_specified',
-        birthday: new Date(),
+        birthdate: new Date(),
         boardingRoom: 'not_specified',
         checkerId: 'not_specified',
         class: 'not_specified',
@@ -164,7 +164,7 @@ describe('Test createUser service', () => {
     try {
       const user = {
         username: 'not_specified',
-        birthday: new Date(),
+        birthdate: new Date(),
         boardingRoom: 'not_specified',
         checkerId: 'not_specified',
         class: 'not_specified',
@@ -187,7 +187,7 @@ describe('Test createUser service', () => {
     try {
       const user = {
         username: 'not_specified',
-        birthday: new Date(),
+        birthdate: new Date(),
         boardingRoom: 'not_specified',
         checkerId: 'not_specified',
         class: 'not_specified',
@@ -210,7 +210,7 @@ describe('Test createUser service', () => {
     try {
       const user = {
         username: 'not_specified',
-        birthday: new Date(),
+        birthdate: new Date(),
         boardingRoom: 'not_specified',
         checkerId: 'not_specified',
         class: 'not_specified',
@@ -233,7 +233,7 @@ describe('Test createUser service', () => {
     try {
       const user = {
         username: 'not_specified',
-        birthday: new Date(),
+        birthdate: new Date(),
         boardingRoom: 'not_specified',
         checkerId: 'not_specified',
         class: 'not_specified',
@@ -254,11 +254,11 @@ describe('Test createUser service', () => {
     }
   })
 
-  it('should throw an error if birthday is not a date', async () => {
+  it('should throw an error if birthdate is not a date', async () => {
     try {
       const user = {
         username: 'not_specified',
-        birthday: 'new Date()',
+        birthdate: 'new Date()',
         boardingRoom: 'not_specified',
         checkerId: 'not_specified',
         class: 'not_specified',
@@ -275,7 +275,7 @@ describe('Test createUser service', () => {
       expect.assertions(1)
 
       expect(error.message).toEqual(
-        'birthday must be a `date` type, but the final value was: `Invalid Date` (cast from the value `"new Date()"`).',
+        'birthdate must be a `date` type, but the final value was: `Invalid Date` (cast from the value `"new Date()"`).',
       )
     }
   })
@@ -284,7 +284,7 @@ describe('Test createUser service', () => {
     try {
       const user = {
         username: 'test_username',
-        birthday: new Date(),
+        birthdate: new Date(),
         boardingRoom: 'Phòng 202',
         checkerId: 'does_not_exist',
         class: 'Chuyên Văn A',
@@ -306,7 +306,7 @@ describe('Test createUser service', () => {
   // it('should throw error if checkerId has assigned to an existing user', async () => {
   //   const existedUser = {
   //     username: 'existed_username',
-  //     birthday: new Date(),
+  //     birthdate: new Date(),
   //     boardingRoom: 'Phòng 202',
   //     checkerId: '09010002391121',
   //     class: 'Chuyên Văn A',
@@ -320,7 +320,7 @@ describe('Test createUser service', () => {
 
   //   const user = {
   //     username: 'test_username',
-  //     birthday: new Date(),
+  //     birthdate: new Date(),
   //     boardingRoom: 'Phòng 202',
   //     checkerId: '09010002391121',
   //     class: 'Chuyên Văn A',
@@ -352,7 +352,7 @@ describe('Test createUser service', () => {
   it('should throw error if the username has been taken', async () => {
     const user = {
       username: 'test_username',
-      birthday: new Date(),
+      birthdate: new Date(),
       boardingRoom: 'Phòng 202',
       checkerId: '09010002391121',
       class: 'Chuyên Văn A',
@@ -384,7 +384,7 @@ describe('Test createUser service', () => {
   it('should throw error if has studentId user and studentId is existed', async () => {
     const user = {
       studentId: 'test_studentId',
-      birthday: new Date(),
+      birthdate: new Date(),
       boardingRoom: 'Phòng 202',
       checkerId: '09010002391121',
       class: 'Chuyên Văn A',
@@ -417,7 +417,7 @@ describe('Test createUser service', () => {
     expect.assertions(1)
     const user = {
       username: 'test_username',
-      birthday: new Date(),
+      birthdate: new Date(),
       boardingRoom: 'Phòng 202',
       checkerId: '09010002391121',
       class: 'Chuyên Văn A',
@@ -447,7 +447,7 @@ describe('Test createUser service', () => {
     expect.assertions(1)
     const user = {
       studentId: 'test_studentId',
-      birthday: new Date(),
+      birthdate: new Date(),
       boardingRoom: 'Phòng 202',
       checkerId: '09010002391121',
       class: 'Chuyên Văn A',
