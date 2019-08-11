@@ -1,63 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuites name="jest tests" tests="41" failures="0" time="11.497">
-  <testsuite name="Test createStudents service" errors="0" failures="0" skipped="0" timestamp="2019-08-11T11:38:24" time="6.344" tests="18">
-    <testcase classname="Test createStudents service should throw an error if the user data is empty" name="Test createStudents service should throw an error if the user data is empty" time="0.023">
+<testsuites name="jest tests" tests="41" failures="0" time="3.434">
+  <testsuite name="Test createUser service" errors="0" failures="0" skipped="0" timestamp="2019-08-11T11:44:14" time="2.412" tests="17">
+    <testcase classname="Test createUser service should throw an error if the user data is empty" name="Test createUser service should throw an error if the user data is empty" time="0.016">
     </testcase>
-    <testcase classname="Test createStudents service should throw an error if studentId is not specified" name="Test createStudents service should throw an error if studentId is not specified" time="0.006">
-    </testcase>
-    <testcase classname="Test createStudents service should throw an error if birthday is not specified" name="Test createStudents service should throw an error if birthday is not specified" time="0.001">
-    </testcase>
-    <testcase classname="Test createStudents service should throw an error if boardingRoom is not specified" name="Test createStudents service should throw an error if boardingRoom is not specified" time="0.002">
-    </testcase>
-    <testcase classname="Test createStudents service should throw an error if class is not specified" name="Test createStudents service should throw an error if class is not specified" time="0.001">
-    </testcase>
-    <testcase classname="Test createStudents service should throw an error if group is not specified" name="Test createStudents service should throw an error if group is not specified" time="0.001">
-    </testcase>
-    <testcase classname="Test createStudents service should throw an error if hometown is not specified" name="Test createStudents service should throw an error if hometown is not specified" time="0.001">
-    </testcase>
-    <testcase classname="Test createStudents service should throw an error if schoolYear is not specified" name="Test createStudents service should throw an error if schoolYear is not specified" time="0.001">
-    </testcase>
-    <testcase classname="Test createStudents service should throw an error if name is not specified" name="Test createStudents service should throw an error if name is not specified" time="0.001">
-    </testcase>
-    <testcase classname="Test createStudents service should throw an error if sex is not specified" name="Test createStudents service should throw an error if sex is not specified" time="0.002">
-    </testcase>
-    <testcase classname="Test createStudents service should throw an error if the user group is incorrect" name="Test createStudents service should throw an error if the user group is incorrect" time="0.001">
-    </testcase>
-    <testcase classname="Test createStudents service should throw an error if birthday is not a date" name="Test createStudents service should throw an error if birthday is not a date" time="0.003">
-    </testcase>
-    <testcase classname="Test createStudents service should throw error if has one checkerId does not exists" name="Test createStudents service should throw error if has one checkerId does not exists" time="0.017">
-    </testcase>
-    <testcase classname="Test createStudents service createdStudent.roles should be [&quot;student&quot;]" name="Test createStudents service createdStudent.roles should be [&quot;student&quot;]" time="0.051">
-    </testcase>
-    <testcase classname="Test createStudents service should return a list of user has not been created if checkerId has assigned to an existing user" name="Test createStudents service should return a list of user has not been created if checkerId has assigned to an existing user" time="0.002">
-    </testcase>
-    <testcase classname="Test createStudents service createdUser.password should be hashed" name="Test createStudents service createdUser.password should be hashed" time="0.008">
-    </testcase>
-    <testcase classname="Test createStudents service createdUser.password should be a hash of studentId by default" name="Test createStudents service createdUser.password should be a hash of studentId by default" time="0.007">
-    </testcase>
-    <testcase classname="Test createStudents service should return created or updated user correctly if the studentId does not exists" name="Test createStudents service should return created or updated user correctly if the studentId does not exists" time="0.005">
-    </testcase>
-  </testsuite>
-  <testsuite name="Test authenticate query" errors="0" failures="0" skipped="0" timestamp="2019-08-11T11:38:30" time="0.725" tests="2">
-    <testcase classname="Test authenticate query should return null if no user is specified" name="Test authenticate query should return null if no user is specified" time="0.022">
-    </testcase>
-    <testcase classname="Test authenticate query should return user correctly" name="Test authenticate query should return user correctly" time="0.047">
-    </testcase>
-  </testsuite>
-  <testsuite name="Test signIn mutation" errors="0" failures="0" skipped="0" timestamp="2019-08-11T11:38:31" time="0.779" tests="4">
-    <testcase classname="Test signIn mutation should throw error if username or password was not provided" name="Test signIn mutation should throw error if username or password was not provided" time="0.009">
-    </testcase>
-    <testcase classname="Test signIn mutation should throw error if user not found" name="Test signIn mutation should throw error if user not found" time="0.011">
-    </testcase>
-    <testcase classname="Test signIn mutation should throw error if the password is incorrectly" name="Test signIn mutation should throw error if the password is incorrectly" time="0.005">
-    </testcase>
-    <testcase classname="Test signIn mutation should return user correctly if the user has accessing permission" name="Test signIn mutation should return user correctly if the user has accessing permission" time="0.047">
-    </testcase>
-  </testsuite>
-  <testsuite name="Test createUser service" errors="0" failures="0" skipped="0" timestamp="2019-08-11T11:38:23" time="9.862" tests="17">
-    <testcase classname="Test createUser service should throw an error if the user data is empty" name="Test createUser service should throw an error if the user data is empty" time="0.01">
-    </testcase>
-    <testcase classname="Test createUser service should throw an error if password is not specified" name="Test createUser service should throw an error if password is not specified" time="0.005">
+    <testcase classname="Test createUser service should throw an error if password is not specified" name="Test createUser service should throw an error if password is not specified" time="0.006">
     </testcase>
     <testcase classname="Test createUser service should throw an error if username and studentId is not specified" name="Test createUser service should throw an error if username and studentId is not specified" time="0.001">
     </testcase>
@@ -65,7 +11,7 @@
     </testcase>
     <testcase classname="Test createUser service should throw an error if boardingRoom is not specified" name="Test createUser service should throw an error if boardingRoom is not specified" time="0.001">
     </testcase>
-    <testcase classname="Test createUser service should throw an error if group is not specified" name="Test createUser service should throw an error if group is not specified" time="0.001">
+    <testcase classname="Test createUser service should throw an error if group is not specified" name="Test createUser service should throw an error if group is not specified" time="0.002">
     </testcase>
     <testcase classname="Test createUser service should throw an error if hometown is not specified" name="Test createUser service should throw an error if hometown is not specified" time="0.001">
     </testcase>
@@ -73,21 +19,75 @@
     </testcase>
     <testcase classname="Test createUser service should throw an error if name is not specified" name="Test createUser service should throw an error if name is not specified" time="0.001">
     </testcase>
-    <testcase classname="Test createUser service should throw an error if sex is not specified" name="Test createUser service should throw an error if sex is not specified" time="0.001">
+    <testcase classname="Test createUser service should throw an error if sex is not specified" name="Test createUser service should throw an error if sex is not specified" time="0.006">
     </testcase>
-    <testcase classname="Test createUser service should throw an error if the user group is incorrect" name="Test createUser service should throw an error if the user group is incorrect" time="0.001">
+    <testcase classname="Test createUser service should throw an error if the user group is incorrect" name="Test createUser service should throw an error if the user group is incorrect" time="0.002">
     </testcase>
     <testcase classname="Test createUser service should throw an error if birthday is not a date" name="Test createUser service should throw an error if birthday is not a date" time="0.002">
     </testcase>
-    <testcase classname="Test createUser service should throw error if has one checkerId does not exists" name="Test createUser service should throw error if has one checkerId does not exists" time="0.004">
+    <testcase classname="Test createUser service should throw error if has one checkerId does not exists" name="Test createUser service should throw error if has one checkerId does not exists" time="0.003">
     </testcase>
     <testcase classname="Test createUser service should throw error if the username has been taken" name="Test createUser service should throw error if the username has been taken" time="0.009">
     </testcase>
     <testcase classname="Test createUser service should throw error if has studentId user and studentId is existed" name="Test createUser service should throw error if has studentId user and studentId is existed" time="0.002">
     </testcase>
-    <testcase classname="Test createUser service should return created user correctly if the username does not exists" name="Test createUser service should return created user correctly if the username does not exists" time="0.029">
+    <testcase classname="Test createUser service should return created user correctly if the username does not exists" name="Test createUser service should return created user correctly if the username does not exists" time="0.037">
     </testcase>
-    <testcase classname="Test createUser service should return created user as student correctly if has studentId and studentId does not exists" name="Test createUser service should return created user as student correctly if has studentId and studentId does not exists" time="0.006">
+    <testcase classname="Test createUser service should return created user as student correctly if has studentId and studentId does not exists" name="Test createUser service should return created user as student correctly if has studentId and studentId does not exists" time="0.007">
+    </testcase>
+  </testsuite>
+  <testsuite name="Test createStudents service" errors="0" failures="0" skipped="0" timestamp="2019-08-11T11:44:14" time="2.447" tests="18">
+    <testcase classname="Test createStudents service should throw an error if the user data is empty" name="Test createStudents service should throw an error if the user data is empty" time="0.013">
+    </testcase>
+    <testcase classname="Test createStudents service should throw an error if studentId is not specified" name="Test createStudents service should throw an error if studentId is not specified" time="0.004">
+    </testcase>
+    <testcase classname="Test createStudents service should throw an error if birthday is not specified" name="Test createStudents service should throw an error if birthday is not specified" time="0.001">
+    </testcase>
+    <testcase classname="Test createStudents service should throw an error if boardingRoom is not specified" name="Test createStudents service should throw an error if boardingRoom is not specified" time="0.001">
+    </testcase>
+    <testcase classname="Test createStudents service should throw an error if class is not specified" name="Test createStudents service should throw an error if class is not specified" time="0.004">
+    </testcase>
+    <testcase classname="Test createStudents service should throw an error if group is not specified" name="Test createStudents service should throw an error if group is not specified" time="0.001">
+    </testcase>
+    <testcase classname="Test createStudents service should throw an error if hometown is not specified" name="Test createStudents service should throw an error if hometown is not specified" time="0.002">
+    </testcase>
+    <testcase classname="Test createStudents service should throw an error if schoolYear is not specified" name="Test createStudents service should throw an error if schoolYear is not specified" time="0.001">
+    </testcase>
+    <testcase classname="Test createStudents service should throw an error if name is not specified" name="Test createStudents service should throw an error if name is not specified" time="0.001">
+    </testcase>
+    <testcase classname="Test createStudents service should throw an error if sex is not specified" name="Test createStudents service should throw an error if sex is not specified" time="0.001">
+    </testcase>
+    <testcase classname="Test createStudents service should throw an error if the user group is incorrect" name="Test createStudents service should throw an error if the user group is incorrect" time="0.001">
+    </testcase>
+    <testcase classname="Test createStudents service should throw an error if birthday is not a date" name="Test createStudents service should throw an error if birthday is not a date" time="0.002">
+    </testcase>
+    <testcase classname="Test createStudents service should throw error if has one checkerId does not exists" name="Test createStudents service should throw error if has one checkerId does not exists" time="0.016">
+    </testcase>
+    <testcase classname="Test createStudents service createdStudent.roles should be [&quot;student&quot;]" name="Test createStudents service createdStudent.roles should be [&quot;student&quot;]" time="0.036">
+    </testcase>
+    <testcase classname="Test createStudents service should return a list of user has not been created if checkerId has assigned to an existing user" name="Test createStudents service should return a list of user has not been created if checkerId has assigned to an existing user" time="0.002">
+    </testcase>
+    <testcase classname="Test createStudents service createdUser.password should be hashed" name="Test createStudents service createdUser.password should be hashed" time="0.008">
+    </testcase>
+    <testcase classname="Test createStudents service createdUser.password should be a hash of studentId by default" name="Test createStudents service createdUser.password should be a hash of studentId by default" time="0.009">
+    </testcase>
+    <testcase classname="Test createStudents service should return created or updated user correctly if the studentId does not exists" name="Test createStudents service should return created or updated user correctly if the studentId does not exists" time="0.005">
+    </testcase>
+  </testsuite>
+  <testsuite name="Test authenticate query" errors="0" failures="0" skipped="0" timestamp="2019-08-11T11:44:16" time="0.535" tests="2">
+    <testcase classname="Test authenticate query should return null if no user is specified" name="Test authenticate query should return null if no user is specified" time="0.015">
+    </testcase>
+    <testcase classname="Test authenticate query should return user correctly" name="Test authenticate query should return user correctly" time="0.031">
+    </testcase>
+  </testsuite>
+  <testsuite name="Test signIn mutation" errors="0" failures="0" skipped="0" timestamp="2019-08-11T11:44:16" time="0.549" tests="4">
+    <testcase classname="Test signIn mutation should throw error if username or password was not provided" name="Test signIn mutation should throw error if username or password was not provided" time="0.019">
+    </testcase>
+    <testcase classname="Test signIn mutation should throw error if user not found" name="Test signIn mutation should throw error if user not found" time="0.006">
+    </testcase>
+    <testcase classname="Test signIn mutation should throw error if the password is incorrectly" name="Test signIn mutation should throw error if the password is incorrectly" time="0.003">
+    </testcase>
+    <testcase classname="Test signIn mutation should return user correctly if the user has accessing permission" name="Test signIn mutation should return user correctly if the user has accessing permission" time="0.028">
     </testcase>
   </testsuite>
 </testsuites>

@@ -14,10 +14,14 @@ type UserInput = {
   password?: IUser['password']
 }
 
-export type CreateUserInput = UserInput & {
-  studentId: IUser['studentId']
-  username: IUser['username']
-}
+export type CreateUserInput = UserInput &
+  RequireAtLeastOne<
+    {
+      studentId?: IUser['studentId']
+      username?: IUser['username']
+    },
+    'studentId' | 'username'
+  >
 
 export type CreateStudentInput = UserInput & {
   studentId: IUser['studentId']
