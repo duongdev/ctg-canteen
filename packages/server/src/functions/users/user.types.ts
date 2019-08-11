@@ -1,8 +1,6 @@
 import { IUser } from 'models/User'
 
-export type CreateStudentInput = {
-  studentId: IUser['studentId']
-  username?: IUser['username']
+type UserInput = {
   name: IUser['name']
   checkerId?: IUser['checkerId']
   birthday: IUser['birthday']
@@ -12,4 +10,16 @@ export type CreateStudentInput = {
   schoolYear: IUser['schoolYear']
   group: IUser['group']
   boardingRoom: IUser['boardingRoom']
+  roles?: IUser['roles']
+  password?: IUser['password']
+}
+
+export type CreateUserInput = UserInput & {
+  studentId: IUser['studentId']
+  username: IUser['username']
+}
+
+export type CreateStudentInput = UserInput & {
+  studentId: IUser['studentId']
+  username?: IUser['username']
 }

@@ -1,7 +1,7 @@
 import { arrayProp, InstanceType, prop, Typegoose } from 'typegoose'
 
 import { getSchemaOptions } from 'helpers/mongoose'
-import { USER_GROUPS } from 'utils/constants'
+import { USER_GROUPS, USER_ROLES } from 'utils/constants'
 
 export class User extends Typegoose {
   /** User does not have studentId if user roles is not student */
@@ -44,7 +44,7 @@ export class User extends Typegoose {
     index: true,
     items: String,
     default: ['student'],
-    enum: ['admin', 'student', 'deactivated'],
+    enum: USER_ROLES,
   })
   roles: string[]
 

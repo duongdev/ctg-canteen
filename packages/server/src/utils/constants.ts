@@ -5,3 +5,5 @@ export const USER_GROUPS = [
   'teacher',
   'other',
 ]
+
+export const USER_ROLES = ['admin', 'student', 'deactivated']

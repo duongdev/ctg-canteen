@@ -4,8 +4,11 @@ import Chance from 'chance'
 import Debug from 'debug'
 import { environment } from 'environment'
 import { findChecker } from 'functions/checkers/checker.services'
-import { CreateStudentInput } from 'functions/users/user.types'
-import { createStudentsValidation } from 'functions/users/user.validations'
+import { CreateStudentInput, CreateUserInput } from 'functions/users/user.types'
+import {
+  createStudentsValidation,
+  createUserValidation,
+} from 'functions/users/user.validations'
 import { verify } from 'jsonwebtoken'
 import UserModel, { IUser } from 'models/User'
 
@@ -58,7 +61,46 @@ export const getUserFromToken = async (token: string) => {
   }
 }
 
-export const createUser = async () => {}
+export const createUser = async (user: CreateUserInput) => {
+  await createUserValidation.validate(user)
+
+  let existedUserQuery = {}
+
+  if (user.studentId) {
+    existedUserQuery = { studentId: user.studentId }
+  } else if (user.username) {
+    existedUserQuery = { username: user.username }
+  }
+
+  const existedUser = await UserModel.findOne(existedUserQuery).exec()
+
+  if (existedUser) {
+    throw new Error('tài khoản đã được sử dụng')
+  }
+
+  const checker = await findChecker({ input: { id: user.checkerId } })
+
+  if (!checker) {
+    throw new Error('checker_not_found')
+  }
+
+  const assignedUser = await UserModel.findOne({
+    checkerId: user.checkerId,
+  }).exec()
+
+  if (assignedUser) {
+    throw new Error('checkerId đã được sử dụng')
+  }
+
+  const createdUser = await UserModel.create({
+    ...user,
+    /** If user does not have username, use studentId instead */
+    username: user.username || user.studentId,
+    password: bcrypt.hashSync(user.password, 2),
+  })
+
+  return createdUser.toJSON()
+}
 
 /**
  * TODO: implement read user list from excel file and parse to json
@@ -83,7 +125,7 @@ export const createStudents = async (userList: CreateStudentInput[]) => {
     if (assignedUser) {
       userNotCreatedList.push({
         user,
-        reason: 'checkerId đã được gán cho học sinh khác',
+        reason: 'checkerId đã được sử dụng',
       })
 
       return
@@ -96,6 +138,7 @@ export const createStudents = async (userList: CreateStudentInput[]) => {
         /** If user does not have username, use studentId instead */
         username: user.username || user.studentId,
         roles: ['student'],
+        password: bcrypt.hashSync(user.password || user.studentId, 2),
       },
       { new: true, upsert: true },
     ).exec()

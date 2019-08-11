@@ -1,3 +1,4 @@
+import bcrypt from 'bcryptjs'
 import { createStudents } from 'functions/users/user.services'
 import { mockingooseResetAll } from 'helpers/test-helpers'
 import mockingoose from 'mockingoose'
@@ -12,7 +13,7 @@ describe('Test createStudents service', () => {
       await createStudents([])
     } catch (error) {
       expect.assertions(1)
-      expect(error.message).toEqual('user data is required')
+      expect(error.message).toEqual('this field must have at least 1 items')
     }
   })
   it('should throw an error if studentId is not specified', async () => {
@@ -371,10 +372,85 @@ describe('Test createStudents service', () => {
       userNotCreatedList: [
         {
           user,
-          reason: 'checkerId đã được gán cho học sinh khác',
+          reason: 'checkerId đã được sử dụng',
         },
       ],
     })
+  })
+
+  it('createdUser.password should be hashed', async () => {
+    expect.assertions(1)
+    const user = {
+      studentId: 'test_studentId',
+      birthday: new Date(),
+      boardingRoom: 'Phòng 202',
+      checkerId: '09010002391121',
+      class: 'Chuyên Văn A',
+      group: 'boarding',
+      password: 'password',
+      hometown: 'Nghệ An',
+      schoolYear: 2013,
+      name: 'Nguyễn Văn A',
+      sex: 'Nam',
+    }
+
+    const checker = {
+      id: '09010002391121',
+      name: 'Máy chấm công 1',
+      card: '',
+    }
+
+    const hashPass = bcrypt.hashSync(user.password, 2)
+
+    mockingoose(UserModel).toReturn(
+      {
+        ...user,
+        password: hashPass,
+      },
+      'findOneAndUpdate',
+    )
+    mockingoose(CheckerModel).toReturn(checker, 'findOne')
+
+    const data = await createStudents([user])
+
+    expect(data.createdUsers[0].password).toEqual(hashPass)
+  })
+
+  it('createdUser.password should be a hash of studentId by default', async () => {
+    expect.assertions(1)
+    const user = {
+      studentId: 'test_studentId',
+      birthday: new Date(),
+      boardingRoom: 'Phòng 202',
+      checkerId: '09010002391121',
+      class: 'Chuyên Văn A',
+      group: 'boarding',
+      hometown: 'Nghệ An',
+      schoolYear: 2013,
+      name: 'Nguyễn Văn A',
+      sex: 'Nam',
+    }
+
+    const checker = {
+      id: '09010002391121',
+      name: 'Máy chấm công 1',
+      card: '',
+    }
+
+    const hashPass = bcrypt.hashSync(user.studentId, 2)
+
+    mockingoose(UserModel).toReturn(
+      {
+        ...user,
+        password: hashPass,
+      },
+      'findOneAndUpdate',
+    )
+    mockingoose(CheckerModel).toReturn(checker, 'findOne')
+
+    const data = await createStudents([user])
+
+    expect(data.createdUsers[0].password).toEqual(hashPass)
   })
 
   it('should return created or updated user correctly if the studentId does not exists', async () => {
