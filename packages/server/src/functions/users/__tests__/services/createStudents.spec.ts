@@ -274,7 +274,7 @@ describe('Test createStudents service', () => {
     }
   })
 
-  it('should throw error if has one checkerId does not exists', async () => {
+  it('should throw error if has one checkerId does not exist', async () => {
     try {
       const mockUserList = [
         {
@@ -287,7 +287,7 @@ describe('Test createStudents service', () => {
           hometown: 'Nghệ An',
           schoolYear: 2013,
           name: 'Nguyễn Văn A',
-          sex: 'Nam',
+          sex: 'male',
         },
       ]
 
@@ -310,7 +310,7 @@ describe('Test createStudents service', () => {
       hometown: 'Nghệ An',
       schoolYear: 2013,
       name: 'Nguyễn Văn A',
-      sex: 'Nam',
+      sex: 'male',
     }
 
     const checker = {
@@ -339,7 +339,7 @@ describe('Test createStudents service', () => {
       hometown: 'Nghệ An',
       schoolYear: 2013,
       name: 'Nguyễn Văn A',
-      sex: 'Nam',
+      sex: 'male',
     }
 
     const user = {
@@ -352,7 +352,7 @@ describe('Test createStudents service', () => {
       hometown: 'Nghệ An',
       schoolYear: 2013,
       name: 'Nguyễn Văn A',
-      sex: 'Nam',
+      sex: 'male',
     }
 
     const checker = {
@@ -391,7 +391,7 @@ describe('Test createStudents service', () => {
       hometown: 'Nghệ An',
       schoolYear: 2013,
       name: 'Nguyễn Văn A',
-      sex: 'Nam',
+      sex: 'male',
     }
 
     const checker = {
@@ -428,7 +428,7 @@ describe('Test createStudents service', () => {
       hometown: 'Nghệ An',
       schoolYear: 2013,
       name: 'Nguyễn Văn A',
-      sex: 'Nam',
+      sex: 'male',
     }
 
     const checker = {
@@ -453,7 +453,7 @@ describe('Test createStudents service', () => {
     expect(data.createdUsers[0].password).toEqual(hashPass)
   })
 
-  it('should return created or updated user correctly if the studentId does not exists', async () => {
+  it('should return created or updated user correctly if the studentId does not exist', async () => {
     expect.assertions(1)
     const user = {
       studentId: 'test_studentId',
@@ -465,7 +465,7 @@ describe('Test createStudents service', () => {
       hometown: 'Nghệ An',
       schoolYear: 2013,
       name: 'Nguyễn Văn A',
-      sex: 'Nam',
+      sex: 'male',
     }
 
     const checker = {

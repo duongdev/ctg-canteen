@@ -280,7 +280,7 @@ describe('Test createUser service', () => {
     }
   })
 
-  it('should throw error if has one checkerId does not exists', async () => {
+  it('should throw error if has one checkerId does not exist', async () => {
     try {
       const user = {
         username: 'test_username',
@@ -293,7 +293,7 @@ describe('Test createUser service', () => {
         hometown: 'Nghệ An',
         schoolYear: 2013,
         name: 'Nguyễn Văn A',
-        sex: 'Nam',
+        sex: 'male',
       }
 
       await createUser(user as any)
@@ -303,6 +303,9 @@ describe('Test createUser service', () => {
     }
   })
 
+  /** It conflict with "tài khoản đã được sử dụng",
+   * because the user data has return by mockingoose
+    */
   // it('should throw error if checkerId has assigned to an existing user', async () => {
   //   const existedUser = {
   //     username: 'existed_username',
@@ -315,7 +318,7 @@ describe('Test createUser service', () => {
   //     hometown: 'Nghệ An',
   //     schoolYear: 2013,
   //     name: 'Nguyễn Văn A',
-  //     sex: 'Nam',
+  //     sex: 'male',
   //   }
 
   //   const user = {
@@ -329,7 +332,7 @@ describe('Test createUser service', () => {
   //     hometown: 'Nghệ An',
   //     schoolYear: 2013,
   //     name: 'Nguyễn Văn A',
-  //     sex: 'Nam',
+  //     sex: 'male',
   //   }
 
   //   const checker = {
@@ -361,7 +364,7 @@ describe('Test createUser service', () => {
       hometown: 'Nghệ An',
       schoolYear: 2013,
       name: 'Nguyễn Văn A',
-      sex: 'Nam',
+      sex: 'male',
     }
 
     const checker = {
@@ -393,7 +396,7 @@ describe('Test createUser service', () => {
       hometown: 'Nghệ An',
       schoolYear: 2013,
       name: 'Nguyễn Văn A',
-      sex: 'Nam',
+      sex: 'male',
     }
 
     const checker = {
@@ -413,7 +416,7 @@ describe('Test createUser service', () => {
     }
   })
 
-  it('should return created user correctly if the username does not exists', async () => {
+  it('should return created user correctly if the username does not exist', async () => {
     expect.assertions(1)
     const user = {
       username: 'test_username',
@@ -426,7 +429,7 @@ describe('Test createUser service', () => {
       hometown: 'Nghệ An',
       schoolYear: 2013,
       name: 'Nguyễn Văn A',
-      sex: 'Nam',
+      sex: 'male',
     }
 
     const checker = {
@@ -443,7 +446,7 @@ describe('Test createUser service', () => {
     expect(data).toMatchObject(user)
   })
 
-  it('should return created user as student correctly if has studentId and studentId does not exists', async () => {
+  it('should return created user as student correctly if has studentId and studentId does not exist', async () => {
     expect.assertions(1)
     const user = {
       studentId: 'test_studentId',
@@ -456,7 +459,7 @@ describe('Test createUser service', () => {
       hometown: 'Nghệ An',
       schoolYear: 2013,
       name: 'Nguyễn Văn A',
-      sex: 'Nam',
+      sex: 'male',
     }
 
     const checker = {

@@ -29,7 +29,7 @@ export class User extends Typegoose {
   @prop({ required: true })
   hometown: string
 
-  @prop({ required: true })
+  @prop({ required: true, enum: ['male', 'female'] })
   sex: string
 
   @prop({ required: true })
