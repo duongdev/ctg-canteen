@@ -1,7 +1,7 @@
 import { USER_GROUPS } from 'utils/constants'
 import * as yup from 'yup'
 
-export const importUserListValidation = yup
+export const createStudentsValidation = yup
   .array()
   .of(
     yup
@@ -11,6 +11,7 @@ export const importUserListValidation = yup
           .string()
           .trim()
           .required(),
+        username: yup.string().trim(),
         name: yup
           .string()
           .trim()

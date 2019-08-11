@@ -1,15 +1,15 @@
-import { importUserList } from 'functions/users/user.services'
-import { getObjectId, mockingooseResetAll } from 'helpers/test-helpers'
+import { createStudents } from 'functions/users/user.services'
+import { mockingooseResetAll } from 'helpers/test-helpers'
 import mockingoose from 'mockingoose'
 import CheckerModel from 'models/Checker'
 import UserModel from 'models/User'
 
-describe('Test importUserList service', () => {
+describe('Test createStudents service', () => {
   beforeEach(mockingooseResetAll)
 
   it('should throw an error if the user data is empty', async () => {
     try {
-      await importUserList([])
+      await createStudents([])
     } catch (error) {
       expect.assertions(1)
       expect(error.message).toEqual('user data is required')
@@ -31,7 +31,7 @@ describe('Test importUserList service', () => {
           sex: 'not_specified',
         },
       ]
-      await importUserList(mockUserList as any)
+      await createStudents(mockUserList as any)
     } catch (error) {
       expect.assertions(1)
       expect(error.message).toEqual('[0].studentId is a required field')
@@ -54,7 +54,7 @@ describe('Test importUserList service', () => {
           sex: 'not_specified',
         },
       ]
-      await importUserList(mockUserList as any)
+      await createStudents(mockUserList as any)
     } catch (error) {
       expect.assertions(1)
       expect(error.message).toEqual('[0].birthday is a required field')
@@ -77,7 +77,7 @@ describe('Test importUserList service', () => {
           sex: 'not_specified',
         },
       ]
-      await importUserList(mockUserList as any)
+      await createStudents(mockUserList as any)
     } catch (error) {
       expect.assertions(1)
       expect(error.message).toEqual('[0].boardingRoom is a required field')
@@ -100,7 +100,7 @@ describe('Test importUserList service', () => {
           sex: 'not_specified',
         },
       ]
-      await importUserList(mockUserList as any)
+      await createStudents(mockUserList as any)
     } catch (error) {
       expect.assertions(1)
       expect(error.message).toEqual('[0].class is a required field')
@@ -123,7 +123,7 @@ describe('Test importUserList service', () => {
           sex: 'not_specified',
         },
       ]
-      await importUserList(mockUserList as any)
+      await createStudents(mockUserList as any)
     } catch (error) {
       expect.assertions(1)
       expect(error.message).toEqual('[0].group is a required field')
@@ -146,7 +146,7 @@ describe('Test importUserList service', () => {
           sex: 'not_specified',
         },
       ]
-      await importUserList(mockUserList as any)
+      await createStudents(mockUserList as any)
     } catch (error) {
       expect.assertions(1)
       expect(error.message).toEqual('[0].hometown is a required field')
@@ -169,7 +169,7 @@ describe('Test importUserList service', () => {
           sex: 'not_specified',
         },
       ]
-      await importUserList(mockUserList as any)
+      await createStudents(mockUserList as any)
     } catch (error) {
       expect.assertions(1)
       expect(error.message).toEqual('[0].schoolYear is a required field')
@@ -192,7 +192,7 @@ describe('Test importUserList service', () => {
           sex: 'not_specified',
         },
       ]
-      await importUserList(mockUserList as any)
+      await createStudents(mockUserList as any)
     } catch (error) {
       expect.assertions(1)
       expect(error.message).toEqual('[0].name is a required field')
@@ -215,7 +215,7 @@ describe('Test importUserList service', () => {
           // sex: 'not_specified',
         },
       ]
-      await importUserList(mockUserList as any)
+      await createStudents(mockUserList as any)
     } catch (error) {
       expect.assertions(1)
       expect(error.message).toEqual('[0].sex is a required field')
@@ -238,7 +238,7 @@ describe('Test importUserList service', () => {
           sex: 'not_specified',
         },
       ]
-      await importUserList(mockUserList as any)
+      await createStudents(mockUserList as any)
     } catch (error) {
       expect.assertions(1)
       expect(error.message).toEqual(
@@ -263,7 +263,7 @@ describe('Test importUserList service', () => {
           sex: 'not_specified',
         },
       ]
-      await importUserList(mockUserList as any)
+      await createStudents(mockUserList as any)
     } catch (error) {
       expect.assertions(1)
 
@@ -290,11 +290,40 @@ describe('Test importUserList service', () => {
         },
       ]
 
-      await importUserList(mockUserList)
+      await createStudents(mockUserList)
     } catch (error) {
       expect.assertions(1)
       expect(error.message).toEqual('checker_not_found')
     }
+  })
+
+  it('createdStudent.roles should be ["student"]', async () => {
+    expect.assertions(1)
+    const user = {
+      studentId: 'test_studentId',
+      birthday: new Date(),
+      boardingRoom: 'Phòng 202',
+      checkerId: '09010002391121',
+      class: 'Chuyên Văn A',
+      group: 'boarding',
+      hometown: 'Nghệ An',
+      schoolYear: 2013,
+      name: 'Nguyễn Văn A',
+      sex: 'Nam',
+    }
+
+    const checker = {
+      id: '09010002391121',
+      name: 'Máy chấm công 1',
+      card: '',
+    }
+
+    mockingoose(UserModel).toReturn(user, 'findOneAndUpdate')
+    mockingoose(CheckerModel).toReturn(checker, 'findOne')
+
+    const createdStudent = await createStudents([user])
+
+    expect(createdStudent.createdUsers[0].roles).toEqual(['student'])
   })
 
   it('should return a list of user has not been created if checkerId has assigned to an existing user', async () => {
@@ -325,17 +354,17 @@ describe('Test importUserList service', () => {
       sex: 'Nam',
     }
 
-    const checker_1 = {
+    const checker = {
       id: '09010002391121',
       name: 'Máy chấm công 1',
       card: '',
     }
 
     mockingoose(UserModel).toReturn(existedUser, 'findOne')
-    mockingoose(UserModel).toReturn([user], 'find')
-    mockingoose(CheckerModel).toReturn(checker_1, 'findOne')
+    mockingoose(UserModel).toReturn(user, 'findOneAndUpdate')
+    mockingoose(CheckerModel).toReturn(checker, 'findOne')
 
-    const data = await importUserList([user])
+    const data = await createStudents([user])
 
     expect(data).toEqual({
       createdUsers: [],
@@ -363,16 +392,16 @@ describe('Test importUserList service', () => {
       sex: 'Nam',
     }
 
-    const checker_1 = {
+    const checker = {
       id: '09010002391121',
       name: 'Máy chấm công 1',
       card: '',
     }
 
     mockingoose(UserModel).toReturn(user, 'findOneAndUpdate')
-    mockingoose(CheckerModel).toReturn(checker_1, 'findOne')
+    mockingoose(CheckerModel).toReturn(checker, 'findOne')
 
-    const data = await importUserList([user])
+    const data = await createStudents([user])
 
     expect(data.createdUsers[0]).toMatchObject(user)
   })

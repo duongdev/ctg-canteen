@@ -4,8 +4,8 @@ import Chance from 'chance'
 import Debug from 'debug'
 import { environment } from 'environment'
 import { findChecker } from 'functions/checkers/checker.services'
-import { ImportUserList } from 'functions/users/user.types'
-import { importUserListValidation } from 'functions/users/user.validations'
+import { CreateStudentInput } from 'functions/users/user.types'
+import { createStudentsValidation } from 'functions/users/user.validations'
 import { verify } from 'jsonwebtoken'
 import UserModel, { IUser } from 'models/User'
 
@@ -58,14 +58,16 @@ export const getUserFromToken = async (token: string) => {
   }
 }
 
+export const createUser = async () => {}
+
 /**
  * TODO: implement read user list from excel file and parse to json
  * TODO: implement upload excel file from client and save it to server
  * TODO: implement remove excel file when user list already parsed
  */
-export const importUserList = async (userList: ImportUserList[]) => {
-  await importUserListValidation.validate(userList)
-  const userNotCreatedList: { user: ImportUserList; reason: string }[] = []
+export const createStudents = async (userList: CreateStudentInput[]) => {
+  await createStudentsValidation.validate(userList)
+  const userNotCreatedList: { user: CreateStudentInput; reason: string }[] = []
 
   const createdUsers = (await bluebird.map(userList, async (user) => {
     const checker = await findChecker({ input: { id: user.checkerId } })
@@ -89,7 +91,12 @@ export const importUserList = async (userList: ImportUserList[]) => {
 
     const createdOrUpdatedUser = await UserModel.findOneAndUpdate(
       { studentId: user.studentId },
-      user,
+      {
+        ...user,
+        /** If user does not have username, use studentId instead */
+        username: user.username || user.studentId,
+        roles: ['student'],
+      },
       { new: true, upsert: true },
     ).exec()
 

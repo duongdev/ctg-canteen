@@ -1,7 +1,8 @@
 import { IUser } from 'models/User'
 
-export type ImportUserList = {
+export type CreateStudentInput = {
   studentId: IUser['studentId']
+  username?: IUser['username']
   name: IUser['name']
   checkerId?: IUser['checkerId']
   birthday: IUser['birthday']
