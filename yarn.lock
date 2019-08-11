@@ -1964,10 +1964,10 @@
     react-transition-group "^4.0.0"
     warning "^4.0.1"
 
-"@material-ui/pickers@^3.0.0":
-  version "3.2.1"
-  resolved "https://registry.yarnpkg.com/@material-ui/pickers/-/pickers-3.2.1.tgz#50a2a74be07db587d039b6da3c279086ae839eb1"
-  integrity sha512-9dl7JLSIZQQx7j4UKU7Hnkxjok6gyz3KQMjza54dJgfJ8ZrMca2opGveerzVtAfqSef/aGzA8WrEw/ql/5r7RQ==
+"@material-ui/pickers@^3.2.2":
+  version "3.2.2"
+  resolved "https://registry.yarnpkg.com/@material-ui/pickers/-/pickers-3.2.2.tgz#9b7a67f5a8f21f8183853ebc1848e5d8dd680d4c"
+  integrity sha512-on/J1yyKeJ4CkLnItpf/jPDKMZVWvHDklkh5FS7wkZ0s1OPoqTsPubLWfA7eND6xREnVRyLFzVTlE3VlWYdQWw==
   dependencies:
     "@babel/runtime" "^7.2.0"
     "@types/styled-jsx" "^2.2.8"
@@ -9114,13 +9114,13 @@ map-visit@^1.0.0:
   dependencies:
     object-visit "^1.0.0"
 
-material-table@1.47.0:
-  version "1.47.0"
-  resolved "https://registry.yarnpkg.com/material-table/-/material-table-1.47.0.tgz#756d2af191cd0fb291eb29e99bdb07a4ade764cc"
-  integrity sha512-Kx9IyMcatw4GeTB9hEUayA/AFIYb6ut62Asf1qK0OCXeAFf+PYB3vReYKNPk1FgnXY7EsxtNtrcmuGVdnBdHrQ==
+material-table@1.48.0:
+  version "1.48.0"
+  resolved "https://registry.yarnpkg.com/material-table/-/material-table-1.48.0.tgz#3a4baffc915ffd700caf26cb3b272e238cc9cfe1"
+  integrity sha512-OXI8gotPGtFtcSLLXkFzrmPMO8DK5irUd24vq+siTwYPp+kInOM1T5Vrb/pqbR6wQOA2bgWTmwxKGe4GZ1xVcw==
   dependencies:
     "@date-io/date-fns" "^1.1.0"
-    "@material-ui/pickers" "^3.0.0"
+    "@material-ui/pickers" "^3.2.2"
     classnames "^2.2.6"
     date-fns "^2.0.0-alpha.27"
     debounce "^1.2.0"
