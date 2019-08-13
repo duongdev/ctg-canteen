@@ -21,7 +21,7 @@ export type CreateUpdateUserValues = {
   fullName: string
   studentId: string
   checkerId: string
-  dateOfBirth: string
+  birthdate: string
   sex: 'male' | 'female'
 }
 type Values = CreateUpdateUserValues
@@ -48,7 +48,7 @@ const fieldsProps: {
     grid: { sm: 6 },
     label: 'Mã máy chấm công',
   },
-  dateOfBirth: {
+  birthdate: {
     grid: { sm: 6 },
     label: 'Ngày sinh',
     type: 'date',

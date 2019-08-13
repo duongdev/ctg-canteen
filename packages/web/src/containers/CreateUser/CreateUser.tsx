@@ -11,7 +11,7 @@ const initialValues: CreateUpdateUserValues = {
   fullName: '',
   studentId: '',
   checkerId: '',
-  dateOfBirth: '',
+  birthdate: '',
   sex: 'male',
 }
 
