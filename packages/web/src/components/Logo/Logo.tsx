@@ -12,7 +12,7 @@ const Logo: React.FC<LogoProps> = (props) => {
       <Typography variant="h4" color="primary">
         <strong>
           <span className={classes.kLetter}>K</span>
-          antin
+          ant¡n
         </strong>
       </Typography>
     </>
