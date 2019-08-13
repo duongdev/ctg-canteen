@@ -1,16 +1,11 @@
 import React, { FC } from 'react'
 
-import {
-  Box,
-  Grid,
-  makeStyles,
-  Paper,
-  TextField,
-  Typography,
-} from '@material-ui/core'
+import { Box, Grid, makeStyles, Paper, TextField } from '@material-ui/core'
 import LinkButton from 'components/LinkButton'
+import Logo from 'components/Logo'
 import { ArrowRight } from 'mdi-material-ui'
 import Helmet from 'react-helmet'
+import { Link } from 'react-router-dom'
 
 const SignIn: FC = (props) => {
   const classes = useStyles(props)
@@ -27,9 +22,9 @@ const SignIn: FC = (props) => {
         <Box component={Paper} padding={4} minWidth="300px" maxWidth="90vw">
           <Grid container spacing={2} direction="column">
             <Grid item className={classes.header}>
-              <Typography variant="h4">
-                Chào mừng tới <strong>Kantin</strong>
-              </Typography>
+              <Link to="/">
+                <Logo />
+              </Link>
             </Grid>
 
             <Grid item>

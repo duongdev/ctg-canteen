@@ -14,5 +14,6 @@
     "mockingoose",
     "typegoose",
     "virtuals"
-  ]
+  ],
+  "typescript.tsdk": "node_modules/typescript/lib"
 }

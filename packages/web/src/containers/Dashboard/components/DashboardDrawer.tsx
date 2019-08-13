@@ -9,10 +9,10 @@ import {
   ListSubheader,
   makeStyles,
   Theme,
-  Typography,
   useMediaQuery,
 } from '@material-ui/core'
 import { DrawerProps } from '@material-ui/core/Drawer'
+import Logo from 'components/Logo'
 import { Account, ClipboardCheckOutline, Food } from 'mdi-material-ui'
 import { Link, NavLink, NavLinkProps } from 'react-router-dom'
 
@@ -38,9 +38,7 @@ const DashboardDrawer: FC<DashboardDrawerProps> = (props) => {
   return (
     <Drawer variant={isMdUp ? 'permanent' : 'temporary'} {...props}>
       <Link to="/" className={classes.header}>
-        <Typography variant="h4" color="primary">
-          <strong>Kantin</strong>
-        </Typography>
+        <Logo />
       </Link>
       <List
         className={classes.list}
