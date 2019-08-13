@@ -122,8 +122,7 @@ export const createStudents = async (userList: CreateStudentInput[]) => {
       { studentId: user.studentId },
       {
         ...user,
-        /** If user does not have username, use studentId instead */
-        username: user.username || user.studentId,
+        username: user.studentId,
         roles: ['student'],
         password: bcrypt.hashSync(user.password || user.studentId, 2),
       },
