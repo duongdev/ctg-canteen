@@ -100,6 +100,10 @@ const useStyles = makeStyles(
         backgroundColor: `${palette.primary.dark} !important`,
       },
 
+      '&.active:hover': {
+        backgroundColor: `${palette.primary.dark} !important`,
+      },
+
       '&:hover': {
         backgroundColor: palette.primary.light,
         color: '#FFF',
