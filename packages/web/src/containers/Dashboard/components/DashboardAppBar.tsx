@@ -10,6 +10,7 @@ import {
 } from '@material-ui/core'
 import useIsMobile from 'hooks/useIsMobile'
 import { Menu } from 'mdi-material-ui'
+import UserMenu from './UserMenu'
 
 export type DashboardAppBarProps = {
   onOpenDrawer: () => void
@@ -34,6 +35,12 @@ const DashboardAppBar: FC<DashboardAppBarProps> = (props) => {
               </IconButton>
             </Grid>
           </Hidden>
+
+          <Grid item xs />
+
+          <Grid item>
+            <UserMenu />
+          </Grid>
         </Grid>
       </Toolbar>
     </AppBar>
