@@ -38,8 +38,8 @@ const DashboardDrawer: FC<DashboardDrawerProps> = (props) => {
   return (
     <Drawer variant={isMdUp ? 'permanent' : 'temporary'} {...props}>
       <Link to="/" className={classes.header}>
-        <Typography variant="h5" color="primary">
-          <strong>CTG Canteen</strong>
+        <Typography variant="h4" color="primary">
+          <strong>Kantin</strong>
         </Typography>
       </Link>
       <List
@@ -75,7 +75,7 @@ const useStyles = makeStyles(
       ...mixins.toolbar,
       display: 'flex',
       alignItems: 'center',
-      padding: spacing(0, 2),
+      padding: spacing(0, 3.5),
       boxShadow: shadows[1],
     },
     list: {

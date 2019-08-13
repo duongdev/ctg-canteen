@@ -27,7 +27,9 @@ const SignIn: FC = (props) => {
         <Box component={Paper} padding={4} minWidth="300px" maxWidth="90vw">
           <Grid container spacing={2} direction="column">
             <Grid item className={classes.header}>
-              <Typography variant="h4">Welcome back</Typography>
+              <Typography variant="h4">
+                Chào mừng tới <strong>Kantin</strong>
+              </Typography>
             </Grid>
 
             <Grid item>
