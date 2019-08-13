@@ -9,7 +9,7 @@ import CreateUpdateUserForm, {
 
 const initialValues: CreateUpdateUserValues = {
   fullName: '',
-  studentId: '',
+  username: '',
   checkerId: '',
   birthdate: '',
   sex: 'male',

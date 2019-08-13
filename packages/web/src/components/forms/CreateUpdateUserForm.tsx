@@ -19,7 +19,7 @@ import { Check } from 'mdi-material-ui'
 
 export type CreateUpdateUserValues = {
   fullName: string
-  studentId: string
+  username: string
   checkerId: string
   birthdate: string
   sex: 'male' | 'female'
@@ -40,9 +40,9 @@ const fieldsProps: {
     label: 'Họ và tên',
     placeholder: 'Viết đúng hoa thường. VD: Đỗ Cao Thượng Dương',
   },
-  studentId: {
+  username: {
     grid: { sm: 6 },
-    label: 'Mã học sinh',
+    label: 'Mã người dùng',
   },
   checkerId: {
     grid: { sm: 6 },
