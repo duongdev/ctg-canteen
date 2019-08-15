@@ -1,12 +1,13 @@
 import { gql } from 'apollo-server'
 import { createTestClient } from 'helpers/test-helpers'
 import mockingoose from 'mockingoose'
+import UserModel from 'models/User'
 
 const AUTHENTICATE = gql`
   query Authenticate {
     authenticate {
       id
-      studentId
+      username
       name
       group
       boardingRoom
@@ -33,7 +34,7 @@ describe('Test authenticate query', () => {
 
     const user = {
       id: '5ce97bd9e37a4dbf663aeed3',
-      studentId: 'ID1',
+      username: 'ID1',
       name: 'Nguyễn Văn A',
       group: 'boarding',
       boardingRoom: 'A-Class',
@@ -47,6 +48,8 @@ describe('Test authenticate query', () => {
         return { user }
       },
     })
+
+    mockingoose(UserModel).toReturn(user, 'findOne')
 
     const { data } = await contextQuery({ query: AUTHENTICATE })
 

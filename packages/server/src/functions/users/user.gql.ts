@@ -3,7 +3,7 @@ import { gql } from 'apollo-server'
 export default gql`
   type User {
     id: ID!
-    studentId: String!
+    username: String!
     name: String!
     birthdate: DateTime
     hometown: String

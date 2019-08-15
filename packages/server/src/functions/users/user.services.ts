@@ -3,7 +3,7 @@ import bluebird from 'bluebird'
 import Chance from 'chance'
 import Debug from 'debug'
 import { environment } from 'environment'
-import { CreateStudentInput, CreateUserInput } from 'functions/users/user.types'
+import { CreateUserInput } from 'functions/users/user.types'
 import {
   createStudentsValidation,
   createUserValidation,
@@ -66,15 +66,9 @@ export const getUserFromToken = async (token: string) => {
 export const createUser = async (user: CreateUserInput) => {
   await createUserValidation.validate(user)
 
-  let existedUserQuery = {}
-
-  if (user.studentId) {
-    existedUserQuery = { studentId: user.studentId }
-  } else if (user.username) {
-    existedUserQuery = { username: user.username }
-  }
-
-  const existedUser = await UserModel.findOne(existedUserQuery).exec()
+  const existedUser = await UserModel.findOne({
+    username: user.username,
+  }).exec()
 
   if (existedUser) {
     throw new Error('tài khoản đã được sử dụng')
@@ -91,18 +85,16 @@ export const createUser = async (user: CreateUserInput) => {
   const createdUser = await UserModel.create({
     ...user,
     birthdate: string2Date(user.birthdate),
-    /** If user does not have username, use studentId instead */
-    username: user.username || user.studentId,
     password: bcrypt.hashSync(user.password, 2),
   })
 
   return createdUser.toJSON()
 }
 
-export const createStudents = async (students: CreateStudentInput[]) => {
+export const createStudents = async (students: CreateUserInput[]) => {
   await createStudentsValidation.validate(students)
   const notImportedStudents: {
-    student: CreateStudentInput
+    student: CreateUserInput
     reason: string
   }[] = []
 
@@ -113,7 +105,7 @@ export const createStudents = async (students: CreateStudentInput[]) => {
 
     if (
       assignedStudent &&
-      assignedStudent.studentId.toString() !== student.studentId.toString()
+      assignedStudent.username.toString() !== student.username.toString()
     ) {
       notImportedStudents.push({
         student,
@@ -124,13 +116,12 @@ export const createStudents = async (students: CreateStudentInput[]) => {
     }
 
     const createdOrUpdatedStudent = await UserModel.findOneAndUpdate(
-      { studentId: student.studentId },
+      { username: student.username },
       {
         ...student,
         birthdate: string2Date(student.birthdate),
-        username: student.studentId,
         roles: ['student'],
-        password: bcrypt.hashSync(student.studentId.toString(), 2),
+        password: bcrypt.hashSync(student.username.toString(), 2),
       },
       { new: true, upsert: true },
     ).exec()

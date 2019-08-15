@@ -15,11 +15,11 @@ describe('Test createStudents service', () => {
       expect(error.message).toEqual('this field must have at least 1 items')
     }
   })
-  it('should throw an error if studentId is not specified', async () => {
+  it('should throw an error if username is not specified', async () => {
     try {
       const mockUserList = [
         {
-          // studentId: 'not_specified',
+          // username: 'not_specified',
           birthdate: new Date().toISOString(),
           boardingRoom: 'not_specified',
           checkerId: 'not_specified',
@@ -34,7 +34,7 @@ describe('Test createStudents service', () => {
       await createStudents(mockUserList as any)
     } catch (error) {
       expect.assertions(1)
-      expect(error.message).toEqual('[0].studentId is a required field')
+      expect(error.message).toEqual('[0].username is a required field')
     }
   })
 
@@ -42,7 +42,7 @@ describe('Test createStudents service', () => {
     try {
       const mockUserList = [
         {
-          studentId: 'not_specified',
+          username: 'not_specified',
           // birthdate: new Date().toISOString(),
           boardingRoom: 'not_specified',
           checkerId: 'not_specified',
@@ -65,7 +65,7 @@ describe('Test createStudents service', () => {
     try {
       const mockUserList = [
         {
-          studentId: 'not_specified',
+          username: 'not_specified',
           birthdate: new Date().toISOString(),
           boardingRoom: 'not_specified',
           checkerId: 'not_specified',
@@ -88,7 +88,7 @@ describe('Test createStudents service', () => {
     try {
       const mockUserList = [
         {
-          studentId: 'not_specified',
+          username: 'not_specified',
           birthdate: new Date().toISOString(),
           boardingRoom: 'not_specified',
           checkerId: 'not_specified',
@@ -113,7 +113,7 @@ describe('Test createStudents service', () => {
     try {
       const mockUserList = [
         {
-          studentId: 'not_specified',
+          username: 'not_specified',
           birthdate: new Date().toISOString(),
           boardingRoom: 'not_specified',
           checkerId: 'not_specified',
@@ -136,7 +136,7 @@ describe('Test createStudents service', () => {
     try {
       const mockUserList = [
         {
-          studentId: 'not_specified',
+          username: 'not_specified',
           birthdate: new Date().toISOString(),
           boardingRoom: 'not_specified',
           checkerId: 'not_specified',
@@ -159,7 +159,7 @@ describe('Test createStudents service', () => {
     try {
       const mockUserList = [
         {
-          studentId: 'not_specified',
+          username: 'not_specified',
           birthdate: new Date().toISOString(),
           boardingRoom: 'not_specified',
           checkerId: 'not_specified',
@@ -182,7 +182,7 @@ describe('Test createStudents service', () => {
     try {
       const mockUserList = [
         {
-          studentId: 'not_specified',
+          username: 'not_specified',
           birthdate: new Date().toISOString(),
           boardingRoom: 'not_specified',
           checkerId: 'not_specified',
@@ -205,7 +205,7 @@ describe('Test createStudents service', () => {
     try {
       const mockUserList = [
         {
-          studentId: 'not_specified',
+          username: 'not_specified',
           birthdate: new Date().toISOString(),
           boardingRoom: 'not_specified',
           checkerId: 'not_specified',
@@ -228,7 +228,7 @@ describe('Test createStudents service', () => {
     try {
       const mockUserList = [
         {
-          studentId: 'not_specified',
+          username: 'not_specified',
           birthdate: new Date().toISOString(),
           boardingRoom: 'not_specified',
           checkerId: 'not_specified',
@@ -253,7 +253,7 @@ describe('Test createStudents service', () => {
     try {
       const mockUserList = [
         {
-          studentId: 'not_specified',
+          username: 'not_specified',
           birthdate: new Date().toISOString(),
           boardingRoom: 'not_specified',
           checkerId: 'not_specified',
@@ -278,7 +278,7 @@ describe('Test createStudents service', () => {
     try {
       const mockUserList = [
         {
-          studentId: 'not_specified',
+          username: 'not_specified',
           birthdate: 'new Date().toISOString()',
           boardingRoom: 'not_specified',
           checkerId: 'not_specified',
@@ -301,7 +301,7 @@ describe('Test createStudents service', () => {
   it('createdStudent.roles should be ["student"]', async () => {
     expect.assertions(1)
     const user = {
-      studentId: 'test_studentId',
+      username: 'test_username',
       birthdate: new Date().toISOString(),
       boardingRoom: 'Phòng 202',
       checkerId: '09010002391121',
@@ -323,7 +323,7 @@ describe('Test createStudents service', () => {
   it('should return a list of user has not been created if checkerId has assigned to an existing user', async () => {
     expect.assertions(1)
     const existedUser = {
-      studentId: 'existed_studentId',
+      username: 'existed_username',
       birthdate: new Date().toISOString(),
       boardingRoom: 'Phòng 202',
       checkerId: '09010002391121',
@@ -336,7 +336,7 @@ describe('Test createStudents service', () => {
     }
 
     const user = {
-      studentId: 'test_studentId',
+      username: 'test_username',
       birthdate: new Date().toISOString(),
       boardingRoom: 'Phòng 202',
       checkerId: '09010002391121',
@@ -367,7 +367,7 @@ describe('Test createStudents service', () => {
   it('createdUser.password should be hashed', async () => {
     expect.assertions(1)
     const user = {
-      studentId: 'test_studentId',
+      username: 'test_username',
       birthdate: new Date().toISOString(),
       boardingRoom: 'Phòng 202',
       checkerId: '09010002391121',
@@ -395,10 +395,10 @@ describe('Test createStudents service', () => {
     expect(data.importedStudents[0].password).toEqual(hashPass)
   })
 
-  it('createdUser.password should be a hash of studentId by default', async () => {
+  it('createdUser.password should be a hash of username by default', async () => {
     expect.assertions(1)
     const user = {
-      studentId: 'test_studentId',
+      username: 'test_username',
       birthdate: new Date().toISOString(),
       boardingRoom: 'Phòng 202',
       checkerId: '09010002391121',
@@ -410,7 +410,7 @@ describe('Test createStudents service', () => {
       sex: 'male',
     }
 
-    const hashPass = bcrypt.hashSync(user.studentId, 2)
+    const hashPass = bcrypt.hashSync(user.username, 2)
 
     mockingoose(UserModel).toReturn(
       {
@@ -428,7 +428,7 @@ describe('Test createStudents service', () => {
   it('should return created or updated user correctly', async () => {
     expect.assertions(1)
     const user = {
-      studentId: 'test_studentId',
+      username: 'test_username',
       birthdate: new Date().toISOString(),
       boardingRoom: 'Phòng 202',
       checkerId: '09010002391121',

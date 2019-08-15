@@ -21,8 +21,10 @@ yup.addMethod(yup.date, 'format', function (formats, parseStrict) {
 })
 
 const baseUserValidation = yup.object().shape({
-  studentId: yup.string().trim(),
-  username: yup.string().trim(),
+  username: yup
+    .string()
+    .trim()
+    .required(),
   name: yup
     .string()
     .trim()
@@ -57,15 +59,7 @@ const baseUserValidation = yup.object().shape({
   roles: yup.array().of(yup.string().oneOf(USER_ROLES)),
 })
 
-export const createUserValidation = baseUserValidation
-  .test(
-    'at-least-one-studentId-or-username',
-    'you must provide at least one of studentId or username',
-    (params) => {
-      return !!(params.studentId || params.username)
-    },
-  )
-  .required()
+export const createUserValidation = baseUserValidation.required()
 
 export const createStudentsValidation = yup
   .array()
@@ -74,10 +68,6 @@ export const createStudentsValidation = yup
       .object()
       .concat(baseUserValidation)
       .shape({
-        studentId: yup
-          .string()
-          .trim()
-          .required(),
         password: yup
           .string()
           .trim()

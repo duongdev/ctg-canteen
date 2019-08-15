@@ -29,10 +29,6 @@ export const USER_CLASSES = [
 ]
 
 export class User extends Typegoose {
-  /** User does not have studentId if user roles is not student */
-  @prop({ index: true, unique: true })
-  studentId: string
-
   @prop({ index: true, required: true, unique: true })
   username: string
 

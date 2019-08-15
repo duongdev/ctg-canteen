@@ -6,21 +6,9 @@ import UserModel from 'models/User'
 describe('Test createUser service', () => {
   beforeEach(mockingooseResetAll)
 
-  it('should throw an error if the user data is empty', async () => {
-    try {
-      await createUser({} as any)
-    } catch (error) {
-      expect.assertions(1)
-      expect(error.message).toEqual(
-        'you must provide at least one of studentId or username',
-      )
-    }
-  })
-
   it('should throw an error if password is not specified', async () => {
     try {
       const user = {
-        studentId: 'not_specified',
         username: 'not_specified',
         birthdate: new Date().toISOString(),
         boardingRoom: 'not_specified',
@@ -44,7 +32,6 @@ describe('Test createUser service', () => {
   it('should throw an error if class is not specified', async () => {
     try {
       const user = {
-        studentId: 'not_specified',
         username: 'not_specified',
         birthdate: new Date().toISOString(),
         boardingRoom: 'not_specified',
@@ -68,7 +55,6 @@ describe('Test createUser service', () => {
   it('should throw an error if class is incorrect', async () => {
     try {
       const user = {
-        studentId: 'not_specified',
         username: 'not_specified',
         birthdate: new Date().toISOString(),
         boardingRoom: 'not_specified',
@@ -91,10 +77,9 @@ describe('Test createUser service', () => {
     }
   })
 
-  it('should throw an error if username and studentId is not specified', async () => {
+  it('should throw an error if username is not specified', async () => {
     try {
       const user = {
-        // studentId: 'not_specified',
         // username: 'not_specified',
         birthdate: new Date().toISOString(),
         boardingRoom: 'not_specified',
@@ -111,9 +96,7 @@ describe('Test createUser service', () => {
       await createUser(user as any)
     } catch (error) {
       expect.assertions(1)
-      expect(error.message).toEqual(
-        'you must provide at least one of studentId or username',
-      )
+      expect(error.message).toEqual('username is a required field')
     }
   })
 
@@ -398,9 +381,9 @@ describe('Test createUser service', () => {
     }
   })
 
-  it('should throw error if has studentId user and studentId already exist', async () => {
+  it('should throw error if has username user and username already exist', async () => {
     const user = {
-      studentId: 'test_studentId',
+      username: 'test_username',
       birthdate: new Date().toISOString(),
       boardingRoom: 'Phòng 202',
       checkerId: '09010002391121',
@@ -445,32 +428,5 @@ describe('Test createUser service', () => {
     const data = await createUser(user as any)
 
     expect(data).toMatchObject({ ...user, birthdate: new Date(user.birthdate) })
-  })
-
-  it('should return created user as student correctly if has studentId and studentId does not exist', async () => {
-    expect.assertions(1)
-    const user = {
-      studentId: 'test_studentId',
-      birthdate: new Date().toISOString(),
-      boardingRoom: 'Phòng 202',
-      checkerId: '09010002391121',
-      class: 'math',
-      group: 'boarding',
-      password: 'password',
-      hometown: 'Nghệ An',
-      schoolYear: 2013,
-      name: 'Nguyễn Văn A',
-      sex: 'male',
-    }
-
-    mockingoose(UserModel).toReturn(user, 'save')
-
-    const data = await createUser(user as any)
-
-    expect(data).toMatchObject({
-      ...user,
-      birthdate: new Date(user.birthdate),
-      roles: ['student'],
-    })
   })
 })
