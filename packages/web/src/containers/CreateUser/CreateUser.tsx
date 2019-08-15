@@ -8,7 +8,7 @@ import CreateUpdateUserForm, {
 } from 'components/forms/CreateUpdateUserForm'
 
 const initialValues: CreateUpdateUserValues = {
-  fullName: '',
+  name: '',
   username: '',
   checkerId: '',
   birthdate: '',

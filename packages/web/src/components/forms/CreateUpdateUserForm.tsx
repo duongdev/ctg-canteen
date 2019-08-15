@@ -19,7 +19,7 @@ import IUser from 'interfaces/User'
 import { Check } from 'mdi-material-ui'
 
 export type CreateUpdateUserValues = {
-  fullName: IUser['fullName']
+  name: IUser['name']
   username: IUser['username']
   checkerId: string
   birthdate: string
@@ -38,7 +38,7 @@ const fieldsProps: {
     labelWidth?: number
   }
 } = {
-  fullName: {
+  name: {
     autoFocus: true,
     label: 'Họ và tên',
     placeholder: 'Viết đúng hoa thường. VD: Đỗ Cao Thượng Dương',
@@ -91,6 +91,9 @@ const fieldsProps: {
     grid: { sm: 6 },
     label: 'Niên khoá',
     selectValues: {
+      2016: '2016',
+      2017: '2017',
+      2018: '2018',
       2019: '2019',
       2020: '2020',
       2021: '2021',
