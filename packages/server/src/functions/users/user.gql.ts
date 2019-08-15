@@ -6,10 +6,10 @@ export default gql`
     studentId: String!
     name: String!
     birthdate: DateTime
-    hometown: String!
-    sex: String!
-    schoolYear: Int!
-    group: String!
+    hometown: String
+    sex: String
+    schoolYear: Int
+    group: String
     boardingRoom: String
     class: String
     roles: [String]
@@ -20,7 +20,18 @@ export default gql`
     authenticate: User
   }
 
+  type NotImportedStudent {
+    student: User
+    reason: String
+  }
+
+  type ImportStudentList {
+    importedStudents: [User]
+    notImportedStudents: [NotImportedStudent]
+  }
+
   extend type Mutation {
     signIn(username: String!, password: String!): String
+    importStudents(file: Upload!): ImportStudentList
   }
 `

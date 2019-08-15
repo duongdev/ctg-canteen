@@ -20,7 +20,7 @@ describe('Test createStudents service', () => {
       const mockUserList = [
         {
           // studentId: 'not_specified',
-          birthdate: new Date(),
+          birthdate: new Date().toISOString(),
           boardingRoom: 'not_specified',
           checkerId: 'not_specified',
           class: 'english',
@@ -43,7 +43,7 @@ describe('Test createStudents service', () => {
       const mockUserList = [
         {
           studentId: 'not_specified',
-          // birthdate: new Date(),
+          // birthdate: new Date().toISOString(),
           boardingRoom: 'not_specified',
           checkerId: 'not_specified',
           class: 'english',
@@ -61,35 +61,12 @@ describe('Test createStudents service', () => {
     }
   })
 
-  it('should throw an error if boardingRoom is not specified', async () => {
-    try {
-      const mockUserList = [
-        {
-          studentId: 'not_specified',
-          birthdate: new Date(),
-          // boardingRoom: 'not_specified',
-          checkerId: 'not_specified',
-          class: 'english',
-          group: 'boarding',
-          hometown: 'not_specified',
-          schoolYear: 2013,
-          name: 'not_specified',
-          sex: 'male',
-        },
-      ]
-      await createStudents(mockUserList as any)
-    } catch (error) {
-      expect.assertions(1)
-      expect(error.message).toEqual('[0].boardingRoom is a required field')
-    }
-  })
-
   it('should throw an error if class is not specified', async () => {
     try {
       const mockUserList = [
         {
           studentId: 'not_specified',
-          birthdate: new Date(),
+          birthdate: new Date().toISOString(),
           boardingRoom: 'not_specified',
           checkerId: 'not_specified',
           // class: 'english',
@@ -112,7 +89,7 @@ describe('Test createStudents service', () => {
       const mockUserList = [
         {
           studentId: 'not_specified',
-          birthdate: new Date(),
+          birthdate: new Date().toISOString(),
           boardingRoom: 'not_specified',
           checkerId: 'not_specified',
           class: 'english_incorrect',
@@ -137,7 +114,7 @@ describe('Test createStudents service', () => {
       const mockUserList = [
         {
           studentId: 'not_specified',
-          birthdate: new Date(),
+          birthdate: new Date().toISOString(),
           boardingRoom: 'not_specified',
           checkerId: 'not_specified',
           class: 'english',
@@ -160,7 +137,7 @@ describe('Test createStudents service', () => {
       const mockUserList = [
         {
           studentId: 'not_specified',
-          birthdate: new Date(),
+          birthdate: new Date().toISOString(),
           boardingRoom: 'not_specified',
           checkerId: 'not_specified',
           class: 'english',
@@ -183,7 +160,7 @@ describe('Test createStudents service', () => {
       const mockUserList = [
         {
           studentId: 'not_specified',
-          birthdate: new Date(),
+          birthdate: new Date().toISOString(),
           boardingRoom: 'not_specified',
           checkerId: 'not_specified',
           class: 'english',
@@ -206,7 +183,7 @@ describe('Test createStudents service', () => {
       const mockUserList = [
         {
           studentId: 'not_specified',
-          birthdate: new Date(),
+          birthdate: new Date().toISOString(),
           boardingRoom: 'not_specified',
           checkerId: 'not_specified',
           class: 'english',
@@ -229,7 +206,7 @@ describe('Test createStudents service', () => {
       const mockUserList = [
         {
           studentId: 'not_specified',
-          birthdate: new Date(),
+          birthdate: new Date().toISOString(),
           boardingRoom: 'not_specified',
           checkerId: 'not_specified',
           class: 'english',
@@ -252,7 +229,7 @@ describe('Test createStudents service', () => {
       const mockUserList = [
         {
           studentId: 'not_specified',
-          birthdate: new Date(),
+          birthdate: new Date().toISOString(),
           boardingRoom: 'not_specified',
           checkerId: 'not_specified',
           class: 'english',
@@ -277,7 +254,7 @@ describe('Test createStudents service', () => {
       const mockUserList = [
         {
           studentId: 'not_specified',
-          birthdate: new Date(),
+          birthdate: new Date().toISOString(),
           boardingRoom: 'not_specified',
           checkerId: 'not_specified',
           class: 'english',
@@ -302,7 +279,7 @@ describe('Test createStudents service', () => {
       const mockUserList = [
         {
           studentId: 'not_specified',
-          birthdate: 'new Date()',
+          birthdate: 'new Date().toISOString()',
           boardingRoom: 'not_specified',
           checkerId: 'not_specified',
           class: 'english',
@@ -317,9 +294,7 @@ describe('Test createStudents service', () => {
     } catch (error) {
       expect.assertions(1)
 
-      expect(error.message).toEqual(
-        '[0].birthdate must be a `date` type, but the final value was: `Invalid Date` (cast from the value `"new Date()"`).',
-      )
+      expect(error.message).toContain('birthdate must be a `date` type')
     }
   })
 
@@ -327,7 +302,7 @@ describe('Test createStudents service', () => {
     expect.assertions(1)
     const user = {
       studentId: 'test_studentId',
-      birthdate: new Date(),
+      birthdate: new Date().toISOString(),
       boardingRoom: 'Phòng 202',
       checkerId: '09010002391121',
       class: 'history',
@@ -342,14 +317,14 @@ describe('Test createStudents service', () => {
 
     const createdStudent = await createStudents([user])
 
-    expect(createdStudent.createdUsers[0].roles).toEqual(['student'])
+    expect(createdStudent.importedStudents[0].roles).toEqual(['student'])
   })
 
   it('should return a list of user has not been created if checkerId has assigned to an existing user', async () => {
     expect.assertions(1)
     const existedUser = {
       studentId: 'existed_studentId',
-      birthdate: new Date(),
+      birthdate: new Date().toISOString(),
       boardingRoom: 'Phòng 202',
       checkerId: '09010002391121',
       class: 'history',
@@ -362,7 +337,7 @@ describe('Test createStudents service', () => {
 
     const user = {
       studentId: 'test_studentId',
-      birthdate: new Date(),
+      birthdate: new Date().toISOString(),
       boardingRoom: 'Phòng 202',
       checkerId: '09010002391121',
       class: 'history',
@@ -379,10 +354,10 @@ describe('Test createStudents service', () => {
     const data = await createStudents([user])
 
     expect(data).toEqual({
-      createdUsers: [],
-      userNotCreatedList: [
+      importedStudents: [],
+      notImportedStudents: [
         {
-          user,
+          student: user,
           reason: 'checkerId đã được sử dụng',
         },
       ],
@@ -393,7 +368,7 @@ describe('Test createStudents service', () => {
     expect.assertions(1)
     const user = {
       studentId: 'test_studentId',
-      birthdate: new Date(),
+      birthdate: new Date().toISOString(),
       boardingRoom: 'Phòng 202',
       checkerId: '09010002391121',
       class: 'history',
@@ -417,14 +392,14 @@ describe('Test createStudents service', () => {
 
     const data = await createStudents([user])
 
-    expect(data.createdUsers[0].password).toEqual(hashPass)
+    expect(data.importedStudents[0].password).toEqual(hashPass)
   })
 
   it('createdUser.password should be a hash of studentId by default', async () => {
     expect.assertions(1)
     const user = {
       studentId: 'test_studentId',
-      birthdate: new Date(),
+      birthdate: new Date().toISOString(),
       boardingRoom: 'Phòng 202',
       checkerId: '09010002391121',
       class: 'history',
@@ -447,14 +422,14 @@ describe('Test createStudents service', () => {
 
     const data = await createStudents([user])
 
-    expect(data.createdUsers[0].password).toEqual(hashPass)
+    expect(data.importedStudents[0].password).toEqual(hashPass)
   })
 
   it('should return created or updated user correctly', async () => {
     expect.assertions(1)
     const user = {
       studentId: 'test_studentId',
-      birthdate: new Date(),
+      birthdate: new Date().toISOString(),
       boardingRoom: 'Phòng 202',
       checkerId: '09010002391121',
       class: 'history',
@@ -469,6 +444,9 @@ describe('Test createStudents service', () => {
 
     const data = await createStudents([user])
 
-    expect(data.createdUsers[0]).toMatchObject(user)
+    expect(data.importedStudents[0]).toMatchObject({
+      ...user,
+      birthdate: new Date(user.birthdate),
+    })
   })
 })

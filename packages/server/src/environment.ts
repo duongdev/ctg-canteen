@@ -17,6 +17,7 @@ interface Environment {
   }
 
   upload: {
+    folder: string
     maxFiles: number
     maxFileSize: number
   }
@@ -35,6 +36,7 @@ export const environment: Environment = {
     password: process.env.DEFAULT_ADMIN_PASSWORD,
   },
   upload: {
+    folder: process.env.UPLOAD_FOLDER || 'uploads',
     maxFiles: +process.env.UPLOAD_MAX_FILES || defaultMaxFiles,
     maxFileSize: +process.env.UPLOAD_MAX_FILE_SIZE || defaultMaxFileSize,
   },

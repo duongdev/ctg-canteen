@@ -10,6 +10,8 @@ import {
 } from 'functions/users/user.validations'
 import { verify } from 'jsonwebtoken'
 import UserModel, { IUser } from 'models/User'
+import moment from 'moment'
+import { string2Date } from 'utils/string'
 
 const chance = new Chance()
 
@@ -88,6 +90,7 @@ export const createUser = async (user: CreateUserInput) => {
 
   const createdUser = await UserModel.create({
     ...user,
+    birthdate: string2Date(user.birthdate),
     /** If user does not have username, use studentId instead */
     username: user.username || user.studentId,
     password: bcrypt.hashSync(user.password, 2),
@@ -96,42 +99,44 @@ export const createUser = async (user: CreateUserInput) => {
   return createdUser.toJSON()
 }
 
-/**
- * TODO: implement read user list from excel file and parse to json
- * TODO: implement upload excel file from client and save it to server
- * TODO: implement remove excel file when user list already parsed
- */
-export const createStudents = async (userList: CreateStudentInput[]) => {
-  await createStudentsValidation.validate(userList)
-  const userNotCreatedList: { user: CreateStudentInput; reason: string }[] = []
+export const createStudents = async (students: CreateStudentInput[]) => {
+  await createStudentsValidation.validate(students)
+  const notImportedStudents: {
+    student: CreateStudentInput
+    reason: string
+  }[] = []
 
-  const createdUsers = (await bluebird.map(userList, async (user) => {
-    const assignedUser = await UserModel.findOne({
-      checkerId: user.checkerId,
+  const importedStudents = (await bluebird.map(students, async (student) => {
+    const assignedStudent = await UserModel.findOne({
+      checkerId: student.checkerId,
     }).exec()
 
-    if (assignedUser) {
-      userNotCreatedList.push({
-        user,
+    if (
+      assignedStudent &&
+      assignedStudent.studentId.toString() !== student.studentId.toString()
+    ) {
+      notImportedStudents.push({
+        student,
         reason: 'checkerId đã được sử dụng',
       })
 
       return
     }
 
-    const createdOrUpdatedUser = await UserModel.findOneAndUpdate(
-      { studentId: user.studentId },
+    const createdOrUpdatedStudent = await UserModel.findOneAndUpdate(
+      { studentId: student.studentId },
       {
-        ...user,
-        username: user.studentId,
+        ...student,
+        birthdate: string2Date(student.birthdate),
+        username: student.studentId,
         roles: ['student'],
-        password: bcrypt.hashSync(user.password || user.studentId, 2),
+        password: bcrypt.hashSync(student.studentId.toString(), 2),
       },
       { new: true, upsert: true },
     ).exec()
 
-    return createdOrUpdatedUser.toJSON()
-  })).filter((user) => user)
+    return createdOrUpdatedStudent.toJSON()
+  })).filter((student) => student)
 
-  return { createdUsers, userNotCreatedList }
+  return { importedStudents, notImportedStudents }
 }

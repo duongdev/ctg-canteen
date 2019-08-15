@@ -1,6 +1,11 @@
 import isEmpty from 'lodash/isEmpty'
 import xlsx from 'xlsx'
 
+export const EXCEL_MIMETYPES = [
+  'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+  'application/vnd.ms-excel',
+]
+
 /**
  * this function will read excel file from first worksheet
  * @param path Path of excel file

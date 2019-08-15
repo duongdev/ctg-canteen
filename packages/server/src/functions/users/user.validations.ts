@@ -1,5 +1,24 @@
 import { USER_CLASSES, USER_GROUPS, USER_ROLES, USER_SEX } from 'models/User'
+import moment from 'moment'
 import * as yup from 'yup'
+
+/** date string format must be MM/DD/YYYY */
+yup.addMethod(yup.date, 'format', function (formats, parseStrict) {
+  return this.transform(function (value, originalValue) {
+    if (this.isType(value)) return value
+    try {
+      const newValue = moment(
+        new Date(originalValue).toISOString(),
+        formats,
+        parseStrict,
+      )
+
+      return newValue.isValid() ? newValue.toDate() : 'Invalid Date'
+    } catch (err) {
+      return 'birthdate must be a `date` type, but the final value was: `\"Invalid Date\"`'
+    }
+  })
+})
 
 const baseUserValidation = yup.object().shape({
   studentId: yup.string().trim(),
@@ -9,11 +28,8 @@ const baseUserValidation = yup.object().shape({
     .trim()
     .required(),
   checkerId: yup.string().trim(),
-  birthdate: yup.date().required(),
-  hometown: yup
-    .string()
-    .trim()
-    .required(),
+  birthdate: (yup.date() as any).format().required(),
+  hometown: yup.string().required(),
   sex: yup
     .string()
     .trim()
@@ -32,10 +48,7 @@ const baseUserValidation = yup.object().shape({
     .string()
     .oneOf(USER_GROUPS)
     .required(),
-  boardingRoom: yup
-    .string()
-    .trim()
-    .required(),
+  boardingRoom: yup.string().trim(),
   password: yup
     .string()
     .trim()
