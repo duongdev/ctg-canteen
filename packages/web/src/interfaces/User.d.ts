@@ -11,14 +11,26 @@ export type IClass =
   | 'geography'
   | 'normal'
 
+export type IUserGroup =
+  | 'boarding'
+  | 'outpatient'
+  | 'semi-boarding'
+  | 'teacher'
+  | 'other'
+
+export type IUserRole = 'admin' | 'student' | 'deactivated'
+
 export default interface IUser {
   id: string
-  fullName: string
+  name: string
   username: string
   birthdate?: Date
+  hometown?: string
   sex?: 'male' | 'female'
   class?: IClass
   schoolYear?: number
-  type?: 'boarding' | 'semi-boarding' | 'outpatient'
+  group: IUserGroup
+  roles: IUserRole[]
+  checkerId?: string
   room?: string
 }
