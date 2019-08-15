@@ -9029,10 +9029,10 @@ map-visit@^1.0.0:
   dependencies:
     object-visit "^1.0.0"
 
-material-table@1.48.0:
-  version "1.48.0"
-  resolved "https://registry.yarnpkg.com/material-table/-/material-table-1.48.0.tgz#3a4baffc915ffd700caf26cb3b272e238cc9cfe1"
-  integrity sha512-OXI8gotPGtFtcSLLXkFzrmPMO8DK5irUd24vq+siTwYPp+kInOM1T5Vrb/pqbR6wQOA2bgWTmwxKGe4GZ1xVcw==
+material-table@1.49.0:
+  version "1.49.0"
+  resolved "https://registry.yarnpkg.com/material-table/-/material-table-1.49.0.tgz#86cfb794b501aaf763f35b28e712bbe54c69be54"
+  integrity sha512-nCuSS18GMNDGqzZO5GAc8C/YHq8rV5+YZ6xF+H1XMQ6CImXXxgM4unaOEzTN+pr+JVhsJniDELUivHH6+LXpXg==
   dependencies:
     "@date-io/date-fns" "^1.1.0"
     "@material-ui/pickers" "^3.2.2"
