@@ -13,6 +13,8 @@ const initialValues: CreateUpdateUserValues = {
   checkerId: '',
   birthdate: '',
   sex: 'male',
+  class: 'none',
+  schoolYear: 2019,
 }
 
 const CreateUser: FC = (props) => {

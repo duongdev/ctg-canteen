@@ -1,4 +1,4 @@
-import React, { FC } from 'react'
+import React, { FC, ReactNode } from 'react'
 
 import {
   Fab,
@@ -15,14 +15,17 @@ import {
 import { GridProps } from '@material-ui/core/Grid'
 import { OutlinedTextFieldProps } from '@material-ui/core/TextField'
 import { Field, FieldProps, Form, Formik, FormikActions } from 'formik'
+import IUser from 'interfaces/User'
 import { Check } from 'mdi-material-ui'
 
 export type CreateUpdateUserValues = {
-  fullName: string
-  username: string
+  fullName: IUser['fullName']
+  username: IUser['username']
   checkerId: string
   birthdate: string
-  sex: 'male' | 'female'
+  sex: IUser['sex']
+  class: IUser['class']
+  schoolYear: IUser['schoolYear'] | null
 }
 type Values = CreateUpdateUserValues
 
@@ -30,7 +33,7 @@ const fieldsProps: {
   [field in keyof CreateUpdateUserValues]: Partial<OutlinedTextFieldProps> & {
     grid?: GridProps
     selectValues?: {
-      [key: string]: any
+      [key: string]: ReactNode
     }
     labelWidth?: number
   }
@@ -43,6 +46,7 @@ const fieldsProps: {
   username: {
     grid: { sm: 6 },
     label: 'Mã người dùng',
+    placeholder: 'Mã HS hoặc tên đăng nhập',
   },
   checkerId: {
     grid: { sm: 6 },
@@ -64,6 +68,38 @@ const fieldsProps: {
       female: 'Nữ',
     },
     labelWidth: 65,
+  },
+  class: {
+    grid: { sm: 6 },
+    label: 'Lớp',
+    selectValues: {
+      none: 'Không chọn',
+      math: 'Toán',
+      informatics: 'Tin',
+      physics: 'Lý',
+      chemistry: 'Hoá',
+      biology: 'Sinh',
+      english: 'Anh',
+      literature: 'Văn',
+      history: 'Sử',
+      geography: 'Địa',
+      normal: 'Không chuyên',
+    },
+    labelWidth: 28,
+  },
+  schoolYear: {
+    grid: { sm: 6 },
+    label: 'Niên khoá',
+    selectValues: {
+      2019: '2019',
+      2020: '2020',
+      2021: '2021',
+      2022: '2022',
+      2023: '2023',
+      2024: '2024',
+      2025: '2025',
+    },
+    labelWidth: 80,
   },
 }
 
