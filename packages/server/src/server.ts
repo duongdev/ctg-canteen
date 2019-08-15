@@ -1,21 +1,20 @@
 import { ApolloServer } from 'apollo-server'
 import chalk from 'chalk'
 import debug from 'debug'
-import * as mongoose from 'mongoose'
+import mongoose from 'mongoose'
 
 const log = debug('app:server')
 
 import { environment } from './environment'
 import resolvers from './resolvers'
-import typeDefs from './schemas'
+import typeDefs from './typeDefs'
 
-import userGql from 'functions/users/user.gql'
 import { getUserFromToken } from 'functions/users/user.services'
 import startup from 'startup'
 
 const server = new ApolloServer({
   resolvers,
-  typeDefs: [typeDefs, userGql],
+  typeDefs,
   introspection: environment.apollo.introspection,
   playground: environment.apollo.playground,
   context: async ({ req }) => {
@@ -47,5 +46,5 @@ mongoose
   })
   .catch((error) => {
     log(`Couldn't start server`)
-    log(error)
+    console.log(error)
   })

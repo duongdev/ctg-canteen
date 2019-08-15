@@ -450,7 +450,7 @@ describe('Test createStudents service', () => {
     expect(data.createdUsers[0].password).toEqual(hashPass)
   })
 
-  it('should return created or updated user correctly if the studentId does not exist', async () => {
+  it('should return created or updated user correctly', async () => {
     expect.assertions(1)
     const user = {
       studentId: 'test_studentId',

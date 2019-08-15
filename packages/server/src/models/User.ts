@@ -39,16 +39,16 @@ export class User extends Typegoose {
   @prop({ required: true })
   name: string
 
-  @prop({ required: true })
+  @prop()
   birthdate: Date
 
-  @prop({ required: true })
+  @prop()
   hometown: string
 
-  @prop({ required: true, enum: USER_SEX })
+  @prop({ enum: USER_SEX })
   sex: string
 
-  @prop({ required: true })
+  @prop()
   schoolYear: number
 
   @prop({
