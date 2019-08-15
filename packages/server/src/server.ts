@@ -17,6 +17,10 @@ const server = new ApolloServer({
   typeDefs,
   introspection: environment.apollo.introspection,
   playground: environment.apollo.playground,
+  uploads: {
+    maxFileSize: environment.upload.maxFileSize,
+    maxFiles: environment.upload.maxFiles,
+  },
   context: async ({ req }) => {
     // get the user token from the headers
     const token = req.headers['x-access-token'] as string
@@ -46,5 +50,5 @@ mongoose
   })
   .catch((error) => {
     log(`Couldn't start server`)
-    console.log(error)
+    log(error)
   })
