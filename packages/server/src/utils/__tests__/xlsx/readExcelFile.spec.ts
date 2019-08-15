@@ -16,7 +16,7 @@ describe('Test readExcelFile utils', () => {
   it('should throw error if file data is not JSON format', () => {
     expect.assertions(1)
     try {
-      readExcelFile(path.resolve(__dirname, './static/incorrect.xlsx'))
+      readExcelFile(path.resolve(__dirname, '../../../static/incorrect.xlsx'))
     } catch (error) {
       expect(error.message).toEqual('invalid_json_data')
     }
@@ -25,7 +25,9 @@ describe('Test readExcelFile utils', () => {
   it('should return data correctly', () => {
     expect.assertions(1)
 
-    const data = readExcelFile(path.resolve(__dirname, './static/correct.xlsx'))
+    const data = readExcelFile(
+      path.resolve(__dirname, '../../../static/correct.xlsx'),
+    )
 
     expect(data).toBeTruthy()
   })
