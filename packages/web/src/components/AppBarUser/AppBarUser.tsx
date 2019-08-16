@@ -9,7 +9,7 @@ import {
   MenuItem,
 } from '@material-ui/core'
 import { ButtonProps } from '@material-ui/core/Button'
-import { AdapterLink } from 'components/LinkButton'
+import { AdapterLink } from 'components/shared/LinkButton'
 import { Account, ExitToApp } from 'mdi-material-ui'
 
 type AppBarUserProps = {}

@@ -5,8 +5,8 @@ import SpeedDial from '@material-ui/lab/SpeedDial'
 import SpeedDialAction from '@material-ui/lab/SpeedDialAction'
 import SpeedDialIcon from '@material-ui/lab/SpeedDialIcon'
 import ContentContainer from 'components/shared/ContentContainer'
+import { AdapterLink } from 'components/shared/LinkButton'
 import PageTitle from 'components/shared/PageTitle'
-import { AdapterLink } from 'components/LinkButton'
 import { AccountPlus, CloudUpload } from 'mdi-material-ui'
 
 const UserList: FC = (props) => {
