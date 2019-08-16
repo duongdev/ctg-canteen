@@ -1,7 +1,7 @@
 import React, { FC } from 'react'
 
-import Dashboard from 'containers/Dashboard'
-import SignIn from 'containers/SignIn'
+import Dashboard from 'components/Dashboard'
+import SignIn from 'components/SignIn'
 import { BrowserRouter, Redirect, Route, Switch } from 'react-router-dom'
 
 const Routes: FC = () => {

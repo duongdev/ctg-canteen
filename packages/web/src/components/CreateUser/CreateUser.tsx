@@ -1,11 +1,11 @@
 import React, { FC } from 'react'
 
 import { Box, makeStyles, Paper, Typography } from '@material-ui/core'
-import ContentContainer from 'components/dashboard/ContentContainer'
-import PageTitle from 'components/dashboard/PageTitle'
 import CreateUpdateUserForm, {
   CreateUpdateUserValues,
 } from 'components/forms/CreateUpdateUserForm'
+import ContentContainer from 'components/shared/ContentContainer'
+import PageTitle from 'components/shared/PageTitle'
 
 const initialValues: CreateUpdateUserValues = {
   name: '',

@@ -1,11 +1,11 @@
 import React, { FC, useCallback, useState } from 'react'
 
 import { makeStyles } from '@material-ui/core'
-import CreateUser from 'containers/CreateUser/CreateUser'
-import UserList from 'containers/UserList'
+import AppBar from 'components/AppBar'
+import CreateUser from 'components/CreateUser'
+import Drawer from 'components/Drawer';
+import UserList from 'components/UserList'
 import { Route, Switch } from 'react-router-dom'
-import DashboardAppBar from './components/DashboardAppBar'
-import DashboardDrawer from './components/DashboardDrawer'
 
 const DRAWER_WIDTH = 250
 
@@ -18,13 +18,13 @@ const Dashboard: FC = (props) => {
 
   return (
     <>
-      <DashboardDrawer
+      <Drawer
         open={drawerOpen}
         onClose={handleClose}
         classes={{ paper: classes.drawerPaper }}
       />
       <div className={classes.content}>
-        <DashboardAppBar onOpenDrawer={handleOpen} />
+        <AppBar onOpenDrawer={handleOpen} />
 
         <Switch>
           <Route path="/dashboard/users" exact component={UserList} />

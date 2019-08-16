@@ -2,7 +2,7 @@ import React, { FC } from 'react'
 
 import { Box, Grid, makeStyles, Paper, TextField } from '@material-ui/core'
 import LinkButton from 'components/LinkButton'
-import Logo from 'components/Logo'
+import Logo from 'components/shared/Logo'
 import { ArrowRight } from 'mdi-material-ui'
 import Helmet from 'react-helmet'
 import { Link } from 'react-router-dom'

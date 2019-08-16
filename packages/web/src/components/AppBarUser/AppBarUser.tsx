@@ -12,9 +12,9 @@ import { ButtonProps } from '@material-ui/core/Button'
 import { AdapterLink } from 'components/LinkButton'
 import { Account, ExitToApp } from 'mdi-material-ui'
 
-type UserMenuProps = {}
+type AppBarUserProps = {}
 
-const UserMenu: React.FC<UserMenuProps> = (props) => {
+const AppBarUser: React.FC<AppBarUserProps> = (props) => {
   const classes = useStyles(props)
 
   const [anchorEl, setAnchorEl] = useState<any>(null)
@@ -87,4 +87,4 @@ const useStyles = makeStyles(({ spacing }) => ({
   },
 }))
 
-export default UserMenu
+export default AppBarUser
