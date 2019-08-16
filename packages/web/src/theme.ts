@@ -1,15 +1,8 @@
+import { pink } from '@material-ui/core/colors'
 import { createMuiTheme } from '@material-ui/core/styles'
+import { ThemeOptions } from '@material-ui/core/styles/createMuiTheme'
 
-// A custom theme for this app
-const theme = createMuiTheme({
-  palette: {
-    primary: {
-      main: '#2F2FA2',
-    },
-    secondary: {
-      main: '#F64C72',
-    },
-  },
+const baseTheme: ThemeOptions = {
   shape: {
     borderRadius: 8,
   },
@@ -58,6 +51,29 @@ const theme = createMuiTheme({
       },
     },
   },
+}
+
+export const light = createMuiTheme({
+  palette: {
+    primary: {
+      main: '#2F2FA2',
+    },
+    secondary: {
+      main: '#F64C72',
+    },
+  },
+  ...baseTheme,
 })
 
-export default theme
+export const dark = createMuiTheme({
+  palette: {
+    type: 'dark',
+    primary: {
+      main: pink[300],
+    },
+    secondary: {
+      main: '#F64C72',
+    },
+  },
+  ...baseTheme,
+})
