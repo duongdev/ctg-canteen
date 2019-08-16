@@ -2,6 +2,7 @@
   "name": "web",
   "version": "0.1.0",
   "private": true,
+  "homepage": "https://ctg-canteen.netlify.com",
   "dependencies": {
     "@material-ui/core": "4.3.2",
     "@material-ui/lab": "4.0.0-alpha.23",
