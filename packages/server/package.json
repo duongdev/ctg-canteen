@@ -28,21 +28,15 @@
     "@types/jsonwebtoken": "8.3.3",
     "@types/lodash": "4.14.136",
     "@types/mongoose": "5.5.12",
-    "@types/webpack-env": "1.14.0",
     "apollo-server-testing": "2.8.1",
-    "clean-webpack-plugin": "3.0.0",
     "coveralls": "3.0.6",
     "graphql-import-node": "0.0.4",
-    "jest": "24.8.0",
+    "jest": "24.9.0",
     "jest-junit": "7.0.0",
     "mockingoose": "2.13.2",
     "ts-jest": "24.0.2",
     "ts-loader": "6.0.4",
-    "typescript": "3.5.3",
-    "webpack": "4.39.1",
-    "webpack-cli": "3.3.6",
-    "webpack-merge": "4.2.1",
-    "webpack-node-externals": "1.7.2"
+    "typescript": "3.5.3"
   },
   "dependencies": {
     "apollo-server": "2.8.1",
@@ -56,7 +50,7 @@
     "jsonwebtoken": "8.5.1",
     "lodash": "4.17.15",
     "mongoose": "5.6.8",
-    "ts-node-dev": "1.0.0-pre.40",
+    "ts-node-dev": "1.0.0-pre.41",
     "typegoose": "5.9.0",
     "yup": "0.27.0"
   }
