@@ -1,27 +1,27 @@
 import React, { FC } from 'react'
 
 import {
-  AppBar,
+  AppBar as MUIAppBar,
   Grid,
   Hidden,
   IconButton,
   makeStyles,
   Toolbar,
 } from '@material-ui/core'
+import AppBarUser from 'components/AppBarUser';
 import useIsMobile from 'hooks/useIsMobile'
 import { Menu } from 'mdi-material-ui'
-import UserMenu from './UserMenu'
 
-export type DashboardAppBarProps = {
+export type AppBarProps = {
   onOpenDrawer: () => void
 }
 
-const DashboardAppBar: FC<DashboardAppBarProps> = (props) => {
+const AppBar: FC<AppBarProps> = (props) => {
   const classes = useStyles(props)
   const isMobile = useIsMobile()
 
   return (
-    <AppBar color="inherit" elevation={1} position="sticky">
+    <MUIAppBar color="inherit" elevation={1} position="sticky">
       <Toolbar>
         <Grid container alignItems="center">
           <Hidden mdUp>
@@ -39,11 +39,11 @@ const DashboardAppBar: FC<DashboardAppBarProps> = (props) => {
           <Grid item xs />
 
           <Grid item>
-            <UserMenu />
+            <AppBarUser />
           </Grid>
         </Grid>
       </Toolbar>
-    </AppBar>
+    </MUIAppBar>
   )
 }
 
@@ -57,4 +57,4 @@ const useStyles = makeStyles(({ spacing, breakpoints }) => ({
   },
 }))
 
-export default DashboardAppBar
+export default AppBar

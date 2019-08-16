@@ -1,7 +1,7 @@
 import React, { FC } from 'react'
 
 import {
-  Drawer,
+  Drawer as MUIDrawer,
   List,
   ListItem,
   ListItemIcon,
@@ -12,11 +12,11 @@ import {
   useMediaQuery,
 } from '@material-ui/core'
 import { DrawerProps } from '@material-ui/core/Drawer'
-import Logo from 'components/Logo'
+import Logo from 'components/shared/Logo'
 import { Account, ClipboardCheckOutline, Food } from 'mdi-material-ui'
 import { Link, NavLink, NavLinkProps } from 'react-router-dom'
 
-export type DashboardDrawerProps = {
+export type DrawerProps = {
   open: boolean
   onClose: DrawerProps['onClose']
 } & DrawerProps
@@ -31,12 +31,12 @@ const navMenu = [
   { name: 'Đợt đăng ký', icon: ClipboardCheckOutline, path: 'registrations' },
 ]
 
-const DashboardDrawer: FC<DashboardDrawerProps> = (props) => {
+const Drawer: FC<DrawerProps> = (props) => {
   const classes = useStyles(props)
   const isMdUp = useMediaQuery((theme: Theme) => theme.breakpoints.up('md'))
 
   return (
-    <Drawer variant={isMdUp ? 'permanent' : 'temporary'} {...props}>
+    <MUIDrawer variant={isMdUp ? 'permanent' : 'temporary'} {...props}>
       <Link to="/" className={classes.header}>
         <Logo />
       </Link>
@@ -62,7 +62,7 @@ const DashboardDrawer: FC<DashboardDrawerProps> = (props) => {
           </ListItem>
         ))}
       </List>
-    </Drawer>
+    </MUIDrawer>
   )
 }
 
@@ -114,4 +114,4 @@ const useStyles = makeStyles(
   }),
 )
 
-export default DashboardDrawer
+export default Drawer
