@@ -1,8 +1,10 @@
+import keys from 'lodash/keys'
 import React, { FC, ReactNode } from 'react'
 
 import {
   Fab,
   FormControl,
+  FormHelperText,
   Grid,
   Grow,
   InputLabel,
@@ -15,10 +17,11 @@ import {
 } from '@material-ui/core'
 import { GridProps } from '@material-ui/core/Grid'
 import { OutlinedTextFieldProps } from '@material-ui/core/TextField'
-import { selectValues } from 'constants/users';
+import { selectValues } from 'constants/users'
 import { Field, FieldProps, Form, Formik, FormikActions } from 'formik'
 import IUser from 'interfaces/User'
 import { Check } from 'mdi-material-ui'
+import * as yup from 'yup'
 
 export type CreateUpdateUserValues = {
   name: IUser['name']
@@ -58,7 +61,7 @@ const fieldsProps: {
     grid: { sm: 6 },
     label: 'Mật khẩu',
     placeholder: 'Mặc định là mã người dùng',
-    type: 'password'
+    type: 'password',
   },
   checkerId: {
     grid: { sm: 6 },
@@ -101,13 +104,30 @@ const fieldsProps: {
     grid: { sm: 6 },
     label: 'Nhóm',
     selectValues: selectValues.group,
-    labelWidth: 49
+    labelWidth: 49,
   },
   room: {
     grid: { sm: 6 },
     label: 'Phòng nội/ngoại trú',
-  }
+  },
 }
+
+const validationSchema = yup.object().shape({
+  name: yup.string().required('Họ và tên không được để trống'),
+  username: yup.string().min(4, 'Mã người dùng phải có ít nhất 4 ký tự'),
+  password: yup
+    .string()
+    .min(3, 'Mật khẩu phải có ít nhất 3 ký tự')
+    .required('Mật khẩu không được để trống'),
+  checkerId: yup.string(),
+  birthdate: yup.string(),
+  hometown: yup.string(),
+  sex: yup.string().oneOf(['male', 'female']),
+  class: yup.string(),
+  schoolYear: yup.number(),
+  group: yup.string().required(),
+  room: yup.string(),
+})
 
 export type CreateUpdateUserFormProps = {
   initialValues: Values
@@ -118,18 +138,26 @@ const CreateUpdateUserForm: FC<CreateUpdateUserFormProps> = (props) => {
   const classes = useStyles(props)
 
   return (
-    <Formik onSubmit={props.onSubmit} initialValues={props.initialValues}>
+    <Formik
+      onSubmit={props.onSubmit}
+      initialValues={props.initialValues}
+      validationSchema={validationSchema}
+    >
       {(form) => (
         <>
           <Form>
             <Grid container spacing={2}>
-              {Object.keys(props.initialValues).map((fieldName) => {
+              {keys(props.initialValues).map((fieldName) => {
                 const {
                   grid: gridProps,
                   selectValues,
                   labelWidth = 0,
                   ...textFieldProps
                 } = fieldsProps[fieldName as keyof CreateUpdateUserValues]
+
+                const error: string | null =
+                  (form.touched as any)[fieldName] &&
+                  (form.errors as any)[fieldName]
 
                 if (selectValues) {
                   return (
@@ -160,6 +188,7 @@ const CreateUpdateUserForm: FC<CreateUpdateUserFormProps> = (props) => {
                                 ),
                               )}
                             </Select>
+                            {error && <FormHelperText>{error}</FormHelperText>}
                           </FormControl>
                         </Grid>
                       )}
@@ -178,6 +207,8 @@ const CreateUpdateUserForm: FC<CreateUpdateUserFormProps> = (props) => {
                           variant="outlined"
                           {...field}
                           {...textFieldProps}
+                          error={!!error}
+                          helperText={error}
                         />
                       </Grid>
                     )}
@@ -187,13 +218,15 @@ const CreateUpdateUserForm: FC<CreateUpdateUserFormProps> = (props) => {
             </Grid>
           </Form>
           <Grow in timeout={300}>
-            <Tooltip title="Lưu người dùng"><Fab
-              onClick={form.submitForm}
-              color="primary"
-              className={classes.fab}
-            >
-              <Check />
-            </Fab></Tooltip>
+            <Tooltip title="Lưu người dùng">
+              <Fab
+                onClick={form.submitForm}
+                color="primary"
+                className={classes.fab}
+              >
+                <Check />
+              </Fab>
+            </Tooltip>
           </Grow>
         </>
       )}
