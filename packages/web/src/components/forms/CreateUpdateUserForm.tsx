@@ -11,9 +11,11 @@ import {
   OutlinedInput,
   Select,
   TextField,
+  Tooltip,
 } from '@material-ui/core'
 import { GridProps } from '@material-ui/core/Grid'
 import { OutlinedTextFieldProps } from '@material-ui/core/TextField'
+import { selectValues } from 'constants/users';
 import { Field, FieldProps, Form, Formik, FormikActions } from 'formik'
 import IUser from 'interfaces/User'
 import { Check } from 'mdi-material-ui'
@@ -21,11 +23,15 @@ import { Check } from 'mdi-material-ui'
 export type CreateUpdateUserValues = {
   name: IUser['name']
   username: IUser['username']
+  password: string
   checkerId: string
   birthdate: string
+  hometown: IUser['hometown']
   sex: IUser['sex']
   class: IUser['class']
   schoolYear: IUser['schoolYear'] | null
+  group: IUser['group']
+  room: IUser['room']
 }
 type Values = CreateUpdateUserValues
 
@@ -48,6 +54,12 @@ const fieldsProps: {
     label: 'Mã người dùng',
     placeholder: 'Mã HS hoặc tên đăng nhập',
   },
+  password: {
+    grid: { sm: 6 },
+    label: 'Mật khẩu',
+    placeholder: 'Mặc định là mã người dùng',
+    type: 'password'
+  },
   checkerId: {
     grid: { sm: 6 },
     label: 'Mã máy chấm công',
@@ -59,6 +71,10 @@ const fieldsProps: {
     InputLabelProps: {
       shrink: true,
     },
+  },
+  hometown: {
+    grid: { sm: 6 },
+    label: 'Quê quán',
   },
   sex: {
     grid: { sm: 6 },
@@ -72,38 +88,25 @@ const fieldsProps: {
   class: {
     grid: { sm: 6 },
     label: 'Lớp',
-    selectValues: {
-      none: 'Không chọn',
-      math: 'Toán',
-      informatics: 'Tin',
-      physics: 'Lý',
-      chemistry: 'Hoá',
-      biology: 'Sinh',
-      english: 'Anh',
-      literature: 'Văn',
-      history: 'Sử',
-      geography: 'Địa',
-      normal: 'Không chuyên',
-    },
+    selectValues: selectValues.class,
     labelWidth: 28,
   },
   schoolYear: {
     grid: { sm: 6 },
     label: 'Niên khoá',
-    selectValues: {
-      2016: '2016',
-      2017: '2017',
-      2018: '2018',
-      2019: '2019',
-      2020: '2020',
-      2021: '2021',
-      2022: '2022',
-      2023: '2023',
-      2024: '2024',
-      2025: '2025',
-    },
+    selectValues: selectValues.schoolYear,
     labelWidth: 80,
   },
+  group: {
+    grid: { sm: 6 },
+    label: 'Nhóm',
+    selectValues: selectValues.group,
+    labelWidth: 49
+  },
+  room: {
+    grid: { sm: 6 },
+    label: 'Phòng nội/ngoại trú',
+  }
 }
 
 export type CreateUpdateUserFormProps = {
@@ -184,13 +187,13 @@ const CreateUpdateUserForm: FC<CreateUpdateUserFormProps> = (props) => {
             </Grid>
           </Form>
           <Grow in timeout={300}>
-            <Fab
+            <Tooltip title="Lưu người dùng"><Fab
               onClick={form.submitForm}
               color="primary"
               className={classes.fab}
             >
               <Check />
-            </Fab>
+            </Fab></Tooltip>
           </Grow>
         </>
       )}
