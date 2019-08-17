@@ -2,24 +2,21 @@
   font-family: 'Product Sans';
   font-style: normal;
   font-weight: normal;
-  src: local('Product Sans'),
-    url('/fonts/product-sans/Product Sans Regular.ttf') format('truetype');
+  src: local('Product Sans'), url('/fonts/product-sans/Product Sans Regular.ttf') format('truetype');
 }
 
 @font-face {
   font-family: 'Product Sans';
   font-style: normal;
   font-weight: 600;
-  src: local('Product Sans'),
-    url('/fonts/product-sans/Product Sans Bold.ttf') format('truetype');
+  src: local('Product Sans'), url('/fonts/product-sans/Product Sans Bold.ttf') format('truetype');
 }
 
 @font-face {
   font-family: 'Product Sans';
   font-style: italic;
   font-weight: normal;
-  src: local('Product Sans'),
-    url('/fonts/product-sans/Product Sans Italic.ttf') format('truetype');
+  src: local('Product Sans'), url('/fonts/product-sans/Product Sans Italic.ttf') format('truetype');
 }
 
 @font-face {
