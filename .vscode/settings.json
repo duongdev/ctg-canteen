@@ -15,5 +15,7 @@
     "typegoose",
     "virtuals"
   ],
-  "typescript.tsdk": "node_modules/typescript/lib"
+  "typescript.tsdk": "node_modules/typescript/lib",
+  "prettier.tslintIntegration": true,
+  "editor.formatOnSaveTimeout": 50
 }
