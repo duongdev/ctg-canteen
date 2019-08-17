@@ -10,11 +10,15 @@ import PageTitle from 'components/shared/PageTitle'
 const initialValues: CreateUpdateUserValues = {
   name: '',
   username: '',
+  password: '',
   checkerId: '',
   birthdate: '',
+  hometown: '',
   sex: 'male',
   class: 'none',
   schoolYear: 2019,
+  group: 'other',
+  room: ''
 }
 
 const CreateUser: FC = (props) => {
