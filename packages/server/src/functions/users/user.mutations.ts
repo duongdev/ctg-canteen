@@ -8,7 +8,7 @@ import { sign } from 'jsonwebtoken'
 import { pick } from 'lodash'
 import UserModel from 'models/User'
 import { fileStorage } from 'utils/file-storage'
-import { EXCEL_MIMETYPES, readExcelFile } from 'utils/xlsx'
+import { EXCEL_MIMETYPES, readExcelFile, removeExcelFile } from 'utils/xlsx'
 import { createUsers } from './user.services'
 import { CreateUserInput } from './user.types'
 
@@ -58,6 +58,9 @@ export const importUsers = createResolver({
     const filePath = await fileStorage(file, EXCEL_MIMETYPES)
 
     const users = readExcelFile(filePath) as CreateUserInput[]
+
+    /** unlink excel file when read success */
+    removeExcelFile(filePath)
 
     const {
       importedUsers,

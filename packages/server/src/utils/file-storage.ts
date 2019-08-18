@@ -4,6 +4,9 @@ import fs from 'fs'
 import { FileUpload } from 'graphql-upload'
 import path from 'path'
 
+export const folder = environment.upload.folder
+export const folderPath = path.resolve(__dirname, `../../${folder}`)
+
 export const fileStorage = async (
   file: FileUpload,
   acceptedMimetypes: string[],
@@ -24,11 +27,10 @@ export const fileStorage = async (
     throw new Error('Không thể đọc tệp tin này')
   }
 
-  const folder = environment.upload.folder
-  if (!fs.existsSync(path.resolve(__dirname, `../${folder}`))) {
-    fs.mkdirSync(path.resolve(__dirname, `../${folder}`), parseInt('0777', 8))
+  if (!fs.existsSync(path.resolve(folderPath))) {
+    fs.mkdirSync(path.resolve(folderPath), parseInt('0777', 8))
   }
-  const filePath = path.resolve(__dirname, `../${folder}/${filename}`)
+  const filePath = path.resolve(__dirname, `${folderPath}/${filename}`)
 
   return await new Promise((resolve, reject) => {
     readStream
