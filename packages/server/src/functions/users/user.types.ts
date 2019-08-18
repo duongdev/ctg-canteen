@@ -14,3 +14,7 @@ export type CreateUserInput = {
   roles?: IUser['roles']
   password?: IUser['password']
 }
+
+export type CreateStudentsOptions = {
+  overrideCheckerId?: boolean
+}

@@ -1,6 +1,7 @@
 import bcrypt from 'bcryptjs'
 import { createStudents } from 'functions/users/user.services'
-import { mockingooseResetAll } from 'helpers/test-helpers'
+import { getObjectId, mockingooseResetAll } from 'helpers/test-helpers'
+import { isEqual } from 'lodash'
 import mockingoose from 'mockingoose'
 import UserModel from 'models/User'
 
@@ -320,7 +321,7 @@ describe('Test createStudents service', () => {
     expect(createdStudent.importedStudents[0].roles).toEqual(['student'])
   })
 
-  it('should return a list of user has not been created if checkerId has assigned to an existing user', async () => {
+  it('should return a list of user has not been created if checkerId has assigned to an existing user and overrideCheckerId is false', async () => {
     expect.assertions(1)
     const existedUser = {
       username: 'existed_username',
@@ -355,10 +356,80 @@ describe('Test createStudents service', () => {
 
     expect(data).toEqual({
       importedStudents: [],
+      overriddenStudents: [],
       notImportedStudents: [
         {
           student: user,
-          reason: 'checkerId đã được sử dụng',
+          reason: 'checkerId already used',
+        },
+      ],
+    })
+  })
+
+  it('should return a list of user has been created and a list of user has been overridden checkerId if checkerId has assigned to an existing user and overrideCheckerId is true', async () => {
+    expect.assertions(1)
+    const existedUserId = getObjectId()
+    const existedUser = {
+      _id: existedUserId,
+      id: existedUserId.toHexString(),
+      username: 'existed_username',
+      birthdate: new Date(),
+      boardingRoom: 'Phòng 202',
+      checkerId: '09010002391121',
+      class: 'history',
+      group: 'boarding',
+      hometown: 'Nghệ An',
+      schoolYear: 2013,
+      name: 'Nguyễn Văn A',
+      sex: 'male',
+      roles: ['student'],
+    }
+
+    const user = {
+      username: 'test_username',
+      birthdate: new Date().toISOString(),
+      boardingRoom: 'Phòng 202',
+      checkerId: '09010002391121',
+      class: 'history',
+      group: 'boarding',
+      hometown: 'Nghệ An',
+      schoolYear: 2013,
+      name: 'Nguyễn Văn A',
+      sex: 'male',
+    }
+
+    const createdUserId = getObjectId()
+
+    mockingoose(UserModel).toReturn((query) => {
+      const queryOptions = (query as any).getQuery()
+      if (isEqual(queryOptions, { checkerId: '09010002391121' })) {
+        return existedUser
+      }
+
+      if (isEqual(queryOptions, { username: 'test_username' })) {
+        return { ...user, id: createdUserId, _id: createdUserId }
+      }
+
+      return {}
+    }, 'findOneAndUpdate')
+
+    const data = await createStudents([user], { overrideCheckerId: true })
+
+    expect(data).toEqual({
+      importedStudents: [
+        {
+          ...user,
+          id: createdUserId.toHexString(),
+          _id: createdUserId,
+          roles: ['student'],
+          birthdate: new Date(user.birthdate),
+        },
+      ],
+      notImportedStudents: [],
+      overriddenStudents: [
+        {
+          student: existedUser,
+          reason: 'checkerId has been taken by other one',
         },
       ],
     })

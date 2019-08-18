@@ -3,7 +3,10 @@ import bluebird from 'bluebird'
 import Chance from 'chance'
 import Debug from 'debug'
 import { environment } from 'environment'
-import { CreateUserInput } from 'functions/users/user.types'
+import {
+  CreateStudentsOptions,
+  CreateUserInput,
+} from 'functions/users/user.types'
 import {
   createStudentsValidation,
   createUserValidation,
@@ -91,28 +94,64 @@ export const createUser = async (user: CreateUserInput) => {
   return createdUser.toJSON()
 }
 
-export const createStudents = async (students: CreateUserInput[]) => {
+export const createStudents = async (
+  students: CreateUserInput[],
+  { overrideCheckerId = false }: CreateStudentsOptions = {
+    overrideCheckerId: false,
+  },
+) => {
   await createStudentsValidation.validate(students)
   const notImportedStudents: {
     student: CreateUserInput
     reason: string
   }[] = []
 
+  const overriddenStudents: {
+    student: IUser
+    reason: string
+  }[] = []
+
   const importedStudents = (await bluebird.map(students, async (student) => {
-    const assignedStudent = await UserModel.findOne({
-      checkerId: student.checkerId,
-    }).exec()
+    if (overrideCheckerId) {
+      const assignedStudent = await UserModel.findOneAndUpdate(
+        {
+          checkerId: student.checkerId,
+        },
+        {
+          $set: {
+            checkerId: null,
+          },
+        },
+        {
+          new: true,
+        },
+      ).exec()
 
-    if (
-      assignedStudent &&
-      assignedStudent.username.toString() !== student.username.toString()
-    ) {
-      notImportedStudents.push({
-        student,
-        reason: 'checkerId đã được sử dụng',
-      })
+      if (
+        assignedStudent &&
+        assignedStudent.username.toString() !== student.username.toString()
+      ) {
+        overriddenStudents.push({
+          student: assignedStudent.toJSON(),
+          reason: 'checkerId has been taken by other one'
+        })
+      }
+    } else {
+      const assignedStudent = await UserModel.findOne({
+        checkerId: student.checkerId,
+      }).exec()
 
-      return
+      if (
+        assignedStudent &&
+        assignedStudent.username.toString() !== student.username.toString()
+      ) {
+        notImportedStudents.push({
+          student,
+          reason: 'checkerId already used'
+        })
+
+        return
+      }
     }
 
     const createdOrUpdatedStudent = await UserModel.findOneAndUpdate(
@@ -129,5 +168,5 @@ export const createStudents = async (students: CreateUserInput[]) => {
     return createdOrUpdatedStudent.toJSON()
   })).filter((student) => student)
 
-  return { importedStudents, notImportedStudents }
+  return { importedStudents, notImportedStudents, overriddenStudents }
 }
