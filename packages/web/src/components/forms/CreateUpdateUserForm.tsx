@@ -19,8 +19,8 @@ import { GridProps } from '@material-ui/core/Grid'
 import { OutlinedTextFieldProps } from '@material-ui/core/TextField'
 import { selectValues } from 'constants/users'
 import { Field, FieldProps, Form, Formik, FormikActions } from 'formik'
-import IUser from 'interfaces/User'
 import { Check } from 'mdi-material-ui'
+import IUser from 'typings/User'
 import * as yup from 'yup'
 
 export type CreateUpdateUserValues = {
