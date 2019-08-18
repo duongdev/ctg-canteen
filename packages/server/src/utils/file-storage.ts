@@ -6,12 +6,16 @@ import path from 'path'
 
 export const fileStorage = async (
   file: FileUpload,
-  mimetypes: string[],
+  acceptedMimetypes: string[],
 ): Promise<string> => {
   const { createReadStream, filename, mimetype } = await file
 
-  if (!mimetypes.includes(mimetype)) {
-    throw new UserInputError('file type is not supported')
+  if (!acceptedMimetypes.includes(mimetype)) {
+    throw new UserInputError(
+      `file type ${mimetype} is not accepted. Only ${acceptedMimetypes.join(
+        ', ',
+      )} are accepted`,
+    )
   }
 
   const readStream = createReadStream()
