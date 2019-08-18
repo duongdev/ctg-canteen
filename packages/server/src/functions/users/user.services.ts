@@ -3,7 +3,7 @@ import bluebird from 'bluebird'
 import Chance from 'chance'
 import Debug from 'debug'
 import { environment } from 'environment'
-import { CreateUserInput, CreateUserOptions } from 'functions/users/user.types'
+import { CreateUserInput, CreateUserOptions, CreateUsersOptions } from 'functions/users/user.types'
 import {
   createUsersValidation,
   createUserValidation,
@@ -116,8 +116,8 @@ export const createUser = async (
 
 export const createUsers = async (
   Users: CreateUserInput[],
-  { overrideCheckerId = false }: CreateUserOptions = {
-    overrideCheckerId: false,
+  { overrideCheckerIds = false }: CreateUsersOptions = {
+    overrideCheckerIds: false,
   },
 ) => {
   await createUsersValidation.validate(Users)
@@ -129,7 +129,7 @@ export const createUsers = async (
   const overriddenCheckerIdUsers: IUser[] = []
 
   const importedUsers = (await bluebird.map(Users, async (user) => {
-    if (overrideCheckerId) {
+    if (overrideCheckerIds) {
       const overriddenCheckerIdUser = await UserModel.findOneAndUpdate(
         {
           checkerId: user.checkerId,

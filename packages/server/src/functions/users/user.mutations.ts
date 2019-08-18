@@ -49,8 +49,8 @@ export const importUsers = createResolver({
     _parent,
     {
       file,
-      overrideCheckerId = false,
-    }: { file: FileUpload; overrideCheckerId?: boolean },
+      overrideCheckerIds = false,
+    }: { file: FileUpload; overrideCheckerIds?: boolean },
   ) => {
     const filePath = await fileStorage(file, EXCEL_MIMETYPES)
 
@@ -60,7 +60,7 @@ export const importUsers = createResolver({
       importedUsers,
       notImportedUsers,
       overriddenCheckerIdUsers,
-    } = await createUsers(users, { overrideCheckerId })
+    } = await createUsers(users, { overrideCheckerIds })
 
     return { importedUsers, notImportedUsers, overriddenCheckerIdUsers }
   },

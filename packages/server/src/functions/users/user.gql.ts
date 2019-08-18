@@ -49,6 +49,6 @@ export default gql`
 
   extend type Mutation {
     signIn(username: String!, password: String!): String
-    importUsers(file: Upload!, overrideCheckerId: Boolean): ImportUserList
+    importUsers(file: Upload!, overrideCheckerIds: Boolean): ImportUserList
   }
 `

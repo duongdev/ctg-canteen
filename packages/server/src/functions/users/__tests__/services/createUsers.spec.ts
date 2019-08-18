@@ -161,7 +161,7 @@ describe('Test createUsers service', () => {
     expect(createdStudent.importedUsers[0].roles).toEqual(['student'])
   })
 
-  it('should return a list of user has not been created if checkerId has assigned to an existing user and overrideCheckerId is false', async () => {
+  it('should return a list of user has not been created if checkerId has assigned to an existing user and overrideCheckerIds is false', async () => {
     expect.assertions(1)
     const existedUser = {
       username: 'existed_username',
@@ -206,7 +206,7 @@ describe('Test createUsers service', () => {
     })
   })
 
-  it('should return a list of user has been created and a list of user has been overridden checkerId if checkerId has assigned to an existing user and overrideCheckerId is true', async () => {
+  it('should return a list of user has been created and a list of user has been overridden checkerId if checkerId has assigned to an existing user and overrideCheckerIds is true', async () => {
     expect.assertions(1)
     const existedUserId = getObjectId()
     const existedUser = {
@@ -253,7 +253,7 @@ describe('Test createUsers service', () => {
       return {}
     }, 'findOneAndUpdate')
 
-    const data = await createUsers([user], { overrideCheckerId: true })
+    const data = await createUsers([user], { overrideCheckerIds: true })
 
     expect(data).toEqual({
       importedUsers: [
