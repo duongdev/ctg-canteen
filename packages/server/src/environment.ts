@@ -7,7 +7,10 @@ interface Environment {
     introspection: boolean
     playground: boolean
   }
-  port: number | string
+  server: {
+    host: string
+    port: number | string
+  }
   mongoUri: string
   jwtSecret: string
 
@@ -28,7 +31,10 @@ export const environment: Environment = {
     introspection: process.env.APOLLO_INTROSPECTION === 'true',
     playground: process.env.APOLLO_PLAYGROUND === 'true',
   },
-  port: process.env.PORT || defaultPort,
+  server: {
+    host: process.env.HOST || '0.0.0.0',
+    port: process.env.PORT || defaultPort,
+  },
   mongoUri: process.env.MONGO_URI || process.env.MONGODB_URI,
   jwtSecret: process.env.JWT_SECRET,
   defaultAdmin: {

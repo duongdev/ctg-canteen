@@ -4,6 +4,7 @@ import { makeStyles } from '@material-ui/core'
 import AppBar from 'components/AppBar'
 import CreateUser from 'components/CreateUser'
 import Drawer from 'components/Drawer';
+import ImportUsers from 'components/ImportUsers';
 import UserList from 'components/UserList'
 import { Route, Switch } from 'react-router-dom'
 
@@ -29,6 +30,7 @@ const Dashboard: FC = (props) => {
         <Switch>
           <Route path="/dashboard/users" exact component={UserList} />
           <Route path="/dashboard/users/create" component={CreateUser} />
+          <Route path="/dashboard/users/import" component={ImportUsers} />
         </Switch>
       </div>
     </>
