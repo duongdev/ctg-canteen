@@ -1,5 +1,6 @@
 import { createUser } from 'functions/users/user.services'
 import { mockingooseResetAll } from 'helpers/test-helpers'
+import { isEqual } from 'lodash'
 import mockingoose from 'mockingoose'
 import UserModel from 'models/User'
 
@@ -312,48 +313,101 @@ describe('Test createUser service', () => {
     }
   })
 
-  /** It conflict with "tài khoản đã được sử dụng",
-   * because the user data has return by mockingoose
-   */
-  // it('should throw error if checkerId has assigned to an existing user', async () => {
-  //   const existedUser = {
-  //     username: 'existed_username',
-  //     birthdate: new Date().toISOString(),
-  //     boardingRoom: 'Phòng 202',
-  //     checkerId: '09010002391121',
-  //     class: 'math',
-  //     group: 'boarding',
-  //     password: 'password',
-  //     hometown: 'Nghệ An',
-  //     schoolYear: 2013,
-  //     name: 'Nguyễn Văn A',
-  //     sex: 'male',
-  //   }
+  it('should throw error if checkerId already used and overrideCheckerId option is not specified', async () => {
+    const assignedCheckerIdUser = {
+      username: 'assigned_username',
+      birthdate: new Date().toISOString(),
+      boardingRoom: 'Phòng 202',
+      checkerId: '09010002391121',
+      class: 'math',
+      group: 'boarding',
+      password: 'password',
+      hometown: 'Nghệ An',
+      schoolYear: 2013,
+      name: 'Nguyễn Văn A',
+      sex: 'male',
+    }
 
-  //   const user = {
-  //     username: 'test_username',
-  //     birthdate: new Date().toISOString(),
-  //     boardingRoom: 'Phòng 202',
-  //     checkerId: '09010002391121',
-  //     class: 'math',
-  //     group: 'boarding',
-  //     password: 'password',
-  //     hometown: 'Nghệ An',
-  //     schoolYear: 2013,
-  //     name: 'Nguyễn Văn A',
-  //     sex: 'male',
-  //   }
+    const user = {
+      username: 'test_username',
+      birthdate: new Date().toISOString(),
+      boardingRoom: 'Phòng 202',
+      checkerId: '09010002391121',
+      class: 'math',
+      group: 'boarding',
+      password: 'password',
+      hometown: 'Nghệ An',
+      schoolYear: 2013,
+      name: 'Nguyễn Văn A',
+      sex: 'male',
+    }
 
-  //   mockingoose(UserModel).toReturn(existedUser, 'findOne')
-  //   mockingoose(UserModel).toReturn(user, 'save')
+    mockingoose(UserModel).toReturn((query) => {
+      const queryOptions = (query as any).getQuery()
+      if (isEqual(queryOptions, { checkerId: '09010002391121' })) {
+        return assignedCheckerIdUser
+      }
 
-  //   try {
-  //     await createUser(user as any)
-  //   } catch (error) {
-  //     expect.assertions(1)
-  //     expect(error.message).toEqual('checkerId đã được sử dụng')
-  //   }
-  // })
+      return null
+    }, 'findOne')
+    mockingoose(UserModel).toReturn(user, 'save')
+
+    try {
+      await createUser(user)
+    } catch (error) {
+      expect.assertions(1)
+      expect(error.message).toEqual('checkerId already used')
+    }
+  })
+
+  it('should return created user and overriddenCheckerIdUser correctly if overrideCheckerId option is true', async () => {
+    const assignedCheckerIdUser = {
+      username: 'assigned_username',
+      birthdate: new Date().toISOString(),
+      boardingRoom: 'Phòng 202',
+      checkerId: '09010002391121',
+      class: 'math',
+      group: 'boarding',
+      password: 'password',
+      hometown: 'Nghệ An',
+      schoolYear: 2013,
+      name: 'Nguyễn Văn A',
+      sex: 'male',
+    }
+
+    const user = {
+      username: 'test_username',
+      birthdate: new Date().toISOString(),
+      boardingRoom: 'Phòng 202',
+      checkerId: '09010002391121',
+      class: 'math',
+      group: 'boarding',
+      password: 'password',
+      hometown: 'Nghệ An',
+      schoolYear: 2013,
+      name: 'Nguyễn Văn A',
+      sex: 'male',
+    }
+
+    mockingoose(UserModel).toReturn(
+      { ...assignedCheckerIdUser, checkerId: null },
+      'findOneAndUpdate',
+    )
+    mockingoose(UserModel).toReturn(user, 'save')
+
+    const data = await createUser(user, { overrideCheckerId: true })
+    expect(data).toMatchObject({
+      createdUser: {
+        ...user,
+        birthdate: new Date(user.birthdate),
+      },
+      overriddenCheckerIdUser: {
+        ...assignedCheckerIdUser,
+        birthdate: new Date(assignedCheckerIdUser.birthdate),
+        checkerId: null,
+      },
+    })
+  })
 
   it('should throw error if the username has been taken', async () => {
     const user = {
@@ -377,37 +431,11 @@ describe('Test createUser service', () => {
       await createUser(user as any)
     } catch (error) {
       expect.assertions(1)
-      expect(error.message).toEqual('tài khoản đã được sử dụng')
+      expect(error.message).toEqual('username has been taken')
     }
   })
 
-  it('should throw error if has username user and username already exist', async () => {
-    const user = {
-      username: 'test_username',
-      birthdate: new Date().toISOString(),
-      boardingRoom: 'Phòng 202',
-      checkerId: '09010002391121',
-      class: 'math',
-      group: 'boarding',
-      password: 'password',
-      hometown: 'Nghệ An',
-      schoolYear: 2013,
-      name: 'Nguyễn Văn A',
-      sex: 'male',
-    }
-
-    mockingoose(UserModel).toReturn(user, 'findOne')
-    mockingoose(UserModel).toReturn(user, 'save')
-
-    try {
-      await createUser(user as any)
-    } catch (error) {
-      expect.assertions(1)
-      expect(error.message).toEqual('tài khoản đã được sử dụng')
-    }
-  })
-
-  it('should return created user correctly if the username does not exist', async () => {
+  it('should return created user correctly', async () => {
     expect.assertions(1)
     const user = {
       username: 'test_username',
@@ -425,8 +453,10 @@ describe('Test createUser service', () => {
 
     mockingoose(UserModel).toReturn(user, 'save')
 
-    const data = await createUser(user as any)
+    const data = await createUser(user)
 
-    expect(data).toMatchObject({ ...user, birthdate: new Date(user.birthdate) })
+    expect(data).toMatchObject({
+      createdUser: { ...user, birthdate: new Date(user.birthdate) },
+    })
   })
 })

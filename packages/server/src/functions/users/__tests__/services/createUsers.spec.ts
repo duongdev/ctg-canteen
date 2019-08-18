@@ -356,7 +356,7 @@ describe('Test createUsers service', () => {
 
     expect(data).toEqual({
       importedUsers: [],
-      overriddenUsers: [],
+      overriddenCheckerIdUsers: [],
       notImportedUsers: [
         {
           user,
@@ -403,11 +403,11 @@ describe('Test createUsers service', () => {
     mockingoose(UserModel).toReturn((query) => {
       const queryOptions = (query as any).getQuery()
       if (isEqual(queryOptions, { checkerId: '09010002391121' })) {
-        return existedUser
+        return { ...existedUser, checkerId: null, }
       }
 
       if (isEqual(queryOptions, { username: 'test_username' })) {
-        return { ...user, id: createdUserId, _id: createdUserId }
+        return { ...user,  id: createdUserId, _id: createdUserId }
       }
 
       return {}
@@ -426,12 +426,7 @@ describe('Test createUsers service', () => {
         },
       ],
       notImportedUsers: [],
-      overriddenUsers: [
-        {
-          user: existedUser,
-          reason: 'checkerId has been taken by other one',
-        },
-      ],
+      overriddenCheckerIdUsers: [{ ...existedUser, checkerId: null, }],
     })
   })
 

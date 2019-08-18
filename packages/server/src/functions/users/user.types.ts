@@ -15,6 +15,6 @@ export type CreateUserInput = {
   password?: IUser['password']
 }
 
-export type CreateUsersOptions = {
+export type CreateUserOptions = {
   overrideCheckerId?: boolean
 }

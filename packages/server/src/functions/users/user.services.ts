@@ -3,14 +3,13 @@ import bluebird from 'bluebird'
 import Chance from 'chance'
 import Debug from 'debug'
 import { environment } from 'environment'
-import { CreateUserInput, CreateUsersOptions } from 'functions/users/user.types'
+import { CreateUserInput, CreateUserOptions } from 'functions/users/user.types'
 import {
   createUsersValidation,
   createUserValidation,
 } from 'functions/users/user.validations'
 import { verify } from 'jsonwebtoken'
 import UserModel, { IUser } from 'models/User'
-import moment from 'moment'
 import { string2Date } from 'utils/string'
 
 const chance = new Chance()
@@ -63,7 +62,12 @@ export const getUserFromToken = async (token: string) => {
   }
 }
 
-export const createUser = async (user: CreateUserInput) => {
+export const createUser = async (
+  user: CreateUserInput,
+  { overrideCheckerId = false }: CreateUserOptions = {
+    overrideCheckerId: false,
+  },
+) => {
   await createUserValidation.validate(user)
 
   const existedUser = await UserModel.findOne({
@@ -71,16 +75,32 @@ export const createUser = async (user: CreateUserInput) => {
   }).exec()
 
   if (existedUser) {
-    throw new Error('tài khoản đã được sử dụng')
+    throw new Error('username has been taken')
   }
 
-  const assignedUser = await UserModel.findOne({
-    checkerId: user.checkerId,
-  }).exec()
+  if (!overrideCheckerId) {
+    const assignedUser = await UserModel.findOne({
+      checkerId: user.checkerId,
+    }).exec()
 
-  if (assignedUser) {
-    throw new Error('checkerId đã được sử dụng')
+    if (assignedUser) {
+      throw new Error('checkerId already used')
+    }
   }
+
+  const overriddenCheckerIdUser = await UserModel.findOneAndUpdate(
+    {
+      checkerId: user.checkerId,
+    },
+    {
+      $set: {
+        checkerId: null,
+      },
+    },
+    {
+      new: true,
+    },
+  )
 
   const createdUser = await UserModel.create({
     ...user,
@@ -88,12 +108,15 @@ export const createUser = async (user: CreateUserInput) => {
     password: bcrypt.hashSync(user.password, 2),
   })
 
-  return createdUser.toJSON()
+  return {
+    createdUser: createdUser.toJSON(),
+    overriddenCheckerIdUser: overriddenCheckerIdUser && overriddenCheckerIdUser.toJSON(),
+  }
 }
 
 export const createUsers = async (
   Users: CreateUserInput[],
-  { overrideCheckerId = false }: CreateUsersOptions = {
+  { overrideCheckerId = false }: CreateUserOptions = {
     overrideCheckerId: false,
   },
 ) => {
@@ -103,14 +126,11 @@ export const createUsers = async (
     reason: string
   }[] = []
 
-  const overriddenUsers: {
-    user: IUser
-    reason: string
-  }[] = []
+  const overriddenCheckerIdUsers: IUser[] = []
 
   const importedUsers = (await bluebird.map(Users, async (user) => {
     if (overrideCheckerId) {
-      const assignedUser = await UserModel.findOneAndUpdate(
+      const overriddenCheckerIdUser = await UserModel.findOneAndUpdate(
         {
           checkerId: user.checkerId,
         },
@@ -125,13 +145,10 @@ export const createUsers = async (
       ).exec()
 
       if (
-        assignedUser &&
-        assignedUser.username.toString() !== user.username.toString()
+        overriddenCheckerIdUser &&
+        overriddenCheckerIdUser.username.toString() !== user.username.toString()
       ) {
-        overriddenUsers.push({
-          user: assignedUser.toJSON(),
-          reason: 'checkerId has been taken by other one',
-        })
+        overriddenCheckerIdUsers.push(overriddenCheckerIdUser.toJSON())
       }
     } else {
       const assignedUser = await UserModel.findOne({
@@ -165,5 +182,5 @@ export const createUsers = async (
     return createdOrUpdatedUser.toJSON()
   })).filter((user) => user)
 
-  return { importedUsers, notImportedUsers, overriddenUsers }
+  return { importedUsers, notImportedUsers, overriddenCheckerIdUsers }
 }
