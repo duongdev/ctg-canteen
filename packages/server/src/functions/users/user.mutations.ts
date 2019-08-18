@@ -9,7 +9,7 @@ import { pick } from 'lodash'
 import UserModel from 'models/User'
 import { fileStorage } from 'utils/file-storage'
 import { EXCEL_MIMETYPES, readExcelFile } from 'utils/xlsx'
-import { createStudents } from './user.services'
+import { createUsers } from './user.services'
 import { CreateUserInput } from './user.types'
 
 const debug = Debug('app:users:resolvers')
@@ -50,10 +50,12 @@ export const importStudents = createResolver({
 
     const students = readExcelFile(filePath) as CreateUserInput[]
 
-    const { importedStudents, notImportedStudents } = await createStudents(
-      students,
-    )
+    const {
+      importedUsers,
+      notImportedUsers,
+      overriddenCheckerIdUsers,
+    } = await createUsers(students)
 
-    return { importedStudents, notImportedStudents }
+    return { importedUsers, notImportedUsers, overriddenCheckerIdUsers }
   },
 })
