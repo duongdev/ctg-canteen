@@ -19,18 +19,18 @@ export const USER_FRAGMENT = gql`
 
 export const IMPORT_USERS = gql`
   mutation ImportUsers($file: Upload!) {
-    importUsers: importStudents(file: $file) {
-      importedUsers: importedStudents {
+    importUsers(file: $file) {
+      importedUsers {
         id
         username
       }
-      notImportedUsers: notImportedStudents {
-        user: student {
-          ...UserFragment
+      notImportedUsers {
+        user {
+          username
+          checkerId
         }
         reason
       }
     }
   }
-  ${USER_FRAGMENT}
 `

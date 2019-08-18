@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from 'react'
+import React, { FC, useCallback, useState } from 'react'
 
 import { useMutation } from '@apollo/react-hooks'
 import {
@@ -18,10 +18,18 @@ import PageTitle from 'components/shared/PageTitle'
 import { FileExcel, Upload } from 'mdi-material-ui'
 import numeral from 'numeral'
 import { useDropzone } from 'react-dropzone'
+import JSONTree from 'react-json-tree'
 import { Link } from 'react-router-dom'
 import IUser from 'typings/User'
 
 type ImportUsersProps = {}
+type NotImportedUser = {
+  user: {
+    username: IUser['username']
+    checkerId: IUser['checkerId']
+  }
+  reason: string
+}
 
 const ImportUsers: React.FC<ImportUsersProps> = (props) => {
   // const loading = true
@@ -29,7 +37,10 @@ const ImportUsers: React.FC<ImportUsersProps> = (props) => {
   const classes = useStyles(props)
   const [file, setFile] = useState<File | null>(null)
   const [upload, { data, error, loading }] = useMutation<{
-    importUsers: { importedUsers: IUser[] }
+    importUsers: {
+      importedUsers: IUser[]
+      notImportedUsers: NotImportedUser[]
+    }
   }>(IMPORT_USERS)
   const onDrop = useCallback(
     (acceptedFiles) => {
@@ -50,9 +61,12 @@ const ImportUsers: React.FC<ImportUsersProps> = (props) => {
   }, [open])
 
   const handleUpload = useCallback(async () => {
+    console.log('handleUpload', file)
     await upload({ variables: { file } })
     setFile(null)
   }, [file, upload])
+
+  console.log({ data, error })
 
   return (
     <ContentContainer maxWidth="sm">
@@ -104,24 +118,35 @@ const ImportUsers: React.FC<ImportUsersProps> = (props) => {
         <Grid item>
           <Grid container spacing={1} direction="column">
             <Grid item>{loading && <LinearProgress />}</Grid>
-            {data &&
+            {!!(
+              data &&
               data.importUsers &&
               data.importUsers.importedUsers &&
-              data.importUsers.importedUsers.length && (
-                <Grid item>
-                  <Typography className={classes.success}>
-                    Đã tạo thành công{' '}
-                    <strong>{data.importUsers.importedUsers.length}</strong>{' '}
-                    người dùng.{' '}
-                    <Link to="/dashboard/users">
-                      <strong>[Xem danh sách]</strong>
-                    </Link>
-                  </Typography>
+              data.importUsers.importedUsers.length
+            ) && (
+              <Grid item>
+                <Typography className={classes.success}>
+                  Đã import thành công{' '}
+                  <strong>{data.importUsers.importedUsers.length}</strong> người
+                  dùng.{' '}
+                  <Link to="/dashboard/users">
+                    <strong>[Xem danh sách]</strong>
+                  </Link>
+                </Typography>
+              </Grid>
+            )}
+            {!!(
+              data &&
+              data.importUsers &&
+              data.importUsers.notImportedUsers &&
+              data.importUsers.notImportedUsers.length
+            ) &&
+              data.importUsers.notImportedUsers.map((notImportedUser, idx) => (
+                <Grid item key={idx}>
+                  <NotImportedUser notImportedUser={notImportedUser} />
                 </Grid>
-              )}
-            {error &&
-              error.graphQLErrors &&
-              error.graphQLErrors.length &&
+              ))}
+            {!!(error && error.graphQLErrors && error.graphQLErrors.length) &&
               error.graphQLErrors.map((graphQLError, idx) => (
                 <Grid item key={idx}>
                   <div className={classes.graphQLError}>
@@ -135,6 +160,29 @@ const ImportUsers: React.FC<ImportUsersProps> = (props) => {
         </Grid>
       </Grid>
     </ContentContainer>
+  )
+}
+
+const NotImportedUser: FC<{ notImportedUser: NotImportedUser }> = ({
+  notImportedUser,
+}) => {
+  const classes = useStyles()
+  const [showError, setShowError] = useState(false)
+
+  const toggleShowError = useCallback(() => {
+    setShowError(!showError)
+  }, [showError, setShowError])
+
+  return (
+    <div className={classes.graphQLError}>
+      <Typography color="error">
+        {notImportedUser.reason}{' '}
+        <strong onClick={toggleShowError} style={{ cursor: 'pointer' }}>
+          [Chi tiết]
+        </strong>
+      </Typography>
+      {showError && <JSONTree data={notImportedUser.user} hideRoot />}
+    </div>
   )
 }
 

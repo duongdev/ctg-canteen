@@ -45,7 +45,7 @@ export const signIn = async (
 
 // TODO: Write unit tests for graphql file uploading.
 // TODO: Only admins can use this mutation.
-export const importStudents = createResolver({
+export const importUsers = createResolver({
   resolve: async (_parent, { file }: { file: FileUpload }) => {
     const filePath = await fileStorage(file, EXCEL_MIMETYPES)
 
