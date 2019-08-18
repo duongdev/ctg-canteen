@@ -18,3 +18,7 @@ export type CreateUserInput = {
 export type CreateUserOptions = {
   overrideCheckerId?: boolean
 }
+
+export type CreateUsersOptions = {
+  overrideCheckerIds?: boolean
+}

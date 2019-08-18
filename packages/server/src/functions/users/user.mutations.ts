@@ -46,7 +46,13 @@ export const signIn = async (
 // TODO: Write unit tests for graphql file uploading.
 // TODO: Only admins can use this mutation.
 export const importUsers = createResolver({
-  resolve: async (_parent, { file }: { file: FileUpload }) => {
+  resolve: async (
+    _parent,
+    {
+      file,
+      overrideCheckerIds = false,
+    }: { file: FileUpload; overrideCheckerIds?: boolean },
+  ) => {
     const filePath = await fileStorage(file, EXCEL_MIMETYPES)
 
     const users = readExcelFile(filePath) as CreateUserInput[]
@@ -55,7 +61,7 @@ export const importUsers = createResolver({
       importedUsers,
       notImportedUsers,
       overriddenCheckerIdUsers,
-    } = await createUsers(users)
+    } = await createUsers(users, { overrideCheckerIds })
 
     // TODO: Remove uploaded file after all.
     return { importedUsers, notImportedUsers, overriddenCheckerIdUsers }

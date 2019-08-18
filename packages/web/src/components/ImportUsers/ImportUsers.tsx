@@ -62,12 +62,9 @@ const ImportUsers: React.FC<ImportUsersProps> = (props) => {
   }, [open])
 
   const handleUpload = useCallback(async () => {
-    console.log('handleUpload', file)
     await upload({ variables: { file, overrideCheckerIds } })
     setFile(null)
   }, [file, upload, overrideCheckerIds])
-
-  console.log({ data, error })
 
   return (
     <ContentContainer maxWidth="sm">
