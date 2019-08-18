@@ -20,6 +20,7 @@ import numeral from 'numeral'
 import { useDropzone } from 'react-dropzone'
 import JSONTree from 'react-json-tree'
 import { Link } from 'react-router-dom'
+import { ERROR_BACKGROUND, SUCCESS_BACKGROUND } from 'theme'
 import IUser from 'typings/User'
 
 type ImportUsersProps = {}
@@ -194,13 +195,13 @@ const NotImportedUser: FC<{ notImportedUser: NotImportedUser }> = ({
 const useStyles = makeStyles(({ spacing, palette, shape }) => ({
   graphQLError: {
     padding: spacing(1, 2),
-    backgroundColor: '#e573730f',
+    backgroundColor: ERROR_BACKGROUND,
     border: `solid 1px ${palette.error.dark}`,
     borderRadius: shape.borderRadius,
   },
   success: {
     padding: spacing(1, 2),
-    backgroundColor: green.A100,
+    backgroundColor: SUCCESS_BACKGROUND,
     color: green[700],
     border: `solid 1px ${green[700]}`,
     borderRadius: shape.borderRadius,

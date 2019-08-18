@@ -10,6 +10,7 @@ import {
 } from '@material-ui/core'
 import { ButtonProps } from '@material-ui/core/Button'
 import { AdapterLink } from 'components/shared/LinkButton'
+import useAuth from 'hooks/useAuth'
 import { Account, ExitToApp } from 'mdi-material-ui'
 
 type AppBarUserProps = {}
@@ -19,6 +20,7 @@ const AppBarUser: React.FC<AppBarUserProps> = (props) => {
 
   const [anchorEl, setAnchorEl] = useState<any>(null)
   const [open, setOpen] = useState(false)
+  const { user, signOut } = useAuth()
 
   const handleOpen: ButtonProps['onClick'] = (event) => {
     setAnchorEl(event.currentTarget)
@@ -29,10 +31,12 @@ const AppBarUser: React.FC<AppBarUserProps> = (props) => {
     setOpen(false)
   }
 
+  if (!user) return null
+
   return (
     <>
       <Button variant="outlined" onClick={handleOpen}>
-        Dương Đỗ
+        {user.name || user.username}
         <Avatar className={classes.avatar}>
           <Account />
         </Avatar>
@@ -70,7 +74,7 @@ const AppBarUser: React.FC<AppBarUserProps> = (props) => {
           </ListItemIcon>
           Tài khoản
         </MenuItem>
-        <MenuItem component={AdapterLink} to="/sign-in" onClick={handleClose}>
+        <MenuItem onClick={signOut}>
           <ListItemIcon>
             <ExitToApp />
           </ListItemIcon>
