@@ -3,14 +3,13 @@ import bluebird from 'bluebird'
 import Chance from 'chance'
 import Debug from 'debug'
 import { environment } from 'environment'
-import { CreateUserInput } from 'functions/users/user.types'
+import { CreateUserInput, CreateUserOptions } from 'functions/users/user.types'
 import {
-  createStudentsValidation,
+  createUsersValidation,
   createUserValidation,
 } from 'functions/users/user.validations'
 import { verify } from 'jsonwebtoken'
 import UserModel, { IUser } from 'models/User'
-import moment from 'moment'
 import { string2Date } from 'utils/string'
 
 const chance = new Chance()
@@ -63,7 +62,12 @@ export const getUserFromToken = async (token: string) => {
   }
 }
 
-export const createUser = async (user: CreateUserInput) => {
+export const createUser = async (
+  user: CreateUserInput,
+  { overrideCheckerId = false }: CreateUserOptions = {
+    overrideCheckerId: false,
+  },
+) => {
   await createUserValidation.validate(user)
 
   const existedUser = await UserModel.findOne({
@@ -71,16 +75,32 @@ export const createUser = async (user: CreateUserInput) => {
   }).exec()
 
   if (existedUser) {
-    throw new Error('tài khoản đã được sử dụng')
+    throw new Error('username has been taken')
   }
 
-  const assignedUser = await UserModel.findOne({
-    checkerId: user.checkerId,
-  }).exec()
+  if (!overrideCheckerId) {
+    const assignedUser = await UserModel.findOne({
+      checkerId: user.checkerId,
+    }).exec()
 
-  if (assignedUser) {
-    throw new Error('checkerId đã được sử dụng')
+    if (assignedUser) {
+      throw new Error('checkerId already used')
+    }
   }
+
+  const overriddenCheckerIdUser = await UserModel.findOneAndUpdate(
+    {
+      checkerId: user.checkerId,
+    },
+    {
+      $set: {
+        checkerId: null,
+      },
+    },
+    {
+      new: true,
+    },
+  )
 
   const createdUser = await UserModel.create({
     ...user,
@@ -88,46 +108,80 @@ export const createUser = async (user: CreateUserInput) => {
     password: bcrypt.hashSync(user.password, 2),
   })
 
-  return createdUser.toJSON()
+  return {
+    createdUser: createdUser.toJSON(),
+    overriddenCheckerIdUser:
+      overriddenCheckerIdUser && overriddenCheckerIdUser.toJSON(),
+  }
 }
 
-export const createStudents = async (students: CreateUserInput[]) => {
-  await createStudentsValidation.validate(students)
-  const notImportedStudents: {
-    student: CreateUserInput
+export const createUsers = async (
+  Users: CreateUserInput[],
+  { overrideCheckerId = false }: CreateUserOptions = {
+    overrideCheckerId: false,
+  },
+) => {
+  await createUsersValidation.validate(Users)
+  const notImportedUsers: {
+    user: CreateUserInput
     reason: string
   }[] = []
 
-  const importedStudents = (await bluebird.map(students, async (student) => {
-    const assignedStudent = await UserModel.findOne({
-      checkerId: student.checkerId,
-    }).exec()
+  const overriddenCheckerIdUsers: IUser[] = []
 
-    if (
-      assignedStudent &&
-      assignedStudent.username.toString() !== student.username.toString()
-    ) {
-      notImportedStudents.push({
-        student,
-        reason: 'checkerId đã được sử dụng',
-      })
+  const importedUsers = (await bluebird.map(Users, async (user) => {
+    if (overrideCheckerId) {
+      const overriddenCheckerIdUser = await UserModel.findOneAndUpdate(
+        {
+          checkerId: user.checkerId,
+        },
+        {
+          $set: {
+            checkerId: null,
+          },
+        },
+        {
+          new: true,
+        },
+      ).exec()
 
-      return
+      if (
+        overriddenCheckerIdUser &&
+        overriddenCheckerIdUser.username.toString() !== user.username.toString()
+      ) {
+        overriddenCheckerIdUsers.push(overriddenCheckerIdUser.toJSON())
+      }
+    } else {
+      const assignedUser = await UserModel.findOne({
+        checkerId: user.checkerId,
+      }).exec()
+
+      if (
+        assignedUser &&
+        assignedUser.username.toString() !== user.username.toString()
+      ) {
+        notImportedUsers.push({
+          user,
+          reason: 'checkerId already used',
+        })
+
+        return
+      }
     }
 
-    const createdOrUpdatedStudent = await UserModel.findOneAndUpdate(
-      { username: student.username },
+    const createdOrUpdatedUser = await UserModel.findOneAndUpdate(
+      { username: user.username },
       {
-        ...student,
-        birthdate: string2Date(student.birthdate),
-        roles: ['student'],
-        password: bcrypt.hashSync(student.username.toString(), 2),
+        ...user,
+        birthdate: string2Date(user.birthdate),
+        roles: ['User'],
+        password: bcrypt.hashSync(user.username.toString(), 2),
       },
       { new: true, upsert: true },
     ).exec()
 
-    return createdOrUpdatedStudent.toJSON()
-  })).filter((student) => student)
+    return createdOrUpdatedUser.toJSON()
+  })).filter((user) => user)
 
-  return { importedStudents, notImportedStudents }
+  return { importedUsers, notImportedUsers, overriddenCheckerIdUsers }
 }

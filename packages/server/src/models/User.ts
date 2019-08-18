@@ -73,7 +73,7 @@ export class User extends Typegoose {
   })
   roles: string[]
 
-  @prop({ index: true })
+  @prop({ index: true, unique: true, sparse: true })
   checkerId: string
 
   @prop({ required: true })

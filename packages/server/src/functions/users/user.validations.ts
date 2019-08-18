@@ -3,8 +3,8 @@ import moment from 'moment'
 import * as yup from 'yup'
 
 /** date string format must be MM/DD/YYYY */
-yup.addMethod(yup.date, 'format', function (formats, parseStrict) {
-  return this.transform(function (value, originalValue) {
+yup.addMethod(yup.date, 'format', function(formats, parseStrict) {
+  return this.transform(function(value, originalValue) {
     if (this.isType(value)) return value
     try {
       const newValue = moment(
@@ -61,7 +61,7 @@ const baseUserValidation = yup.object().shape({
 
 export const createUserValidation = baseUserValidation.required()
 
-export const createStudentsValidation = yup
+export const createUsersValidation = yup
   .array()
   .of(
     yup

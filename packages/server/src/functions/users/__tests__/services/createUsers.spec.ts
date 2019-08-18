@@ -1,15 +1,16 @@
 import bcrypt from 'bcryptjs'
-import { createStudents } from 'functions/users/user.services'
-import { mockingooseResetAll } from 'helpers/test-helpers'
+import { createUsers } from 'functions/users/user.services'
+import { getObjectId, mockingooseResetAll } from 'helpers/test-helpers'
+import { isEqual } from 'lodash'
 import mockingoose from 'mockingoose'
 import UserModel from 'models/User'
 
-describe('Test createStudents service', () => {
+describe('Test createUsers service', () => {
   beforeEach(mockingooseResetAll)
 
   it('should throw an error if the user data is empty', async () => {
     try {
-      await createStudents([])
+      await createUsers([])
     } catch (error) {
       expect.assertions(1)
       expect(error.message).toEqual('this field must have at least 1 items')
@@ -31,7 +32,7 @@ describe('Test createStudents service', () => {
           sex: 'male',
         },
       ]
-      await createStudents(mockUserList as any)
+      await createUsers(mockUserList as any)
     } catch (error) {
       expect.assertions(1)
       expect(error.message).toEqual('[0].username is a required field')
@@ -54,7 +55,7 @@ describe('Test createStudents service', () => {
           sex: 'male',
         },
       ]
-      await createStudents(mockUserList as any)
+      await createUsers(mockUserList as any)
     } catch (error) {
       expect.assertions(1)
       expect(error.message).toEqual('[0].birthdate is a required field')
@@ -77,7 +78,7 @@ describe('Test createStudents service', () => {
           sex: 'male',
         },
       ]
-      await createStudents(mockUserList as any)
+      await createUsers(mockUserList as any)
     } catch (error) {
       expect.assertions(1)
       expect(error.message).toEqual('[0].class is a required field')
@@ -100,7 +101,7 @@ describe('Test createStudents service', () => {
           sex: 'male',
         },
       ]
-      await createStudents(mockUserList as any)
+      await createUsers(mockUserList as any)
     } catch (error) {
       expect.assertions(1)
       expect(error.message).toEqual(
@@ -125,7 +126,7 @@ describe('Test createStudents service', () => {
           sex: 'male',
         },
       ]
-      await createStudents(mockUserList as any)
+      await createUsers(mockUserList as any)
     } catch (error) {
       expect.assertions(1)
       expect(error.message).toEqual('[0].group is a required field')
@@ -148,7 +149,7 @@ describe('Test createStudents service', () => {
           sex: 'male',
         },
       ]
-      await createStudents(mockUserList as any)
+      await createUsers(mockUserList as any)
     } catch (error) {
       expect.assertions(1)
       expect(error.message).toEqual('[0].hometown is a required field')
@@ -171,7 +172,7 @@ describe('Test createStudents service', () => {
           sex: 'male',
         },
       ]
-      await createStudents(mockUserList as any)
+      await createUsers(mockUserList as any)
     } catch (error) {
       expect.assertions(1)
       expect(error.message).toEqual('[0].schoolYear is a required field')
@@ -194,7 +195,7 @@ describe('Test createStudents service', () => {
           sex: 'male',
         },
       ]
-      await createStudents(mockUserList as any)
+      await createUsers(mockUserList as any)
     } catch (error) {
       expect.assertions(1)
       expect(error.message).toEqual('[0].name is a required field')
@@ -217,7 +218,7 @@ describe('Test createStudents service', () => {
           // sex: 'male',
         },
       ]
-      await createStudents(mockUserList as any)
+      await createUsers(mockUserList as any)
     } catch (error) {
       expect.assertions(1)
       expect(error.message).toEqual('[0].sex is a required field')
@@ -240,7 +241,7 @@ describe('Test createStudents service', () => {
           sex: 'incorrect',
         },
       ]
-      await createStudents(mockUserList as any)
+      await createUsers(mockUserList as any)
     } catch (error) {
       expect.assertions(1)
       expect(error.message).toEqual(
@@ -265,7 +266,7 @@ describe('Test createStudents service', () => {
           sex: 'male',
         },
       ]
-      await createStudents(mockUserList as any)
+      await createUsers(mockUserList as any)
     } catch (error) {
       expect.assertions(1)
       expect(error.message).toEqual(
@@ -290,7 +291,7 @@ describe('Test createStudents service', () => {
           sex: 'male',
         },
       ]
-      await createStudents(mockUserList as any)
+      await createUsers(mockUserList as any)
     } catch (error) {
       expect.assertions(1)
 
@@ -315,12 +316,12 @@ describe('Test createStudents service', () => {
 
     mockingoose(UserModel).toReturn(user, 'findOneAndUpdate')
 
-    const createdStudent = await createStudents([user])
+    const createdStudent = await createUsers([user])
 
-    expect(createdStudent.importedStudents[0].roles).toEqual(['student'])
+    expect(createdStudent.importedUsers[0].roles).toEqual(['student'])
   })
 
-  it('should return a list of user has not been created if checkerId has assigned to an existing user', async () => {
+  it('should return a list of user has not been created if checkerId has assigned to an existing user and overrideCheckerId is false', async () => {
     expect.assertions(1)
     const existedUser = {
       username: 'existed_username',
@@ -351,16 +352,81 @@ describe('Test createStudents service', () => {
     mockingoose(UserModel).toReturn(existedUser, 'findOne')
     mockingoose(UserModel).toReturn(user, 'findOneAndUpdate')
 
-    const data = await createStudents([user])
+    const data = await createUsers([user])
 
     expect(data).toEqual({
-      importedStudents: [],
-      notImportedStudents: [
+      importedUsers: [],
+      overriddenCheckerIdUsers: [],
+      notImportedUsers: [
         {
-          student: user,
-          reason: 'checkerId đã được sử dụng',
+          user,
+          reason: 'checkerId already used',
         },
       ],
+    })
+  })
+
+  it('should return a list of user has been created and a list of user has been overridden checkerId if checkerId has assigned to an existing user and overrideCheckerId is true', async () => {
+    expect.assertions(1)
+    const existedUserId = getObjectId()
+    const existedUser = {
+      _id: existedUserId,
+      id: existedUserId.toHexString(),
+      username: 'existed_username',
+      birthdate: new Date(),
+      boardingRoom: 'Phòng 202',
+      checkerId: '09010002391121',
+      class: 'history',
+      group: 'boarding',
+      hometown: 'Nghệ An',
+      schoolYear: 2013,
+      name: 'Nguyễn Văn A',
+      sex: 'male',
+      roles: ['student'],
+    }
+
+    const user = {
+      username: 'test_username',
+      birthdate: new Date().toISOString(),
+      boardingRoom: 'Phòng 202',
+      checkerId: '09010002391121',
+      class: 'history',
+      group: 'boarding',
+      hometown: 'Nghệ An',
+      schoolYear: 2013,
+      name: 'Nguyễn Văn A',
+      sex: 'male',
+    }
+
+    const createdUserId = getObjectId()
+
+    mockingoose(UserModel).toReturn((query) => {
+      const queryOptions = (query as any).getQuery()
+      if (isEqual(queryOptions, { checkerId: '09010002391121' })) {
+        return { ...existedUser, checkerId: null }
+      }
+
+      if (isEqual(queryOptions, { username: 'test_username' })) {
+        return { ...user, id: createdUserId, _id: createdUserId }
+      }
+
+      return {}
+    }, 'findOneAndUpdate')
+
+    const data = await createUsers([user], { overrideCheckerId: true })
+
+    expect(data).toEqual({
+      importedUsers: [
+        {
+          ...user,
+          id: createdUserId.toHexString(),
+          _id: createdUserId,
+          roles: ['student'],
+          birthdate: new Date(user.birthdate),
+        },
+      ],
+      notImportedUsers: [],
+      overriddenCheckerIdUsers: [{ ...existedUser, checkerId: null }],
     })
   })
 
@@ -390,9 +456,9 @@ describe('Test createStudents service', () => {
       'findOneAndUpdate',
     )
 
-    const data = await createStudents([user])
+    const data = await createUsers([user])
 
-    expect(data.importedStudents[0].password).toEqual(hashPass)
+    expect(data.importedUsers[0].password).toEqual(hashPass)
   })
 
   it('createdUser.password should be a hash of username by default', async () => {
@@ -420,9 +486,9 @@ describe('Test createStudents service', () => {
       'findOneAndUpdate',
     )
 
-    const data = await createStudents([user])
+    const data = await createUsers([user])
 
-    expect(data.importedStudents[0].password).toEqual(hashPass)
+    expect(data.importedUsers[0].password).toEqual(hashPass)
   })
 
   it('should return created or updated user correctly', async () => {
@@ -442,9 +508,9 @@ describe('Test createStudents service', () => {
 
     mockingoose(UserModel).toReturn(user, 'findOneAndUpdate')
 
-    const data = await createStudents([user])
+    const data = await createUsers([user])
 
-    expect(data.importedStudents[0]).toMatchObject({
+    expect(data.importedUsers[0]).toMatchObject({
       ...user,
       birthdate: new Date(user.birthdate),
     })
