@@ -14,8 +14,10 @@
     "formik": "1.5.8",
     "lodash": "4.17.15",
     "mdi-material-ui": "6.2.0",
+    "numeral": "2.0.6",
     "react": "16.8.6",
     "react-dom": "16.8.6",
+    "react-dropzone": "10.1.7",
     "react-helmet": "5.2.1",
     "react-router-dom": "5.0.1",
     "react-scripts": "3.0.1",
@@ -45,6 +47,7 @@
   },
   "devDependencies": {
     "@types/lodash": "4.14.137",
+    "@types/numeral": "0.0.26",
     "@types/react-helmet": "5.0.9",
     "@types/react-router-dom": "4.3.4",
     "@types/yup": "0.26.22"
