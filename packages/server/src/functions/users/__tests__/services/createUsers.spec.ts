@@ -156,7 +156,7 @@ describe('Test createUsers service', () => {
 
     mockingoose(UserModel).toReturn(user, 'findOneAndUpdate')
 
-    const createdStudent = await createUsers([user])
+    const createdStudent = await createUsers([user as any])
 
     expect(createdStudent.importedUsers[0].roles).toEqual(['student'])
   })
@@ -192,7 +192,7 @@ describe('Test createUsers service', () => {
     mockingoose(UserModel).toReturn(existedUser, 'findOne')
     mockingoose(UserModel).toReturn(user, 'findOneAndUpdate')
 
-    const data = await createUsers([user])
+    const data = await createUsers([user as any])
 
     expect(data).toEqual({
       importedUsers: [],
@@ -253,7 +253,7 @@ describe('Test createUsers service', () => {
       return {}
     }, 'findOneAndUpdate')
 
-    const data = await createUsers([user], { overrideCheckerIds: true })
+    const data = await createUsers([user as any], { overrideCheckerIds: true })
 
     expect(data).toEqual({
       importedUsers: [
@@ -296,7 +296,7 @@ describe('Test createUsers service', () => {
       'findOneAndUpdate',
     )
 
-    const data = await createUsers([user])
+    const data = await createUsers([user as any])
 
     expect(data.importedUsers[0].password).toEqual(hashPass)
   })
@@ -326,7 +326,7 @@ describe('Test createUsers service', () => {
       'findOneAndUpdate',
     )
 
-    const data = await createUsers([user])
+    const data = await createUsers([user as any])
 
     expect(data.importedUsers[0].password).toEqual(hashPass)
   })
@@ -348,7 +348,7 @@ describe('Test createUsers service', () => {
 
     mockingoose(UserModel).toReturn(user, 'findOneAndUpdate')
 
-    const data = await createUsers([user])
+    const data = await createUsers([user as any])
 
     expect(data.importedUsers[0]).toMatchObject({
       ...user,

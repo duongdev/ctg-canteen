@@ -191,7 +191,7 @@ describe('Test createUser service', () => {
     mockingoose(UserModel).toReturn(user, 'save')
 
     try {
-      await createUser(user)
+      await createUser(user as any)
     } catch (error) {
       expect.assertions(1)
       expect(error.message).toEqual('Mã máy chấm công đã được sử dụng')
@@ -233,7 +233,7 @@ describe('Test createUser service', () => {
     )
     mockingoose(UserModel).toReturn(user, 'save')
 
-    const data = await createUser(user, { overrideCheckerId: true })
+    const data = await createUser(user as any, { overrideCheckerId: true })
     expect(data).toMatchObject({
       createdUser: {
         ...user,
@@ -291,7 +291,7 @@ describe('Test createUser service', () => {
 
     mockingoose(UserModel).toReturn(user, 'save')
 
-    const data = await createUser(user)
+    const data = await createUser(user as any)
 
     expect(data).toMatchObject({
       createdUser: { ...user, birthdate: new Date(user.birthdate) },
