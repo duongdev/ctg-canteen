@@ -34,3 +34,18 @@ export const IMPORT_USERS = gql`
     }
   }
 `
+
+export const SIGN_IN = gql`
+  mutation SignIn($username: String!, $password: String!) {
+    signIn(username: $username, password: $password)
+  }
+`
+
+export const AUTHENTICATE = gql`
+  query Authenticate {
+    authenticate {
+      ...UserFragment
+    }
+  }
+  ${USER_FRAGMENT}
+`
