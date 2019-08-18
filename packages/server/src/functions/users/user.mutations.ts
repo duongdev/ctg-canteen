@@ -9,7 +9,7 @@ import { pick } from 'lodash'
 import UserModel from 'models/User'
 import { fileStorage } from 'utils/file-storage'
 import { EXCEL_MIMETYPES, readExcelFile } from 'utils/xlsx'
-import { createStudents } from './user.services'
+import { createUsers } from './user.services'
 import { CreateUserInput } from './user.types'
 
 const debug = Debug('app:users:resolvers')
@@ -44,16 +44,18 @@ export const signIn = async (
 }
 
 /** TODO: write unit testing for graphql file upload */
-export const importStudents = createResolver({
+export const importUsers = createResolver({
   resolve: async (_parent, { file }: { file: FileUpload }) => {
     const filePath = await fileStorage(file, EXCEL_MIMETYPES)
 
-    const students = readExcelFile(filePath) as CreateUserInput[]
+    const users = readExcelFile(filePath) as CreateUserInput[]
 
-    const { importedStudents, notImportedStudents } = await createStudents(
-      students,
-    )
+    const {
+      importedUsers,
+      notImportedUsers,
+      overriddenCheckerIdUsers,
+    } = await createUsers(users)
 
-    return { importedStudents, notImportedStudents }
+    return { importedUsers, notImportedUsers, overriddenCheckerIdUsers }
   },
 })
