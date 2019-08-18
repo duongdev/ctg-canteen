@@ -14,6 +14,8 @@ export default gql`
     class: String
     roles: [String]
     checkerId: String
+    createdAt: DateTime
+    updatedAt: DateTime
   }
 
   extend type Query {
