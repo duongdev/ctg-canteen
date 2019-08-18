@@ -43,7 +43,7 @@ export const signIn = async (
   return token
 }
 
-/** TODO: write unit testing for graphql file upload */
+// TODO: write unit testing for graphql file upload.
 export const importStudents = createResolver({
   resolve: async (_parent, { file }: { file: FileUpload }) => {
     const filePath = await fileStorage(file, EXCEL_MIMETYPES)
@@ -53,6 +53,8 @@ export const importStudents = createResolver({
     const { importedStudents, notImportedStudents } = await createStudents(
       students,
     )
+
+    // TODO: Remove uploaded file after all.
 
     return { importedStudents, notImportedStudents }
   },
