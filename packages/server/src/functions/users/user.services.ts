@@ -3,7 +3,11 @@ import bluebird from 'bluebird'
 import Chance from 'chance'
 import Debug from 'debug'
 import { environment } from 'environment'
-import { CreateUserInput, CreateUserOptions, CreateUsersOptions } from 'functions/users/user.types'
+import {
+  CreateUserInput,
+  CreateUserOptions,
+  CreateUsersOptions,
+} from 'functions/users/user.types'
 import {
   createUsersValidation,
   createUserValidation,
@@ -110,16 +114,28 @@ export const createUser = async (
 
   return {
     createdUser: createdUser.toJSON(),
-    overriddenCheckerIdUser: overriddenCheckerIdUser && overriddenCheckerIdUser.toJSON(),
+    overriddenCheckerIdUser:
+      overriddenCheckerIdUser && overriddenCheckerIdUser.toJSON(),
   }
 }
 
 export const createUsers = async (
+  createdByUserId: IUser['id'],
   Users: CreateUserInput[],
   { overrideCheckerIds = false }: CreateUsersOptions = {
     overrideCheckerIds: false,
   },
 ) => {
+  if (!createdByUserId) {
+    throw new Error('unauthorized')
+  }
+
+  const createdByUser = await UserModel.findById(createdByUserId).exec()
+
+  if (!createdByUser) {
+    throw new Error('unauthorized')
+  }
+
   await createUsersValidation.validate(Users)
   const notImportedUsers: {
     user: CreateUserInput
@@ -172,6 +188,7 @@ export const createUsers = async (
       { username: user.username },
       {
         ...user,
+        createdByUserId,
         birthdate: string2Date(user.birthdate),
         roles: ['User'],
         password: bcrypt.hashSync(user.username.toString(), 2),

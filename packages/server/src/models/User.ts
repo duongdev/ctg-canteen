@@ -81,8 +81,8 @@ export class User extends Typegoose {
   @prop({ index: true, unique: true, sparse: true })
   checkerId: string
 
-  // @prop({ ref: User })
-  // createdByUserId: Ref<User>
+  @prop({ ref: User })
+  createdByUserId: Ref<User>
 }
 
 export type IUser = InstanceType<User>

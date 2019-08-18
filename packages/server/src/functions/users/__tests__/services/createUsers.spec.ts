@@ -8,9 +8,36 @@ import UserModel from 'models/User'
 describe('Test createUsers service', () => {
   beforeEach(mockingooseResetAll)
 
+  it('should throw an error if createdByUser is not specified', async () => {
+    try {
+      await createUsers(null, [])
+    } catch (error) {
+      expect.assertions(1)
+      expect(error.message).toEqual('unauthorized')
+    }
+  })
+
+  it('should throw an error if createdByUser does not exist', async () => {
+    try {
+      await createUsers(getObjectId(), [])
+    } catch (error) {
+      expect.assertions(1)
+      expect(error.message).toEqual('unauthorized')
+    }
+  })
+
   it('should throw an error if the user data is empty', async () => {
     try {
-      await createUsers([])
+      const createdById = getObjectId()
+      const createdBy = {
+        id: createdById.toHexString(),
+        _id: createdById,
+        username: 'admin',
+      }
+
+      mockingoose(UserModel).toReturn(createdBy, 'findOne')
+
+      await createUsers(createdById, [])
     } catch (error) {
       expect.assertions(1)
       expect(error.message).toEqual('Danh sách không được rỗng')
@@ -33,7 +60,17 @@ describe('Test createUsers service', () => {
           sex: 'male',
         },
       ]
-      await createUsers(mockUserList as any)
+
+      const createdById = getObjectId()
+      const createdBy = {
+        id: createdById.toHexString(),
+        _id: createdById,
+        username: 'admin',
+      }
+
+      mockingoose(UserModel).toReturn(createdBy, 'findOne')
+
+      await createUsers(createdById, mockUserList as any)
     } catch (error) {
       expect.assertions(1)
       expect(error.message).toEqual('Mã người dùng không được để trống')
@@ -56,7 +93,17 @@ describe('Test createUsers service', () => {
           sex: 'male',
         },
       ]
-      await createUsers(mockUserList as any)
+
+      const createdById = getObjectId()
+      const createdBy = {
+        id: createdById.toHexString(),
+        _id: createdById,
+        username: 'admin',
+      }
+
+      mockingoose(UserModel).toReturn(createdBy, 'findOne')
+
+      await createUsers(createdById, mockUserList as any)
     } catch (error) {
       expect.assertions(1)
       expect(error.message).toEqual(
@@ -81,12 +128,20 @@ describe('Test createUsers service', () => {
           sex: 'incorrect',
         },
       ]
-      await createUsers(mockUserList as any)
+
+      const createdById = getObjectId()
+      const createdBy = {
+        id: createdById.toHexString(),
+        _id: createdById,
+        username: 'admin',
+      }
+
+      mockingoose(UserModel).toReturn(createdBy, 'findOne')
+
+      await createUsers(createdById, mockUserList as any)
     } catch (error) {
       expect.assertions(1)
-      expect(error.message).toEqual(
-        'Giới tính phải là một trong male, female',
-      )
+      expect(error.message).toEqual('Giới tính phải là một trong male, female')
     }
   })
 
@@ -106,7 +161,17 @@ describe('Test createUsers service', () => {
           sex: 'male',
         },
       ]
-      await createUsers(mockUserList as any)
+
+      const createdById = getObjectId()
+      const createdBy = {
+        id: createdById.toHexString(),
+        _id: createdById,
+        username: 'admin',
+      }
+
+      mockingoose(UserModel).toReturn(createdBy, 'findOne')
+
+      await createUsers(createdById, mockUserList as any)
     } catch (error) {
       expect.assertions(1)
       expect(error.message).toEqual(
@@ -131,7 +196,17 @@ describe('Test createUsers service', () => {
           sex: 'male',
         },
       ]
-      await createUsers(mockUserList as any)
+
+      const createdById = getObjectId()
+      const createdBy = {
+        id: createdById.toHexString(),
+        _id: createdById,
+        username: 'admin',
+      }
+
+      mockingoose(UserModel).toReturn(createdBy, 'findOne')
+
+      await createUsers(createdById, mockUserList as any)
     } catch (error) {
       expect.assertions(1)
 
@@ -154,9 +229,25 @@ describe('Test createUsers service', () => {
       sex: 'male',
     }
 
+    const createdById = getObjectId()
+    const createdBy = {
+      id: createdById.toHexString(),
+      _id: createdById,
+      username: 'admin',
+    }
+
+    mockingoose(UserModel).toReturn((query) => {
+      const queryOptions = (query as any).getQuery()
+
+      if (isEqual(queryOptions, { _id: createdById })) {
+        return createdBy
+      }
+
+      return null
+    }, 'findOne')
     mockingoose(UserModel).toReturn(user, 'findOneAndUpdate')
 
-    const createdStudent = await createUsers([user as any])
+    const createdStudent = await createUsers(createdById, [user as any])
 
     expect(createdStudent.importedUsers[0].roles).toEqual(['student'])
   })
@@ -189,10 +280,23 @@ describe('Test createUsers service', () => {
       sex: 'male',
     }
 
-    mockingoose(UserModel).toReturn(existedUser, 'findOne')
+    const createdById = getObjectId()
+    const createdBy = {
+      id: createdById.toHexString(),
+      _id: createdById,
+      username: 'admin',
+    }
+
+    mockingoose(UserModel).toReturn((query) => {
+      if (isEqual((query as any).getQuery(), { _id: createdById })) {
+        return createdBy
+      }
+
+      return existedUser
+    }, 'findOne')
     mockingoose(UserModel).toReturn(user, 'findOneAndUpdate')
 
-    const data = await createUsers([user as any])
+    const data = await createUsers(createdById, [user as any])
 
     expect(data).toEqual({
       importedUsers: [],
@@ -240,20 +344,39 @@ describe('Test createUsers service', () => {
 
     const createdUserId = getObjectId()
 
+    const createdById = getObjectId()
+    const createdBy = {
+      id: createdById.toHexString(),
+      _id: createdById,
+      username: 'admin',
+    }
+
+    mockingoose(UserModel).toReturn((query) => {
+      const queryOptions = (query as any).getQuery()
+
+      if (isEqual(queryOptions, { _id: createdById })) {
+        return createdBy
+      }
+
+      return null
+    }, 'findOne')
+
     mockingoose(UserModel).toReturn((query) => {
       const queryOptions = (query as any).getQuery()
       if (isEqual(queryOptions, { checkerId: '09010002391121' })) {
-        return { ...existedUser, checkerId: null, }
+        return { ...existedUser, checkerId: null }
       }
 
       if (isEqual(queryOptions, { username: 'test_username' })) {
-        return { ...user,  id: createdUserId, _id: createdUserId }
+        return { ...user, id: createdUserId, _id: createdUserId }
       }
 
       return {}
     }, 'findOneAndUpdate')
 
-    const data = await createUsers([user as any], { overrideCheckerIds: true })
+    const data = await createUsers(createdById, [user as any], {
+      overrideCheckerIds: true,
+    })
 
     expect(data).toEqual({
       importedUsers: [
@@ -266,7 +389,7 @@ describe('Test createUsers service', () => {
         },
       ],
       notImportedUsers: [],
-      overriddenCheckerIdUsers: [{ ...existedUser, checkerId: null, }],
+      overriddenCheckerIdUsers: [{ ...existedUser, checkerId: null }],
     })
   })
 
@@ -288,6 +411,23 @@ describe('Test createUsers service', () => {
 
     const hashPass = bcrypt.hashSync(user.password, 2)
 
+    const createdById = getObjectId()
+    const createdBy = {
+      id: createdById.toHexString(),
+      _id: createdById,
+      username: 'admin',
+    }
+
+    mockingoose(UserModel).toReturn((query) => {
+      const queryOptions = (query as any).getQuery()
+
+      if (isEqual(queryOptions, { _id: createdById })) {
+        return createdBy
+      }
+
+      return null
+    }, 'findOne')
+
     mockingoose(UserModel).toReturn(
       {
         ...user,
@@ -296,7 +436,7 @@ describe('Test createUsers service', () => {
       'findOneAndUpdate',
     )
 
-    const data = await createUsers([user as any])
+    const data = await createUsers(createdById, [user as any])
 
     expect(data.importedUsers[0].password).toEqual(hashPass)
   })
@@ -318,6 +458,23 @@ describe('Test createUsers service', () => {
 
     const hashPass = bcrypt.hashSync(user.username, 2)
 
+    const createdById = getObjectId()
+    const createdBy = {
+      id: createdById.toHexString(),
+      _id: createdById,
+      username: 'admin',
+    }
+
+    mockingoose(UserModel).toReturn((query) => {
+      const queryOptions = (query as any).getQuery()
+
+      if (isEqual(queryOptions, { _id: createdById })) {
+        return createdBy
+      }
+
+      return null
+    }, 'findOne')
+
     mockingoose(UserModel).toReturn(
       {
         ...user,
@@ -326,7 +483,7 @@ describe('Test createUsers service', () => {
       'findOneAndUpdate',
     )
 
-    const data = await createUsers([user as any])
+    const data = await createUsers(createdById, [user as any])
 
     expect(data.importedUsers[0].password).toEqual(hashPass)
   })
@@ -346,9 +503,26 @@ describe('Test createUsers service', () => {
       sex: 'male',
     }
 
+    const createdById = getObjectId()
+    const createdBy = {
+      id: createdById.toHexString(),
+      _id: createdById,
+      username: 'admin',
+    }
+
+    mockingoose(UserModel).toReturn((query) => {
+      const queryOptions = (query as any).getQuery()
+
+      if (isEqual(queryOptions, { _id: createdById })) {
+        return createdBy
+      }
+
+      return null
+    }, 'findOne')
+
     mockingoose(UserModel).toReturn(user, 'findOneAndUpdate')
 
-    const data = await createUsers([user as any])
+    const data = await createUsers(createdById, [user as any])
 
     expect(data.importedUsers[0]).toMatchObject({
       ...user,

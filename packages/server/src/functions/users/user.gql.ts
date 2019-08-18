@@ -16,6 +16,8 @@ export default gql`
     checkerId: String
     createdAt: DateTime
     updatedAt: DateTime
+    createdByUserId: String
+    createdByUser: User
   }
 
   extend type Query {
