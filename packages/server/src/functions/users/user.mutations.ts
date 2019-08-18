@@ -45,7 +45,13 @@ export const signIn = async (
 
 /** TODO: write unit testing for graphql file upload */
 export const importUsers = createResolver({
-  resolve: async (_parent, { file }: { file: FileUpload }) => {
+  resolve: async (
+    _parent,
+    {
+      file,
+      overrideCheckerId = false,
+    }: { file: FileUpload; overrideCheckerId?: boolean },
+  ) => {
     const filePath = await fileStorage(file, EXCEL_MIMETYPES)
 
     const users = readExcelFile(filePath) as CreateUserInput[]
@@ -54,7 +60,7 @@ export const importUsers = createResolver({
       importedUsers,
       notImportedUsers,
       overriddenCheckerIdUsers,
-    } = await createUsers(users)
+    } = await createUsers(users, { overrideCheckerId })
 
     return { importedUsers, notImportedUsers, overriddenCheckerIdUsers }
   },
