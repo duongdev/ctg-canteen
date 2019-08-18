@@ -45,6 +45,9 @@ export const signIn = async (
 
 /** TODO: write unit testing for graphql file upload */
 export const importUsers = createResolver({
+  use: {
+    hasRole: 'admin',
+  },
   resolve: async (
     _parent,
     {
