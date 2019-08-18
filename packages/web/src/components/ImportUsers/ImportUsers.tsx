@@ -1,5 +1,6 @@
 import React, { useCallback, useState } from 'react'
 
+import { useMutation } from '@apollo/react-hooks'
 import {
   Box,
   Button,
@@ -8,6 +9,7 @@ import {
   Grid,
   Typography,
 } from '@material-ui/core'
+import { IMPORT_USERS } from 'apollo/users.gql'
 import ContentContainer from 'components/shared/ContentContainer'
 import PageTitle from 'components/shared/PageTitle'
 import { FileExcel, Upload } from 'mdi-material-ui'
@@ -18,6 +20,7 @@ type ImportUsersProps = {}
 
 const ImportUsers: React.FC<ImportUsersProps> = () => {
   const [file, setFile] = useState<File | null>(null)
+  const [upload, { data }] = useMutation(IMPORT_USERS)
   const onDrop = useCallback(
     (acceptedFiles) => {
       // Do something with the files
@@ -38,7 +41,8 @@ const ImportUsers: React.FC<ImportUsersProps> = () => {
 
   const handleUpload = useCallback(() => {
     console.log('handleUpload', file)
-  }, [file])
+    upload({ variables: { file } })
+  }, [file, upload])
 
   return (
     <ContentContainer maxWidth="sm">
