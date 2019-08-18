@@ -4,7 +4,7 @@ import { ApolloLink } from 'apollo-link'
 import { onError } from 'apollo-link-error'
 import { createUploadLink } from 'apollo-upload-client'
 
-const GRAPHQL_SERVER = 'http://localhost:4000'
+const GRAPHQL_SERVER = process.env.GRAPHQL_SERVER
 
 const client = new ApolloClient({
   link: ApolloLink.from([
