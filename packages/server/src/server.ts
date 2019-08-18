@@ -44,7 +44,7 @@ mongoose
 
     await startup()
 
-    server.listen(environment.port).then(async ({ url }) => {
+    server.listen(environment.server).then(async ({ url }) => {
       log(`Server ready at ${chalk.green(url)}.`)
     })
   })
