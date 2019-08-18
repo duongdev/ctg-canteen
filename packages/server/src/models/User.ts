@@ -2,54 +2,79 @@ import { arrayProp, InstanceType, prop, Typegoose } from 'typegoose'
 
 import { getSchemaOptions } from 'helpers/mongoose'
 
-class Checker extends Typegoose {
-  @prop({ index: true, required: true, unique: true })
-  id: string
+export const USER_SEX = ['male', 'female']
 
-  @prop()
-  name?: string
+export const USER_GROUPS = [
+  'boarding',
+  'outpatient',
+  'semi-boarding',
+  'teacher',
+  'other',
+]
 
-  @prop()
-  card?: string
-}
+export const USER_ROLES = ['admin', 'student', 'deactivated']
+
+export const USER_CLASSES = [
+  'none',
+  'math',
+  'informatics',
+  'physics',
+  'chemistry',
+  'biology',
+  'english',
+  'literature',
+  'history',
+  'geography',
+  'normal',
+]
 
 export class User extends Typegoose {
-  @prop({ index: true, unique: true, required: true })
-  studentId: string
-
   @prop({ index: true, required: true, unique: true })
   username: string
 
   @prop({ required: true })
+  password: string
+
+  @prop()
   name: string
 
+  @prop()
+  birthdate: Date
+
+  @prop()
+  hometown: string
+
+  @prop({ enum: USER_SEX })
+  sex: string
+
+  @prop()
+  schoolYear: number
+
   @prop({
-    required: true,
     default: 'other',
-    enum: ['boarding', 'outpatient', 'semi-boarding', 'teacher', 'other'],
+    enum: USER_GROUPS,
   })
   group: string
 
   @prop()
   boardingRoom?: string
 
-  @prop()
-  class?: string
+  @prop({
+    default: 'none',
+    enum: USER_CLASSES,
+  })
+  class: string
 
   @arrayProp({
-    required: true,
     index: true,
     items: String,
     default: ['student'],
-    enum: ['admin', 'student', 'deactivated'],
+    enum: USER_ROLES,
   })
   roles: string[]
 
-  @prop({ index: true })
-  checker: Checker
-
-  @prop({ required: true })
-  password: string
+  @prop({ index: true, unique: true, sparse: true })
+  checkerId: string
 }
 
 export type IUser = InstanceType<User>

@@ -5,7 +5,7 @@ import { merge } from 'lodash'
 import mockingoose from 'mockingoose'
 import mongoose from 'mongoose'
 import resolvers from 'resolvers'
-import schemas from 'schemas'
+import schemas from 'typeDefs'
 
 export const createTestClient = (config: ApolloServerExpressConfig = {}) => {
   return createTestApolloClient(

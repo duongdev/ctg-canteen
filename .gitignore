@@ -3,3 +3,6 @@ node_modules
 yarn-error\.log
 
 packages/server/coverage/
+.DS_Store
+
+packages/server/src/uploads/

@@ -1,5 +1,4 @@
 {
-  "editor.formatOnSave": true,
   "prettier.eslintIntegration": true,
   "eslint.validate": [
     "javascript",
@@ -11,7 +10,15 @@
     "source.fixAll.tslint": true
   },
   "cSpell.words": [
+    "Không",
+    "birthdate",
+    "exceljs",
+    "khoản",
+    "khẩu",
+    "mimetype",
+    "mimetypes",
     "mockingoose",
+    "thấy",
     "typegoose",
     "virtuals"
   ],

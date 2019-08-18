@@ -1,6 +1,6 @@
 import { merge } from 'lodash'
 
-import userResolvers from './functions/users/user-resolvers'
+import userResolvers from 'functions/users/user.resolvers'
 
 export default merge(
   {

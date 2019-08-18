@@ -1,23 +1,26 @@
 import { ApolloServer } from 'apollo-server'
 import chalk from 'chalk'
 import debug from 'debug'
-import * as mongoose from 'mongoose'
+import mongoose from 'mongoose'
 
 const log = debug('app:server')
 
 import { environment } from './environment'
 import resolvers from './resolvers'
-import typeDefs from './schemas'
+import typeDefs from './typeDefs'
 
-import { getUserFromToken } from 'functions/users/user-services'
+import { getUserFromToken } from 'functions/users/user.services'
 import startup from 'startup'
-import userGql from './functions/users/user.gql'
 
 const server = new ApolloServer({
   resolvers,
-  typeDefs: [typeDefs, userGql],
+  typeDefs,
   introspection: environment.apollo.introspection,
   playground: environment.apollo.playground,
+  uploads: {
+    maxFileSize: environment.upload.maxFileSize,
+    maxFiles: environment.upload.maxFiles,
+  },
   context: async ({ req }) => {
     // get the user token from the headers
     const token = req.headers['x-access-token'] as string
@@ -41,7 +44,7 @@ mongoose
 
     await startup()
 
-    server.listen(environment.port).then(async ({ url }) => {
+    server.listen(environment.server).then(async ({ url }) => {
       log(`Server ready at ${chalk.green(url)}.`)
     })
   })
