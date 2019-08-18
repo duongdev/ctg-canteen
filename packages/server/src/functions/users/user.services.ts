@@ -3,12 +3,9 @@ import bluebird from 'bluebird'
 import Chance from 'chance'
 import Debug from 'debug'
 import { environment } from 'environment'
+import { CreateUserInput, CreateUsersOptions } from 'functions/users/user.types'
 import {
-  CreateStudentsOptions,
-  CreateUserInput,
-} from 'functions/users/user.types'
-import {
-  createStudentsValidation,
+  createUsersValidation,
   createUserValidation,
 } from 'functions/users/user.validations'
 import { verify } from 'jsonwebtoken'
@@ -94,28 +91,28 @@ export const createUser = async (user: CreateUserInput) => {
   return createdUser.toJSON()
 }
 
-export const createStudents = async (
-  students: CreateUserInput[],
-  { overrideCheckerId = false }: CreateStudentsOptions = {
+export const createUsers = async (
+  Users: CreateUserInput[],
+  { overrideCheckerId = false }: CreateUsersOptions = {
     overrideCheckerId: false,
   },
 ) => {
-  await createStudentsValidation.validate(students)
-  const notImportedStudents: {
-    student: CreateUserInput
+  await createUsersValidation.validate(Users)
+  const notImportedUsers: {
+    user: CreateUserInput
     reason: string
   }[] = []
 
-  const overriddenStudents: {
-    student: IUser
+  const overriddenUsers: {
+    user: IUser
     reason: string
   }[] = []
 
-  const importedStudents = (await bluebird.map(students, async (student) => {
+  const importedUsers = (await bluebird.map(Users, async (user) => {
     if (overrideCheckerId) {
-      const assignedStudent = await UserModel.findOneAndUpdate(
+      const assignedUser = await UserModel.findOneAndUpdate(
         {
-          checkerId: student.checkerId,
+          checkerId: user.checkerId,
         },
         {
           $set: {
@@ -128,45 +125,45 @@ export const createStudents = async (
       ).exec()
 
       if (
-        assignedStudent &&
-        assignedStudent.username.toString() !== student.username.toString()
+        assignedUser &&
+        assignedUser.username.toString() !== user.username.toString()
       ) {
-        overriddenStudents.push({
-          student: assignedStudent.toJSON(),
-          reason: 'checkerId has been taken by other one'
+        overriddenUsers.push({
+          user: assignedUser.toJSON(),
+          reason: 'checkerId has been taken by other one',
         })
       }
     } else {
-      const assignedStudent = await UserModel.findOne({
-        checkerId: student.checkerId,
+      const assignedUser = await UserModel.findOne({
+        checkerId: user.checkerId,
       }).exec()
 
       if (
-        assignedStudent &&
-        assignedStudent.username.toString() !== student.username.toString()
+        assignedUser &&
+        assignedUser.username.toString() !== user.username.toString()
       ) {
-        notImportedStudents.push({
-          student,
-          reason: 'checkerId already used'
+        notImportedUsers.push({
+          user,
+          reason: 'checkerId already used',
         })
 
         return
       }
     }
 
-    const createdOrUpdatedStudent = await UserModel.findOneAndUpdate(
-      { username: student.username },
+    const createdOrUpdatedUser = await UserModel.findOneAndUpdate(
+      { username: user.username },
       {
-        ...student,
-        birthdate: string2Date(student.birthdate),
-        roles: ['student'],
-        password: bcrypt.hashSync(student.username.toString(), 2),
+        ...user,
+        birthdate: string2Date(user.birthdate),
+        roles: ['User'],
+        password: bcrypt.hashSync(user.username.toString(), 2),
       },
       { new: true, upsert: true },
     ).exec()
 
-    return createdOrUpdatedStudent.toJSON()
-  })).filter((student) => student)
+    return createdOrUpdatedUser.toJSON()
+  })).filter((user) => user)
 
-  return { importedStudents, notImportedStudents, overriddenStudents }
+  return { importedUsers, notImportedUsers, overriddenUsers }
 }

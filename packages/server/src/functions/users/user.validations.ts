@@ -61,7 +61,7 @@ const baseUserValidation = yup.object().shape({
 
 export const createUserValidation = baseUserValidation.required()
 
-export const createStudentsValidation = yup
+export const createUsersValidation = yup
   .array()
   .of(
     yup
