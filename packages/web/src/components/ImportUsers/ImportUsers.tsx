@@ -36,6 +36,7 @@ const ImportUsers: React.FC<ImportUsersProps> = (props) => {
 
   const classes = useStyles(props)
   const [file, setFile] = useState<File | null>(null)
+  const [overrideCheckerIds, setOverrideCheckerIds] = useState(false)
   const [upload, { data, error, loading }] = useMutation<{
     importUsers: {
       importedUsers: IUser[]
@@ -62,9 +63,9 @@ const ImportUsers: React.FC<ImportUsersProps> = (props) => {
 
   const handleUpload = useCallback(async () => {
     console.log('handleUpload', file)
-    await upload({ variables: { file } })
+    await upload({ variables: { file, overrideCheckerIds } })
     setFile(null)
-  }, [file, upload])
+  }, [file, upload, overrideCheckerIds])
 
   console.log({ data, error })
 
@@ -98,7 +99,14 @@ const ImportUsers: React.FC<ImportUsersProps> = (props) => {
 
         <Grid item>
           <FormControlLabel
-            control={<Checkbox disabled={loading} value="override" />}
+            control={
+              <Checkbox
+                disabled={loading}
+                value="override"
+                checked={overrideCheckerIds}
+                onChange={(e) => setOverrideCheckerIds(e.target.checked)}
+              />
+            }
             label="Ghi đè mã máy chấm công"
           />
         </Grid>
@@ -176,7 +184,7 @@ const NotImportedUser: FC<{ notImportedUser: NotImportedUser }> = ({
   return (
     <div className={classes.graphQLError}>
       <Typography color="error">
-        {notImportedUser.reason}{' '}
+        {notImportedUser.reason}.{' '}
         <strong onClick={toggleShowError} style={{ cursor: 'pointer' }}>
           [Chi tiết]
         </strong>

@@ -18,8 +18,8 @@ export const USER_FRAGMENT = gql`
 `
 
 export const IMPORT_USERS = gql`
-  mutation ImportUsers($file: Upload!) {
-    importUsers(file: $file) {
+  mutation ImportUsers($file: Upload!, $overrideCheckerIds: Boolean) {
+    importUsers(file: $file, overrideCheckerIds: $overrideCheckerIds) {
       importedUsers {
         id
         username
