@@ -20,18 +20,19 @@ export default gql`
     authenticate: User
   }
 
-  type NotImportedStudent {
-    student: User
+  type NotImportedUser {
+    user: User
     reason: String
   }
 
-  type ImportStudentList {
-    importedStudents: [User]
-    notImportedStudents: [NotImportedStudent]
+  type ImportUserList {
+    importedUsers: [User]
+    notImportedUsers: [NotImportedUser]
+    overriddenCheckerIdUsers: [User]
   }
 
   extend type Mutation {
     signIn(username: String!, password: String!): String
-    importStudents(file: Upload!): ImportStudentList
+    importUsers(file: Upload!): ImportUserList
   }
 `

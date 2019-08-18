@@ -49,13 +49,13 @@ export const importStudents = createResolver({
   resolve: async (_parent, { file }: { file: FileUpload }) => {
     const filePath = await fileStorage(file, EXCEL_MIMETYPES)
 
-    const students = readExcelFile(filePath) as CreateUserInput[]
+    const users = readExcelFile(filePath) as CreateUserInput[]
 
     const {
       importedUsers,
       notImportedUsers,
       overriddenCheckerIdUsers,
-    } = await createUsers(students)
+    } = await createUsers(users)
 
     // TODO: Remove uploaded file after all.
     return { importedUsers, notImportedUsers, overriddenCheckerIdUsers }
