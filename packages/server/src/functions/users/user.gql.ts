@@ -14,14 +14,30 @@ export default gql`
     class: String
     roles: [String]
     checkerId: String
+    createdAt: DateTime
+    updatedAt: DateTime
   }
 
   extend type Query {
     authenticate: User
   }
 
+  type UserWithoutID {
+    username: String!
+    name: String
+    checkerId: String
+    birthdate: String
+    hometown: String
+    sex: String
+    class: String
+    schoolYear: String
+    group: String
+    boardingRoom: String
+    roles: [String]
+  }
+
   type NotImportedUser {
-    user: User
+    user: UserWithoutID
     reason: String
   }
 

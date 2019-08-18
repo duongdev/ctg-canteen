@@ -75,7 +75,7 @@ export const createUser = async (
   }).exec()
 
   if (existedUser) {
-    throw new Error('username has been taken')
+    throw new Error('Mã người dùng đã được sử dụng')
   }
 
   if (!overrideCheckerId) {
@@ -84,7 +84,7 @@ export const createUser = async (
     }).exec()
 
     if (assignedUser) {
-      throw new Error('checkerId already used')
+      throw new Error('Mã máy chấm công đã được sử dụng')
     }
   }
 
@@ -162,7 +162,7 @@ export const createUsers = async (
       ) {
         notImportedUsers.push({
           user,
-          reason: 'checkerId already used',
+          reason: 'Mã máy chấm công đã được sử dụng',
         })
 
         return
