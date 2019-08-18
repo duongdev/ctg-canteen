@@ -1,4 +1,4 @@
-import { ApolloError, UserInputError } from 'apollo-server'
+import { UserInputError } from 'apollo-server'
 import { environment } from 'environment'
 import fs from 'fs'
 import { FileUpload } from 'graphql-upload'
@@ -12,16 +12,16 @@ export const fileStorage = async (
 
   if (!acceptedMimetypes.includes(mimetype)) {
     throw new UserInputError(
-      `file type ${mimetype} is not accepted. Only ${acceptedMimetypes.join(
+      `Định dạng tệp tin ${mimetype} không được chấp nhận. Chỉ chấp nhận những tệp tin có định dạng sau ${acceptedMimetypes.join(
         ', ',
-      )} are accepted`,
+      )}`,
     )
   }
 
   const readStream = createReadStream()
 
   if (!readStream.readable) {
-    throw new ApolloError('Can not read excel file', '500')
+    throw new Error('Không thể đọc tệp tin này')
   }
 
   const folder = environment.upload.folder

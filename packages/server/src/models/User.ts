@@ -33,6 +33,9 @@ export class User extends Typegoose {
   username: string
 
   @prop({ required: true })
+  password: string
+
+  @prop()
   name: string
 
   @prop()
@@ -48,7 +51,6 @@ export class User extends Typegoose {
   schoolYear: number
 
   @prop({
-    required: true,
     default: 'other',
     enum: USER_GROUPS,
   })
@@ -58,14 +60,12 @@ export class User extends Typegoose {
   boardingRoom?: string
 
   @prop({
-    required: true,
     default: 'none',
     enum: USER_CLASSES,
   })
   class: string
 
   @arrayProp({
-    required: true,
     index: true,
     items: String,
     default: ['student'],
@@ -75,9 +75,6 @@ export class User extends Typegoose {
 
   @prop({ index: true, unique: true, sparse: true })
   checkerId: string
-
-  @prop({ required: true })
-  password: string
 }
 
 export type IUser = InstanceType<User>

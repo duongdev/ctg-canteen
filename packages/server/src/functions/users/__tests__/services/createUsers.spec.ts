@@ -13,9 +13,10 @@ describe('Test createUsers service', () => {
       await createUsers([])
     } catch (error) {
       expect.assertions(1)
-      expect(error.message).toEqual('this field must have at least 1 items')
+      expect(error.message).toEqual('Danh sách không được rỗng')
     }
   })
+
   it('should throw an error if username is not specified', async () => {
     try {
       const mockUserList = [
@@ -35,53 +36,7 @@ describe('Test createUsers service', () => {
       await createUsers(mockUserList as any)
     } catch (error) {
       expect.assertions(1)
-      expect(error.message).toEqual('[0].username is a required field')
-    }
-  })
-
-  it('should throw an error if birthdate is not specified', async () => {
-    try {
-      const mockUserList = [
-        {
-          username: 'not_specified',
-          // birthdate: new Date().toISOString(),
-          boardingRoom: 'not_specified',
-          checkerId: 'not_specified',
-          class: 'english',
-          group: 'boarding',
-          hometown: 'not_specified',
-          schoolYear: 2013,
-          name: 'not_specified',
-          sex: 'male',
-        },
-      ]
-      await createUsers(mockUserList as any)
-    } catch (error) {
-      expect.assertions(1)
-      expect(error.message).toEqual('[0].birthdate is a required field')
-    }
-  })
-
-  it('should throw an error if class is not specified', async () => {
-    try {
-      const mockUserList = [
-        {
-          username: 'not_specified',
-          birthdate: new Date().toISOString(),
-          boardingRoom: 'not_specified',
-          checkerId: 'not_specified',
-          // class: 'english',
-          group: 'boarding',
-          hometown: 'not_specified',
-          schoolYear: 2013,
-          name: 'not_specified',
-          sex: 'male',
-        },
-      ]
-      await createUsers(mockUserList as any)
-    } catch (error) {
-      expect.assertions(1)
-      expect(error.message).toEqual('[0].class is a required field')
+      expect(error.message).toEqual('Mã người dùng không được để trống')
     }
   })
 
@@ -105,123 +60,8 @@ describe('Test createUsers service', () => {
     } catch (error) {
       expect.assertions(1)
       expect(error.message).toEqual(
-        '[0].class must be one of the following values: none, math, informatics, physics, chemistry, biology, english, literature, history, geography, normal',
+        'Lớp học phải là một trong các lớp sau none, math, informatics, physics, chemistry, biology, english, literature, history, geography, normal',
       )
-    }
-  })
-
-  it('should throw an error if group is not specified', async () => {
-    try {
-      const mockUserList = [
-        {
-          username: 'not_specified',
-          birthdate: new Date().toISOString(),
-          boardingRoom: 'not_specified',
-          checkerId: 'not_specified',
-          class: 'english',
-          // group: 'boarding',
-          hometown: 'not_specified',
-          schoolYear: 2013,
-          name: 'not_specified',
-          sex: 'male',
-        },
-      ]
-      await createUsers(mockUserList as any)
-    } catch (error) {
-      expect.assertions(1)
-      expect(error.message).toEqual('[0].group is a required field')
-    }
-  })
-
-  it('should throw an error if hometown is not specified', async () => {
-    try {
-      const mockUserList = [
-        {
-          username: 'not_specified',
-          birthdate: new Date().toISOString(),
-          boardingRoom: 'not_specified',
-          checkerId: 'not_specified',
-          class: 'english',
-          group: 'boarding',
-          // hometown: 'not_specified',
-          schoolYear: 2013,
-          name: 'not_specified',
-          sex: 'male',
-        },
-      ]
-      await createUsers(mockUserList as any)
-    } catch (error) {
-      expect.assertions(1)
-      expect(error.message).toEqual('[0].hometown is a required field')
-    }
-  })
-
-  it('should throw an error if schoolYear is not specified', async () => {
-    try {
-      const mockUserList = [
-        {
-          username: 'not_specified',
-          birthdate: new Date().toISOString(),
-          boardingRoom: 'not_specified',
-          checkerId: 'not_specified',
-          class: 'english',
-          group: 'boarding',
-          hometown: 'not_specified',
-          // schoolYear: 2013,
-          name: 'not_specified',
-          sex: 'male',
-        },
-      ]
-      await createUsers(mockUserList as any)
-    } catch (error) {
-      expect.assertions(1)
-      expect(error.message).toEqual('[0].schoolYear is a required field')
-    }
-  })
-
-  it('should throw an error if name is not specified', async () => {
-    try {
-      const mockUserList = [
-        {
-          username: 'not_specified',
-          birthdate: new Date().toISOString(),
-          boardingRoom: 'not_specified',
-          checkerId: 'not_specified',
-          class: 'english',
-          group: 'boarding',
-          hometown: 'not_specified',
-          schoolYear: 2013,
-          // name: 'not_specified',
-          sex: 'male',
-        },
-      ]
-      await createUsers(mockUserList as any)
-    } catch (error) {
-      expect.assertions(1)
-      expect(error.message).toEqual('[0].name is a required field')
-    }
-  })
-
-  it('should throw an error if sex is not specified', async () => {
-    try {
-      const mockUserList = [
-        {
-          username: 'not_specified',
-          birthdate: new Date().toISOString(),
-          boardingRoom: 'not_specified',
-          checkerId: 'not_specified',
-          class: 'english',
-          group: 'boarding',
-          hometown: 'not_specified',
-          schoolYear: 2013,
-          name: 'not_specified',
-          // sex: 'male',
-        },
-      ]
-      await createUsers(mockUserList as any)
-    } catch (error) {
-      expect.assertions(1)
-      expect(error.message).toEqual('[0].sex is a required field')
     }
   })
 
@@ -245,7 +85,7 @@ describe('Test createUsers service', () => {
     } catch (error) {
       expect.assertions(1)
       expect(error.message).toEqual(
-        '[0].sex must be one of the following values: male, female',
+        'Giới tính phải là một trong male, female',
       )
     }
   })
@@ -270,7 +110,7 @@ describe('Test createUsers service', () => {
     } catch (error) {
       expect.assertions(1)
       expect(error.message).toEqual(
-        '[0].group must be one of the following values: boarding, outpatient, semi-boarding, teacher, other',
+        'Nhóm phải là một trong các nhóm sau boarding, outpatient, semi-boarding, teacher, other',
       )
     }
   })
@@ -295,7 +135,7 @@ describe('Test createUsers service', () => {
     } catch (error) {
       expect.assertions(1)
 
-      expect(error.message).toContain('birthdate must be a `date` type')
+      expect(error.message).toEqual('Ngày sinh phải đúng định dạng MM/DD/YYYY')
     }
   })
 
@@ -360,7 +200,7 @@ describe('Test createUsers service', () => {
       notImportedUsers: [
         {
           user,
-          reason: 'checkerId already used',
+          reason: 'Mã máy chấm công đã được sử dụng',
         },
       ],
     })
