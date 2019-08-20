@@ -64,6 +64,6 @@
     "@types/react-helmet": "5.0.9",
     "@types/react-json-tree": "0.6.11",
     "@types/react-router-dom": "4.3.4",
-    "@types/yup": "0.26.22"
+    "@types/yup": "0.26.23"
   }
 }
