@@ -1,3 +1,4 @@
+import { UserInputError } from 'apollo-server'
 import bcrypt from 'bcryptjs'
 import bluebird from 'bluebird'
 import Chance from 'chance'
@@ -7,14 +8,18 @@ import {
   CreateUserInput,
   CreateUserOptions,
   CreateUsersOptions,
+  GetUsersFilter,
 } from 'functions/users/user.types'
 import {
   createUsersValidation,
   createUserValidation,
+  getUsersFilterValidation,
 } from 'functions/users/user.validations'
 import { verify } from 'jsonwebtoken'
+import { isEmpty } from 'lodash'
 import UserModel, { IUser } from 'models/User'
-import { normalize, string2Date } from 'utils/string'
+import mongoose from 'mongoose'
+import { getSortByFromString, normalize, string2Date } from 'utils/string'
 
 const chance = new Chance()
 
@@ -205,4 +210,36 @@ export const createUsers = async (
   })).filter((user) => user)
 
   return { importedUsers, notImportedUsers, overriddenCheckerIdUsers }
+}
+
+export const getUsers = async ({
+  sortBy = 'reverse_createdAt',
+  limit = 10,
+  page = 1,
+}: GetUsersFilter = {}) => {
+  await getUsersFilterValidation.validate({
+    sortBy,
+    limit,
+    page,
+  })
+
+  const $sortBy = getSortByFromString(sortBy)
+  const skip = (page - 1) * limit
+  const query = {}
+  const [users, total] = await Promise.all([
+    UserModel.find(query)
+      .sort($sortBy)
+      .skip(skip)
+      .limit(limit)
+      .exec(),
+    UserModel.count(query).exec(),
+  ])
+
+  return {
+    total,
+    page,
+    limit,
+    pages: Math.ceil(total / limit),
+    edges: users.map((user) => user.toJSON()),
+  }
 }

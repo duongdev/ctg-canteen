@@ -20,8 +20,23 @@ export default gql`
     createdByUser: User
   }
 
+  input UsersInput {
+    limit: Int
+    page: Int
+    sortBy: String
+  }
+
+  type UserPagination {
+    total: Int
+    page: Int
+    pages: Int
+    limit: Int
+    edges: [User]
+  }
+
   extend type Query {
     authenticate: User
+    users(input: UsersInput): UserPagination
   }
 
   type UserWithoutID {
@@ -32,7 +47,7 @@ export default gql`
     hometown: String
     sex: String
     class: String
-    schoolYear: String
+    schoolYear: Int
     group: String
     boardingRoom: String
     roles: [String]
