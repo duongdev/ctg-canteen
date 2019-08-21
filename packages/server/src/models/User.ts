@@ -50,7 +50,7 @@ export class User extends Typegoose {
   hometown: string
 
   @prop({ enum: USER_SEX })
-  sex: UserSex
+  sex: string
 
   @prop()
   schoolYear: number
@@ -59,7 +59,7 @@ export class User extends Typegoose {
     default: 'other',
     enum: USER_GROUPS,
   })
-  group: UserGroup
+  group: string
 
   @prop()
   boardingRoom?: string
@@ -68,7 +68,7 @@ export class User extends Typegoose {
     default: 'none',
     enum: USER_CLASSES,
   })
-  class: UserClass
+  class: string
 
   @arrayProp({
     index: true,
@@ -76,7 +76,7 @@ export class User extends Typegoose {
     default: ['student'],
     enum: USER_ROLES,
   })
-  roles: UserRole[]
+  roles: string[]
 
   @prop({ index: true, unique: true, sparse: true })
   checkerId: string
