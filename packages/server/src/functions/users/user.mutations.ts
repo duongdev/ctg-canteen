@@ -8,6 +8,7 @@ import { sign } from 'jsonwebtoken'
 import { pick } from 'lodash'
 import UserModel from 'models/User'
 import { fileStorage } from 'utils/file-storage'
+import { normalize } from 'utils/string'
 import { EXCEL_MIMETYPES, readExcelFile, removeExcelFile } from 'utils/xlsx'
 import { createUsers } from './user.services'
 import { CreateUserInput } from './user.types'
@@ -19,10 +20,11 @@ export const signIn = async (
   args: { username: string; password: string },
 ) => {
   const log = debug.extend('signIn-mutation')
+  const normalizedUsername = normalize(args.username)
 
-  log(`Signing in user with username ${chalk.green(args.username)}`)
+  log(`Signing in user with username ${chalk.green(normalizedUsername)}`)
 
-  const user = await UserModel.findOne({ username: args.username })
+  const user = await UserModel.findOne({ username: normalizedUsername })
 
   if (!user) {
     log(`User not found`)
