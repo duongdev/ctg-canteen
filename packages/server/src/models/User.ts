@@ -1,20 +1,24 @@
-import { arrayProp, InstanceType, prop, Typegoose } from 'typegoose'
+import { arrayProp, InstanceType, prop, Ref, Typegoose } from 'typegoose'
 
 import { getSchemaOptions } from 'helpers/mongoose'
+import { tuple } from 'utils/tuple'
 
-export const USER_SEX = ['male', 'female']
+export const USER_SEX = tuple(['male', 'female'])
+export type UserSex = typeof USER_SEX[number]
 
-export const USER_GROUPS = [
+export const USER_GROUPS = tuple([
   'boarding',
   'outpatient',
   'semi-boarding',
   'teacher',
   'other',
-]
+])
+export type UserGroup = typeof USER_GROUPS[number]
 
-export const USER_ROLES = ['admin', 'student', 'deactivated']
+export const USER_ROLES = tuple(['admin', 'student', 'deactivated'])
+export type UserRole = typeof USER_ROLES[number]
 
-export const USER_CLASSES = [
+export const USER_CLASSES = tuple([
   'none',
   'math',
   'informatics',
@@ -26,7 +30,8 @@ export const USER_CLASSES = [
   'history',
   'geography',
   'normal',
-]
+])
+export type UserClass = typeof USER_CLASSES[number]
 
 export class User extends Typegoose {
   @prop({ index: true, required: true, unique: true })
@@ -75,6 +80,9 @@ export class User extends Typegoose {
 
   @prop({ index: true, unique: true, sparse: true })
   checkerId: string
+
+  @prop({ ref: User })
+  createdByUserId: Ref<User>
 }
 
 export type IUser = InstanceType<User>

@@ -1,4 +1,5 @@
 import { IUser } from 'models/User'
+import { tuple } from 'utils/tuple'
 
 export type CreateUserInput = {
   username: IUser['username']
@@ -21,4 +22,22 @@ export type CreateUserOptions = {
 
 export type CreateUsersOptions = {
   overrideCheckerIds?: boolean
+}
+
+export const GET_USERS_SORT_BY = tuple(['createdAt', 'reverse_createdAt'])
+
+export type GetUsersSortBy = typeof GET_USERS_SORT_BY[number]
+
+export type GetUsersFilter = {
+  limit?: number
+  page?: number
+  sortBy?: GetUsersSortBy
+}
+
+export type GetUsersOutput = {
+  total: number
+  page: number
+  pages: number
+  limit: number
+  edges: IUser[]
 }

@@ -1,16 +1,25 @@
+import { UserInputError } from 'apollo-server'
 import bcrypt from 'bcryptjs'
 import bluebird from 'bluebird'
 import Chance from 'chance'
 import Debug from 'debug'
 import { environment } from 'environment'
-import { CreateUserInput, CreateUserOptions, CreateUsersOptions } from 'functions/users/user.types'
+import {
+  CreateUserInput,
+  CreateUserOptions,
+  CreateUsersOptions,
+  GetUsersFilter,
+} from 'functions/users/user.types'
 import {
   createUsersValidation,
   createUserValidation,
+  getUsersFilterValidation,
 } from 'functions/users/user.validations'
 import { verify } from 'jsonwebtoken'
+import { isEmpty } from 'lodash'
 import UserModel, { IUser } from 'models/User'
-import { string2Date } from 'utils/string'
+import mongoose from 'mongoose'
+import { getSortByFromString, normalize, string2Date } from 'utils/string'
 
 const chance = new Chance()
 
@@ -69,9 +78,9 @@ export const createUser = async (
   },
 ) => {
   await createUserValidation.validate(user)
-
+  const normalizedUsername = normalize(user.username)
   const existedUser = await UserModel.findOne({
-    username: user.username,
+    username: normalizedUsername,
   }).exec()
 
   if (existedUser) {
@@ -104,6 +113,7 @@ export const createUser = async (
 
   const createdUser = await UserModel.create({
     ...user,
+    username: normalizedUsername,
     birthdate: string2Date(user.birthdate),
     password: bcrypt.hashSync(user.password, 2),
   })
@@ -116,11 +126,22 @@ export const createUser = async (
 }
 
 export const createUsers = async (
+  createdByUserId: IUser['id'],
   Users: CreateUserInput[],
   { overrideCheckerIds = false }: CreateUsersOptions = {
     overrideCheckerIds: false,
   },
 ) => {
+  if (!createdByUserId) {
+    throw new Error('unauthorized')
+  }
+
+  const createdByUser = await UserModel.findById(createdByUserId).exec()
+
+  if (!createdByUser) {
+    throw new Error('unauthorized')
+  }
+
   await createUsersValidation.validate(Users)
   const notImportedUsers: {
     user: CreateUserInput
@@ -130,6 +151,8 @@ export const createUsers = async (
   const overriddenCheckerIdUsers: IUser[] = []
 
   const importedUsers = (await bluebird.map(Users, async (user) => {
+    const normalizedUsername = normalize(user.username)
+
     if (overrideCheckerIds) {
       const overriddenCheckerIdUser = await UserModel.findOneAndUpdate(
         {
@@ -147,7 +170,8 @@ export const createUsers = async (
 
       if (
         overriddenCheckerIdUser &&
-        overriddenCheckerIdUser.username.toString() !== user.username.toString()
+        overriddenCheckerIdUser.username.toString() !==
+          normalizedUsername.toString()
       ) {
         overriddenCheckerIdUsers.push(overriddenCheckerIdUser.toJSON())
       }
@@ -158,7 +182,7 @@ export const createUsers = async (
 
       if (
         assignedUser &&
-        assignedUser.username.toString() !== user.username.toString()
+        assignedUser.username.toString() !== normalizedUsername.toString()
       ) {
         notImportedUsers.push({
           user,
@@ -170,12 +194,14 @@ export const createUsers = async (
     }
 
     const createdOrUpdatedUser = await UserModel.findOneAndUpdate(
-      { username: user.username },
+      { username: normalizedUsername },
       {
         ...user,
+        createdByUserId,
+        username: normalizedUsername,
         birthdate: string2Date(user.birthdate),
         roles: ['User'],
-        password: bcrypt.hashSync(user.username.toString(), 2),
+        password: bcrypt.hashSync(normalizedUsername.toString(), 2),
       },
       { new: true, upsert: true },
     ).exec()
@@ -184,4 +210,36 @@ export const createUsers = async (
   })).filter((user) => user)
 
   return { importedUsers, notImportedUsers, overriddenCheckerIdUsers }
+}
+
+export const getUsers = async ({
+  sortBy = 'reverse_createdAt',
+  limit = 10,
+  page = 1,
+}: GetUsersFilter = {}) => {
+  await getUsersFilterValidation.validate({
+    sortBy,
+    limit,
+    page,
+  })
+
+  const $sortBy = getSortByFromString(sortBy)
+  const skip = (page - 1) * limit
+  const query = {}
+  const [users, total] = await Promise.all([
+    UserModel.find(query)
+      .sort($sortBy)
+      .skip(skip)
+      .limit(limit)
+      .exec(),
+    UserModel.count(query).exec(),
+  ])
+
+  return {
+    total,
+    page,
+    limit,
+    pages: Math.ceil(total / limit),
+    edges: users.map((user) => user.toJSON()),
+  }
 }

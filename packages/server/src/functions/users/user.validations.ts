@@ -1,3 +1,4 @@
+import { GET_USERS_SORT_BY } from 'functions/users/user.types'
 import { USER_CLASSES, USER_GROUPS, USER_ROLES, USER_SEX } from 'models/User'
 import moment from 'moment'
 import * as yup from 'yup'
@@ -80,3 +81,23 @@ export const createUsersValidation = yup
   )
   .min(1, 'Danh sách không được rỗng')
   .required()
+
+export const getUsersFilterValidation = yup.object().shape({
+  limit: yup
+    .number()
+    .integer()
+    .positive('limit phải là số nguyên dương')
+    .default(10),
+  page: yup
+    .number()
+    .integer()
+    .positive('page phải là số nguyên dương')
+    .default(1),
+  sortBy: yup
+    .string()
+    .oneOf(
+      GET_USERS_SORT_BY,
+      `sortBy phải là một trong ${GET_USERS_SORT_BY.join(', ')}`,
+    )
+    .default('reverse_createdAt'),
+})

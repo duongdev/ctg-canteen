@@ -1,3 +1,4 @@
+import fs from 'fs'
 import isEmpty from 'lodash/isEmpty'
 import xlsx from 'xlsx'
 
@@ -24,4 +25,8 @@ export const readExcelFile = (path: string) => {
   }
 
   return data
+}
+
+export const removeExcelFile = (path: string) => {
+  fs.unlinkSync(path)
 }
