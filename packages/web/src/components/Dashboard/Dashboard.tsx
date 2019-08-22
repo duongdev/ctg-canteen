@@ -3,9 +3,10 @@ import React, { FC, useCallback, useState } from 'react'
 import { makeStyles } from '@material-ui/core'
 import AppBar from 'components/AppBar'
 import CreateUser from 'components/CreateUser'
-import Drawer from 'components/Drawer';
-import ImportUsers from 'components/ImportUsers';
+import Drawer from 'components/Drawer'
+import ImportUsers from 'components/ImportUsers'
 import UserList from 'components/UserList'
+import useAuth from 'hooks/useAuth'
 import { Route, Switch } from 'react-router-dom'
 
 const DRAWER_WIDTH = 250
@@ -13,6 +14,9 @@ const DRAWER_WIDTH = 250
 const Dashboard: FC = (props) => {
   const classes = useStyles(props)
   const [drawerOpen, setDrawerOpen] = useState(false)
+  const { user } = useAuth()
+
+  console.log(user)
 
   const handleOpen = useCallback(() => setDrawerOpen(true), [])
   const handleClose = useCallback(() => setDrawerOpen(false), [])

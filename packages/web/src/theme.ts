@@ -2,6 +2,9 @@ import { pink } from '@material-ui/core/colors'
 import { createMuiTheme } from '@material-ui/core/styles'
 import { ThemeOptions } from '@material-ui/core/styles/createMuiTheme'
 
+export const ERROR_BACKGROUND = '#e573730f'
+export const SUCCESS_BACKGROUND = '#b9f6ca30'
+
 const baseTheme: ThemeOptions = {
   shape: {
     borderRadius: 8,
