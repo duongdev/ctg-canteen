@@ -29,7 +29,7 @@
     "@types/lodash": "4.14.137",
     "@types/moment": "2.13.0",
     "@types/mongoose": "5.5.13",
-    "apollo-server-testing": "2.8.2",
+    "apollo-server-testing": "2.9.0",
     "coveralls": "3.0.6",
     "graphql-import-node": "0.0.4",
     "jest": "24.9.0",
@@ -40,7 +40,7 @@
     "typescript": "3.5.3"
   },
   "dependencies": {
-    "apollo-server": "2.8.2",
+    "apollo-server": "2.9.0",
     "bcryptjs": "2.4.3",
     "bluebird": "3.5.5",
     "chalk": "2.4.2",
