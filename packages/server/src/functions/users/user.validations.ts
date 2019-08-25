@@ -13,7 +13,10 @@ const baseUserValidation = yup.object().shape({
     .trim()
     .ensure()
     .required('Mật khẩu không được để trống'),
-  name: yup.string().trim(),
+  name: yup
+    .string()
+    .trim()
+    .required(),
   checkerId: yup.string().trim(),
   birthdate: yup.date().transform(function($value, originalValue) {
     if (this.isType($value)) return $value

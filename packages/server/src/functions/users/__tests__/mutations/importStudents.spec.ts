@@ -31,22 +31,5 @@ describe('Test importStudents mutation', () => {
     'should return created or updated user correctly if the studentId does not exist',
   )
 
-  it.skip('should throw error if file upload failure', async () => {
-    expect.assertions(1)
-    const formData = new FormData()
-
-    formData.append('excel', fs.createReadStream(
-      path.resolve(__dirname, '../../../../static/correct.xlsx'),
-    ) as any)
-
-    const { errors } = await mutate({
-      mutation: IMPORT_STUDENTS,
-      variables: {
-        file: fs.readFileSync(
-          path.resolve(__dirname, '../../../../static/correct.xlsx'),
-        ),
-      },
-    })
-    expect(errors).toEqual('')
-  })
+  it.todo('should throw error if file upload failure')
 })
