@@ -136,7 +136,7 @@ export const createUser = async (
 
 export const createUsers = async (
   createdByUserId: IUser['id'],
-  Users: CreateUserInput[],
+  users: CreateUserInput[],
   { overrideCheckerIds = false }: CreateUsersOptions = {
     overrideCheckerIds: false,
   },
@@ -151,7 +151,10 @@ export const createUsers = async (
     throw new Error('unauthorized')
   }
 
-  await createUsersValidation.validate(Users)
+  const parsedUsers = createUsersValidation.validateSync(
+    users,
+  ) as CreateUserInput[]
+
   const notImportedUsers: {
     user: CreateUserInput
     reason: string
@@ -159,7 +162,7 @@ export const createUsers = async (
 
   const overriddenCheckerIdUsers: IUser[] = []
 
-  const importedUsers = (await bluebird.map(Users, async (user) => {
+  const importedUsers = (await bluebird.map(parsedUsers, async (user) => {
     const normalizedUsername = normalize(user.username)
 
     if (overrideCheckerIds) {
