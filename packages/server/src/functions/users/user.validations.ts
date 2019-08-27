@@ -1,6 +1,8 @@
 import { GET_USERS_SORT_BY } from 'functions/users/user.types'
+import { isEmpty } from 'lodash'
 import { USER_CLASSES, USER_GROUPS, USER_ROLES, USER_SEX } from 'models/User'
 import moment from 'moment'
+import { string2Date } from 'utils/string'
 import * as yup from 'yup'
 
 const baseUserValidation = yup.object().shape({
@@ -18,20 +20,26 @@ const baseUserValidation = yup.object().shape({
     .trim()
     .required(),
   checkerId: yup.string().trim(),
-  birthdate: yup.date().transform(function($value, originalValue) {
-    if (this.isType($value)) return $value
+  birthdate: yup
+    .date()
+    .nullable()
+    .notRequired()
+    .transform(function($value, originalValue) {
+      if (!isEmpty(originalValue)) {
+        if (this.isType($value)) return $value
 
-    try {
-      const value = moment(new Date(originalValue).toISOString())
-      if (value.isValid()) {
-        return value.toDate()
+        try {
+          const value = moment(new Date(originalValue).toISOString())
+          if (value.isValid()) {
+            return string2Date(value.toDate())
+          }
+
+          throw new Error('Ngày sinh phải đúng định dạng MM/DD/YYYY')
+        } catch (error) {
+          throw new Error('Ngày sinh phải đúng định dạng MM/DD/YYYY')
+        }
       }
-
-      throw new Error('Ngày sinh phải đúng định dạng MM/DD/YYYY')
-    } catch (error) {
-      throw new Error('Ngày sinh phải đúng định dạng MM/DD/YYYY')
-    }
-  }),
+    }),
   hometown: yup.string(),
   sex: yup
     .string()

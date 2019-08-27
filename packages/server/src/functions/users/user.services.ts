@@ -1,4 +1,3 @@
-import { UserInputError } from 'apollo-server'
 import bcrypt from 'bcryptjs'
 import bluebird from 'bluebird'
 import Chance from 'chance'
@@ -16,10 +15,9 @@ import {
   getUsersFilterValidation,
 } from 'functions/users/user.validations'
 import { verify } from 'jsonwebtoken'
-import { isEmpty } from 'lodash'
+
 import UserModel, { IUser } from 'models/User'
-import mongoose from 'mongoose'
-import { getSortByFromString, normalize, string2Date } from 'utils/string'
+import { getSortByFromString, normalize } from 'utils/string'
 
 const chance = new Chance()
 
@@ -81,7 +79,7 @@ export const createUser = async (
     overrideCheckerId: false,
   },
 ) => {
-  await createUserValidation.validate(user)
+  const parsedUser = createUserValidation.validateSync(user)
   const normalizedUsername = normalize(user.username)
   const existedUser = await UserModel.findOne({
     username: normalizedUsername,
@@ -121,9 +119,8 @@ export const createUser = async (
   )
 
   const createdUser = await UserModel.create({
-    ...user,
+    ...parsedUser,
     username: normalizedUsername,
-    birthdate: string2Date(user.birthdate),
     password: bcrypt.hashSync(password, 2),
   })
 
@@ -211,8 +208,7 @@ export const createUsers = async (
         ...user,
         createdByUserId,
         username: normalizedUsername,
-        birthdate: string2Date(user.birthdate),
-        roles: ['User'],
+        roles: ['student'],
         password: bcrypt.hashSync(normalizedUsername.toString(), 2),
       },
       { new: true, upsert: true },
