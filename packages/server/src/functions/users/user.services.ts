@@ -94,7 +94,7 @@ export const createUser = async (
     throw new Error('Mã người dùng đã được sử dụng')
   }
 
-  if (!overrideCheckerId) {
+  if (!overrideCheckerId && user.checkerId) {
     const assignedUser = await UserModel.findOne({
       checkerId: user.checkerId,
     }).exec()
@@ -184,7 +184,7 @@ export const createUsers = async (
       ) {
         overriddenCheckerIdUsers.push(overriddenCheckerIdUser.toJSON())
       }
-    } else {
+    } else if (user.checkerId) {
       const assignedUser = await UserModel.findOne({
         checkerId: user.checkerId,
       }).exec()
