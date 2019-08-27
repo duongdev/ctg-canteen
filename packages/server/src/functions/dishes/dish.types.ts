@@ -15,6 +15,7 @@ export const GET_DISHES_SORT_BY = tuple([
 ])
 
 export type GetDishesFilter = {
+  name?: string
   sortBy?: typeof GET_DISHES_SORT_BY[number]
   limit?: number
   page?: number

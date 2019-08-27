@@ -21,6 +21,7 @@ export default gql`
   }
 
   input DishesInput {
+    name: String
     limit: Int
     page: Int
     sortBy: String

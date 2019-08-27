@@ -79,7 +79,7 @@ describe('Test getDishes service', () => {
     mockingoose(DishModel).toReturn(2, 'count')
     mockingoose(DishModel).toReturn(dishes, 'find')
 
-    const data = await getDishes({})
+    const data = await getDishes({ name: 'ca' })
     expect(data).toMatchObject({
       total: 2,
       page: 1,

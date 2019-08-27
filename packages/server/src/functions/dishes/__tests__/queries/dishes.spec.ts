@@ -83,7 +83,9 @@ describe('Test dishes query', () => {
     const { data } = await query({
       query: DISHES,
       variables: {
-        input: {},
+        input: {
+          name: 'ca',
+        },
       },
     })
 

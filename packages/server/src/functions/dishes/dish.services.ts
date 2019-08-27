@@ -3,6 +3,7 @@ import {
   createDishInputValidation,
   getDishesValidation,
 } from 'functions/dishes/dish.validations'
+import { isEmpty } from 'lodash'
 import DishModel from 'models/Dish'
 import { getSortByFromString } from 'utils/string'
 
@@ -14,6 +15,7 @@ export const createDish = async (dish: CreateDishInput) => {
 }
 
 export const getDishes = async ({
+  name,
   sortBy = 'reverse_createdAt',
   limit = 10,
   page = 1,
@@ -27,6 +29,11 @@ export const getDishes = async ({
   const $sortBy = getSortByFromString(sortBy)
   const skip = (page - 1) * limit
   const query = {}
+
+  if (!isEmpty(name)) {
+    query['name'] = { $regex: name, $options: 'i' }
+  }
+
   const [users, total] = await Promise.all([
     DishModel.find(query)
       .sort($sortBy)
