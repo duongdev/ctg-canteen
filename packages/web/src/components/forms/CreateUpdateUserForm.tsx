@@ -34,7 +34,7 @@ export type CreateUpdateUserValues = {
   class: IUser['class']
   schoolYear: IUser['schoolYear'] | null
   group: IUser['group']
-  room: IUser['room']
+  boardingRoom: IUser['boardingRoom']
 }
 type Values = CreateUpdateUserValues
 
@@ -106,7 +106,7 @@ const fieldsProps: {
     selectValues: selectValues.group,
     labelWidth: 49,
   },
-  room: {
+  boardingRoom: {
     grid: { sm: 6 },
     label: 'Phòng nội/ngoại trú',
   },
@@ -114,11 +114,11 @@ const fieldsProps: {
 
 const validationSchema = yup.object().shape({
   name: yup.string().required('Họ và tên không được để trống'),
-  username: yup.string().min(4, 'Mã người dùng phải có ít nhất 4 ký tự'),
-  password: yup
+  username: yup
     .string()
-    .min(3, 'Mật khẩu phải có ít nhất 3 ký tự')
-    .required('Mật khẩu không được để trống'),
+    .required('Mã người dùng không được để trống')
+    .min(4, 'Mã người dùng phải có ít nhất 4 ký tự'),
+  password: yup.string().min(3, 'Mật khẩu phải có ít nhất 3 ký tự'),
   checkerId: yup.string(),
   birthdate: yup.string(),
   hometown: yup.string(),

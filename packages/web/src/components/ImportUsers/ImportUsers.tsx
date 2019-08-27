@@ -1,4 +1,4 @@
-import React, { FC, useCallback, useState } from 'react'
+import React, { FC, useCallback, useMemo, useState } from 'react'
 
 import { useMutation } from '@apollo/react-hooks'
 import {
@@ -13,6 +13,7 @@ import {
 } from '@material-ui/core'
 import { green } from '@material-ui/core/colors'
 import { IMPORT_USERS } from 'apollo/users.gql'
+import { getGraphQLErrors } from 'apollo/utils'
 import ContentContainer from 'components/shared/ContentContainer'
 import PageTitle from 'components/shared/PageTitle'
 import { FileExcel, Upload } from 'mdi-material-ui'
@@ -57,6 +58,10 @@ const ImportUsers: React.FC<ImportUsersProps> = (props) => {
     multiple: false,
     accept: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
   })
+
+  const errors = useMemo(() => {
+    return getGraphQLErrors(error)
+  }, [error])
 
   const handleOpen = useCallback(() => {
     setTimeout(open, 500)
@@ -152,8 +157,8 @@ const ImportUsers: React.FC<ImportUsersProps> = (props) => {
                   <NotImportedUser notImportedUser={notImportedUser} />
                 </Grid>
               ))}
-            {!!(error && error.graphQLErrors && error.graphQLErrors.length) &&
-              error.graphQLErrors.map((graphQLError, idx) => (
+            {errors &&
+              errors.map((graphQLError, idx) => (
                 <Grid item key={idx}>
                   <div className={classes.graphQLError}>
                     <Typography color="error">

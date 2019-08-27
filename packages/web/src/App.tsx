@@ -5,6 +5,7 @@ import { CssBaseline } from '@material-ui/core'
 import { ThemeProvider } from '@material-ui/styles'
 import client from 'apollo/client'
 import { UseAuthProvider } from 'hooks/useAuth'
+import { SnackbarProvider } from 'notistack'
 import { CookiesProvider } from 'react-cookie'
 import Helmet from 'react-helmet'
 import Routes from 'Routes'
@@ -16,13 +17,15 @@ const App: React.FC = () => {
       <ApolloProvider client={client}>
         <UseAuthProvider>
           <ThemeProvider theme={light}>
-            {/* CssBaseline kickstart an elegant, consistent, and simple baseline to build upon. */}
-            <CssBaseline />
-            <Helmet
-              defaultTitle="Kantin – Nhà ăn Chuyên Tiền Giang"
-              titleTemplate="%s | Kantin – Nhà ăn Chuyên Tiền Giang"
-            />
-            <Routes />
+            <SnackbarProvider maxSnack={3}>
+              {/* CssBaseline kickstart an elegant, consistent, and simple baseline to build upon. */}
+              <CssBaseline />
+              <Helmet
+                defaultTitle="Kantin – Nhà ăn Chuyên Tiền Giang"
+                titleTemplate="%s | Kantin – Nhà ăn Chuyên Tiền Giang"
+              />
+              <Routes />
+            </SnackbarProvider>
           </ThemeProvider>
         </UseAuthProvider>
       </ApolloProvider>
