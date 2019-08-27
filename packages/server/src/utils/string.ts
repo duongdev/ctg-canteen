@@ -2,7 +2,7 @@ import { isEmpty } from 'lodash'
 import moment from 'moment'
 import normalizeString from 'normalize-strings'
 
-export const string2Date = (string: string) => {
+export const string2Date = (string: string | Date) => {
   return moment(new Date(string).toISOString()).toDate()
 }
 

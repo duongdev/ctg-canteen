@@ -73,7 +73,11 @@ export const getUserFromToken = async (token: string) => {
 
 export const createUser = async (
   user: CreateUserInput,
-  { overrideCheckerId = false }: CreateUserOptions = {
+  {
+    overrideCheckerId = false,
+    generatePasswordFromUsername = false,
+  }: CreateUserOptions = {
+    generatePasswordFromUsername: false,
     overrideCheckerId: false,
   },
 ) => {
@@ -82,6 +86,11 @@ export const createUser = async (
   const existedUser = await UserModel.findOne({
     username: normalizedUsername,
   }).exec()
+
+  let password = user.password
+  if (generatePasswordFromUsername) {
+    password = user.username
+  }
 
   if (existedUser) {
     throw new Error('Mã người dùng đã được sử dụng')
@@ -115,7 +124,7 @@ export const createUser = async (
     ...user,
     username: normalizedUsername,
     birthdate: string2Date(user.birthdate),
-    password: bcrypt.hashSync(user.password, 2),
+    password: bcrypt.hashSync(password, 2),
   })
 
   return {

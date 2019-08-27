@@ -51,7 +51,7 @@ const hasRole = <RootValue, Args>(
     ctx.user.roles.includes('deactivated') ||
     !ctx.user.roles.includes(role)
   ) {
-    throw new Error('unauthorized')
+    throw new Error('permission_denied')
   }
 
   return
