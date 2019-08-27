@@ -11,8 +11,8 @@ export default gql`
   }
 
   input CreateDishInput {
+    images: [Upload!]!
     name: String!
-    images: [String]
     price: Float!
   }
 
