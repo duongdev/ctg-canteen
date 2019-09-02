@@ -64,7 +64,7 @@ const CreateUser: FC = (props) => {
           variables: {
             input: {
               ...variables,
-              password: variables.password || null,
+              password: variables.password || variables.username,
             },
             options: {
               generatePasswordFromUsername: !variables.password,
