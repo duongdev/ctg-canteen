@@ -2,7 +2,7 @@ import React, { FC, useCallback, useMemo } from 'react'
 
 import { useMutation } from '@apollo/react-hooks'
 import { Box, Grid, makeStyles, Paper, Typography } from '@material-ui/core'
-import { CREATE_USER } from 'apollo/users.gql'
+import { CREATE_USER } from 'apollo/users'
 import { getGraphQLErrors } from 'apollo/utils'
 import ErrorMessage from 'components/ErrorMessage'
 import CreateUpdateUserForm, {

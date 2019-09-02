@@ -10,7 +10,7 @@ import {
   TextField,
   Typography,
 } from '@material-ui/core'
-import { SIGN_IN } from 'apollo/users.gql'
+import { SIGN_IN } from 'apollo/users'
 import Logo from 'components/shared/Logo'
 import { Field, FieldProps, Form, Formik, FormikProps } from 'formik'
 import { ArrowRight } from 'mdi-material-ui'

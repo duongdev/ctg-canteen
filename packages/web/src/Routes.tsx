@@ -2,7 +2,7 @@ import React, { FC } from 'react'
 
 import { useQuery } from '@apollo/react-hooks'
 import { CircularProgress } from '@material-ui/core'
-import { AUTHENTICATE } from 'apollo/users.gql'
+import { AUTHENTICATE } from 'apollo/users'
 import Dashboard from 'components/Dashboard'
 import SignIn from 'components/SignIn'
 import {

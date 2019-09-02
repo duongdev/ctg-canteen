@@ -1,7 +1,7 @@
 import { useCallback, useMemo } from 'react'
 
 import { useMutation, useQuery } from '@apollo/react-hooks'
-import { AUTHENTICATE, SIGN_IN } from 'apollo/users.gql'
+import { AUTHENTICATE, SIGN_IN } from 'apollo/users'
 import createUseContext from 'constate'
 import { useCookies } from 'react-cookie'
 import IUser from 'typings/User'

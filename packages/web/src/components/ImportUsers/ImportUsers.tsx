@@ -12,7 +12,7 @@ import {
   Typography,
 } from '@material-ui/core'
 import { green } from '@material-ui/core/colors'
-import { IMPORT_USERS } from 'apollo/users.gql'
+import { IMPORT_USERS } from 'apollo/users'
 import { getGraphQLErrors } from 'apollo/utils'
 import ContentContainer from 'components/shared/ContentContainer'
 import PageTitle from 'components/shared/PageTitle'
