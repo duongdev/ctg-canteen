@@ -59,7 +59,7 @@
   },
   "devDependencies": {
     "@types/apollo-upload-client": "8.1.2",
-    "@types/lodash": "4.14.137",
+    "@types/lodash": "4.14.138",
     "@types/numeral": "0.0.26",
     "@types/react-helmet": "5.0.9",
     "@types/react-json-tree": "0.6.11",
