@@ -1,5 +1,6 @@
 import { gql } from 'apollo-server'
 
+import Dish from 'functions/dishes/dish.gql'
 import User from 'functions/users/user.gql'
 
 export default [
@@ -15,5 +16,6 @@ export default [
       _empty: String
     }
   `,
+  Dish,
   User,
 ]

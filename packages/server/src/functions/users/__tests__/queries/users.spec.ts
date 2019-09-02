@@ -66,7 +66,7 @@ describe('Test users query', () => {
     })
     const { errors } = await $query({ query: USERS })
 
-    expect(errors![0].message).toEqual('unauthorized')
+    expect(errors![0].message).toEqual('permission_denied')
   })
 
   it('should throw error if user roles is include "deactivated"', async () => {
@@ -77,7 +77,7 @@ describe('Test users query', () => {
     })
     const { errors } = await $query({ query: USERS })
 
-    expect(errors![0].message).toEqual('unauthorized')
+    expect(errors![0].message).toEqual('permission_denied')
   })
 
   it('should return users correctly without password', async () => {
