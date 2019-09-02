@@ -139,7 +139,7 @@ const ImportUsers: React.FC<ImportUsersProps> = (props) => {
             ) &&
               data.importUsers.notImportedUsers.map((notImportedUser, idx) => (
                 <Grid item key={idx}>
-                  <NotImportedUser notImportedUser={notImportedUser} />
+                  <TheNotImportedUser notImportedUser={notImportedUser} />
                 </Grid>
               ))}
             {errors &&
@@ -159,7 +159,7 @@ const ImportUsers: React.FC<ImportUsersProps> = (props) => {
   )
 }
 
-const NotImportedUser: FC<{ notImportedUser: NotImportedUser }> = ({
+const TheNotImportedUser: FC<{ notImportedUser: NotImportedUser }> = ({
   notImportedUser,
 }) => {
   const classes = useStyles()

@@ -1,6 +1,5 @@
 import React, { FC, useCallback, useEffect } from 'react'
 
-import { useMutation } from '@apollo/react-hooks'
 import {
   Box,
   Button,
@@ -10,7 +9,7 @@ import {
   TextField,
   Typography,
 } from '@material-ui/core'
-import { SIGN_IN } from 'apollo/users'
+import { useSignInMutation } from 'apollo/users'
 import Logo from 'components/shared/Logo'
 import { Field, FieldProps, Form, Formik, FormikProps } from 'formik'
 import { ArrowRight } from 'mdi-material-ui'
@@ -28,7 +27,7 @@ type Values = typeof initialValues
 
 const SignIn: FC<RouteComponentProps> = (props) => {
   const classes = useStyles(props)
-  const [signIn, { loading, error }] = useMutation<{ signIn: string }>(SIGN_IN)
+  const [signIn, { loading, error }] = useSignInMutation()
   const [, setCookie, removeCookie] = useCookies(['access_token'])
 
   useEffect(() => {

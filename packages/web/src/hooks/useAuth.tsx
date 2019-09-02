@@ -1,10 +1,10 @@
 import { useCallback, useMemo } from 'react'
 
-import { useMutation, useQuery } from '@apollo/react-hooks'
-import { AUTHENTICATE, SIGN_IN } from 'apollo/users'
+import { useQuery } from '@apollo/react-hooks'
+import { AUTHENTICATE, useSignInMutation } from 'apollo/users'
 import createUseContext from 'constate'
 import { useCookies } from 'react-cookie'
-import IUser from 'typings/User'
+import { IUser } from 'typings'
 
 const useAuthHook = () => {
   const [cookies, setCookies, removeCookie] = useCookies(['access_token'])
@@ -12,9 +12,7 @@ const useAuthHook = () => {
   const { data } = useQuery<{ authenticate: IUser }>(AUTHENTICATE, {
     skip: !cookies['access_token'],
   })
-  const [signInMutation, { loading, error }] = useMutation<{ signIn: string }>(
-    SIGN_IN,
-  )
+  const [signInMutation, { loading, error }] = useSignInMutation()
 
   const user = useMemo(() => data && data.authenticate, [data])
 

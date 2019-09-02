@@ -73,6 +73,8 @@ export const SIGN_IN = gql`
   }
 `
 
+export const useSignInMutation = () => useMutation<{ signIn: string }>(SIGN_IN)
+
 export const AUTHENTICATE = gql`
   query Authenticate {
     authenticate {
