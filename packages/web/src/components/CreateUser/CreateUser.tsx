@@ -62,7 +62,10 @@ const CreateUser: FC = (props) => {
       try {
         const { data } = await createUser({
           variables: {
-            input: variables,
+            input: {
+              ...variables,
+              password: variables.password || null,
+            },
             options: {
               generatePasswordFromUsername: !variables.password,
             },

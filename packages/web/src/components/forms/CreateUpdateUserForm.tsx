@@ -26,7 +26,7 @@ import * as yup from 'yup'
 export type CreateUpdateUserValues = {
   name: IUser['name']
   username: IUser['username']
-  password: string
+  password: string | null
   checkerId: string
   birthdate: string
   hometown: IUser['hometown']
