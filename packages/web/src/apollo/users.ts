@@ -1,4 +1,6 @@
+import { useMutation } from '@apollo/react-hooks'
 import gql from 'graphql-tag'
+import IUser, { CreateUserData, CreateUserVariables } from 'typings/User'
 
 export const USER_FRAGMENT = gql`
   fragment UserFragment on User {
@@ -30,6 +32,9 @@ export const CREATE_USER = gql`
   }
   ${USER_FRAGMENT}
 `
+
+export const useCreateUserMutation = () =>
+  useMutation<CreateUserData, CreateUserVariables>(CREATE_USER)
 
 export const IMPORT_USERS = gql`
   mutation ImportUsers($file: Upload!, $overrideCheckerIds: Boolean) {

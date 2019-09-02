@@ -1,18 +1,15 @@
 import React, { FC, useCallback, useMemo } from 'react'
 
-import { useMutation } from '@apollo/react-hooks'
 import { Box, Grid, makeStyles, Paper, Typography } from '@material-ui/core'
-import { CREATE_USER } from 'apollo/users'
+import { useCreateUserMutation } from 'apollo/users'
 import { getGraphQLErrors } from 'apollo/utils'
 import ErrorMessage from 'components/ErrorMessage'
-import CreateUpdateUserForm, {
-  CreateUpdateUserValues,
-} from 'components/forms/CreateUpdateUserForm'
+import CreateUpdateUserForm from 'components/forms/CreateUpdateUserForm'
 import ContentContainer from 'components/shared/ContentContainer'
 import PageTitle from 'components/shared/PageTitle'
 import { FormikActions } from 'formik'
 import { useSnackbar } from 'notistack'
-import IUser from 'typings/User'
+import { CreateUpdateUserValues } from 'typings'
 
 const initialValues: CreateUpdateUserValues = {
   name: '',
@@ -28,25 +25,10 @@ const initialValues: CreateUpdateUserValues = {
   boardingRoom: '',
 }
 
-type CreateUserData = {
-  createUser: {
-    createdUser: IUser
-    overriddenCheckerIdUser: IUser
-  }
-}
-
-type CreateUserVariables = {
-  input: CreateUpdateUserValues
-  options: {
-    overrideCheckerId?: boolean
-    generatePasswordFromUsername?: boolean
-  }
-}
-
 const CreateUser: FC = (props) => {
   const classes = useStyles(props)
   // prettier-ignore
-  const [createUser, { error }] = useMutation<CreateUserData, CreateUserVariables>(CREATE_USER)
+  const [createUser, { error }] = useCreateUserMutation()
   const { enqueueSnackbar } = useSnackbar()
 
   const errors = useMemo(() => {
@@ -130,7 +112,7 @@ const CreateUser: FC = (props) => {
   )
 }
 
-const useStyles = makeStyles(({ spacing, shape, palette }) => ({
+const useStyles = makeStyles(({ spacing }) => ({
   formTitle: {
     marginBottom: spacing(2),
   },

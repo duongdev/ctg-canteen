@@ -22,7 +22,7 @@ import { useDropzone } from 'react-dropzone'
 import JSONTree from 'react-json-tree'
 import { Link } from 'react-router-dom'
 import { ERROR_BACKGROUND, SUCCESS_BACKGROUND } from 'theme'
-import IUser from 'typings/User'
+import { IUser } from 'typings'
 
 type ImportUsersProps = {}
 type NotImportedUser = {
