@@ -5,19 +5,20 @@ export type CreateUserInput = {
   username: IUser['username']
   name: IUser['name']
   checkerId?: IUser['checkerId']
-  birthdate: string
-  hometown: IUser['hometown']
-  sex: IUser['sex']
-  class: IUser['class']
-  schoolYear: IUser['schoolYear']
-  group: IUser['group']
-  boardingRoom: IUser['boardingRoom']
+  birthdate?: string | Date
+  hometown?: IUser['hometown']
+  sex?: IUser['sex']
+  class?: IUser['class']
+  schoolYear?: IUser['schoolYear']
+  group?: IUser['group']
+  boardingRoom?: IUser['boardingRoom']
   roles?: IUser['roles']
   password?: IUser['password']
 }
 
 export type CreateUserOptions = {
   overrideCheckerId?: boolean
+  generatePasswordFromUsername?: boolean
 }
 
 export type CreateUsersOptions = {

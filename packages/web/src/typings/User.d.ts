@@ -32,5 +32,5 @@ export default interface IUser {
   group: IUserGroup
   roles: IUserRole[]
   checkerId?: string
-  room?: string
+  boardingRoom?: string
 }

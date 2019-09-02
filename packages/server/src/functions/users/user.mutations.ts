@@ -2,6 +2,11 @@ import { compareSync } from 'bcryptjs'
 import chalk from 'chalk'
 import Debug from 'debug'
 import { environment } from 'environment'
+import {
+  createUser as createUserService,
+  createUsers,
+} from 'functions/users/user.services'
+import { CreateUserInput, CreateUserOptions } from 'functions/users/user.types'
 import { FileUpload } from 'graphql-upload'
 import { createResolver } from 'helpers/resolvers'
 import { sign } from 'jsonwebtoken'
@@ -10,8 +15,6 @@ import UserModel from 'models/User'
 import { fileStorage } from 'utils/file-storage'
 import { normalize } from 'utils/string'
 import { EXCEL_MIMETYPES, readExcelFile, removeExcelFile } from 'utils/xlsx'
-import { createUsers } from './user.services'
-import { CreateUserInput } from './user.types'
 
 const debug = Debug('app:users:resolvers')
 
@@ -44,6 +47,29 @@ export const signIn = async (
   log('Signed in successfully')
   return token
 }
+
+export const createUser = createResolver({
+  use: {
+    hasRole: 'admin',
+  },
+  resolve: async (
+    _parent,
+    {
+      input,
+      options = {
+        generatePasswordFromUsername: false,
+        overrideCheckerId: false,
+      },
+    }: {
+      input: CreateUserInput
+      options: CreateUserOptions
+    },
+  ) => {
+    const createdUserData = await createUserService(input, options)
+
+    return createdUserData
+  },
+})
 
 /** TODO: write unit testing for graphql file upload */
 export const importUsers = createResolver({

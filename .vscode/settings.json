@@ -24,5 +24,6 @@
   ],
   "typescript.tsdk": "node_modules/typescript/lib",
   "prettier.tslintIntegration": true,
-  "editor.formatOnSaveTimeout": 50
+  "editor.formatOnSaveTimeout": 50,
+  "eslint.enable": false
 }
