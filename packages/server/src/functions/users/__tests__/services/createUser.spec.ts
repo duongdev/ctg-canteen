@@ -329,6 +329,58 @@ describe('Test createUser service', () => {
     expect(data.createdUser.password).toEqual(user.password)
   })
 
+  it('should return created user correctly if birthdate is not specified', async () => {
+    expect.assertions(1)
+    const user = {
+      username: 'test_username',
+      boardingRoom: 'Phòng 202',
+      checkerId: '09010002391121',
+      class: 'math',
+      group: 'boarding',
+      password: 'password',
+      hometown: 'Nghệ An',
+      schoolYear: 2013,
+      name: 'Nguyễn Văn A',
+      sex: 'male',
+    }
+
+    mockingoose(UserModel).toReturn(user, 'save')
+
+    const data = await createUser(user as any)
+
+    expect(data).toMatchObject({
+      createdUser: user,
+    })
+  })
+
+  it('should return created user correctly if birthdate is empty string', async () => {
+    expect.assertions(1)
+    const user = {
+      username: 'test_username',
+      boardingRoom: 'Phòng 202',
+      birthdate: '',
+      checkerId: '09010002391121',
+      class: 'math',
+      group: 'boarding',
+      password: 'password',
+      hometown: 'Nghệ An',
+      schoolYear: 2013,
+      name: 'Nguyễn Văn A',
+      sex: 'male',
+    }
+
+    mockingoose(UserModel).toReturn(user, 'save')
+
+    const data = await createUser(user as any)
+
+    expect(data).toMatchObject({
+      createdUser: {
+        ...user,
+        birthdate: null,
+      },
+    })
+  })
+
   it('should return created user correctly', async () => {
     expect.assertions(1)
     const user = {
