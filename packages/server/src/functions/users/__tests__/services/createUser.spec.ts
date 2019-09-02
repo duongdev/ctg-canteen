@@ -79,6 +79,29 @@ describe('Test createUser service', () => {
     }
   })
 
+  it('should throw an error if username is not a string', async () => {
+    try {
+      const user = {
+        username: {},
+        birthdate: new Date().toISOString(),
+        boardingRoom: 'not_specified',
+        checkerId: 'not_specified',
+        class: 'math',
+        group: 'boarding',
+        password: 'password',
+        hometown: 'not_specified',
+        schoolYear: 2013,
+        name: 'not_specified',
+        sex: 'male',
+      }
+
+      await createUser(user as any)
+    } catch (error) {
+      expect.assertions(1)
+      expect(error.message).toEqual('Mã người dùng phải là chuỗi ký tự')
+    }
+  })
+
   it('should throw an error if sex is incorrect', async () => {
     try {
       const user = {

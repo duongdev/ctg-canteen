@@ -9,6 +9,7 @@ const baseUserValidation = yup.object().shape({
   username: yup
     .string()
     .trim()
+    .ensure()
     .required('Mã người dùng không được để trống'),
   password: yup
     .string()
