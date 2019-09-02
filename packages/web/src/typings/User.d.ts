@@ -42,6 +42,14 @@ export type CreateUserData = {
   }
 }
 
+export type NotImportedUser = {
+  user: {
+    username: IUser['username']
+    checkerId: IUser['checkerId']
+  }
+  reason: string
+}
+
 export type CreateUpdateUserValues = {
   name: IUser['name']
   username: IUser['username']

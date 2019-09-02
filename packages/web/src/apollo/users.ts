@@ -1,6 +1,11 @@
 import { useMutation } from '@apollo/react-hooks'
 import gql from 'graphql-tag'
-import IUser, { CreateUserData, CreateUserVariables } from 'typings/User'
+import {
+  CreateUserData,
+  CreateUserVariables,
+  IUser,
+  NotImportedUser,
+} from 'typings'
 
 export const USER_FRAGMENT = gql`
   fragment UserFragment on User {
@@ -53,6 +58,14 @@ export const IMPORT_USERS = gql`
     }
   }
 `
+
+export const useImportUserMutation = () =>
+  useMutation<{
+    importUsers: {
+      importedUsers: IUser[]
+      notImportedUsers: NotImportedUser[]
+    }
+  }>(IMPORT_USERS)
 
 export const SIGN_IN = gql`
   mutation SignIn($username: String!, $password: String!) {

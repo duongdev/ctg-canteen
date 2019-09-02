@@ -12,7 +12,7 @@ import {
   RouteComponentProps,
   Switch,
 } from 'react-router-dom'
-import IUser from 'typings/User'
+import { IUser } from 'typings'
 
 const Routes: FC = () => {
   return (
