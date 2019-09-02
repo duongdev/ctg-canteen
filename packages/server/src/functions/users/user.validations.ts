@@ -74,7 +74,23 @@ const baseUserValidation = yup.object().shape({
     ),
 })
 
-export const createUserValidation = baseUserValidation.required()
+export const createUserValidation = (passwordRequired: boolean) =>
+  yup
+    .object()
+    .concat(baseUserValidation)
+    .shape({
+      password: passwordRequired
+        ? yup
+            .string()
+            .trim()
+            .ensure()
+            .required('Mật khẩu không được để trống')
+        : yup
+            .string()
+            .trim()
+            .ensure(),
+    })
+    .required()
 
 export const createUsersValidation = yup
   .array()

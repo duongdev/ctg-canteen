@@ -317,7 +317,7 @@ describe('Test createUser service', () => {
       {
         username: 'username',
         name: 'Trung Quân',
-        password: '12345678',
+        password: null,
         birthdate: new Date(),
         schoolYear: 2018,
       },

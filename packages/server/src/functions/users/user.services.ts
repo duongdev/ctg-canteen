@@ -79,7 +79,9 @@ export const createUser = async (
     overrideCheckerId: false,
   },
 ) => {
-  const parsedUser = createUserValidation.validateSync(user)
+  const parsedUser = createUserValidation(
+    !generatePasswordFromUsername,
+  ).validateSync(user)
   const normalizedUsername = normalize(user.username)
   const existedUser = await UserModel.findOne({
     username: normalizedUsername,
