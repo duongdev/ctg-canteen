@@ -20,26 +20,13 @@ import { OutlinedTextFieldProps } from '@material-ui/core/TextField'
 import { selectValues } from 'constants/users'
 import { Field, FieldProps, Form, Formik, FormikActions } from 'formik'
 import { Check } from 'mdi-material-ui'
-import IUser from 'typings/User'
 import * as yup from 'yup'
+import { CreateUpdateUserValues } from 'typings'
 
-export type CreateUpdateUserValues = {
-  name: IUser['name']
-  username: IUser['username']
-  password: string | null
-  checkerId: string
-  birthdate: string
-  hometown: IUser['hometown']
-  sex: IUser['sex']
-  class: IUser['class']
-  schoolYear: IUser['schoolYear'] | null
-  group: IUser['group']
-  boardingRoom: IUser['boardingRoom']
-}
 type Values = CreateUpdateUserValues
 
 const fieldsProps: {
-  [field in keyof CreateUpdateUserValues]: Partial<OutlinedTextFieldProps> & {
+  [field in keyof Values]: Partial<OutlinedTextFieldProps> & {
     grid?: GridProps
     selectValues?: {
       [key: string]: ReactNode
