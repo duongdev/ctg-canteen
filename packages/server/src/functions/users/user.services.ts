@@ -1,6 +1,5 @@
 import bcrypt from 'bcryptjs'
 import bluebird from 'bluebird'
-import Chance from 'chance'
 import Debug from 'debug'
 import { environment } from 'environment'
 import {
@@ -18,8 +17,6 @@ import { verify } from 'jsonwebtoken'
 
 import UserModel, { IUser } from 'models/User'
 import { getSortByFromString, normalize } from 'utils/string'
-
-const chance = new Chance()
 
 const debug = Debug('app:users:services')
 
@@ -46,7 +43,7 @@ export const createDefaultAdmin = async () => {
   const admin = await UserModel.create({
     password,
     username: defaultAdmin.username,
-    name: chance.name(),
+    name: 'Administrator',
     group: 'other',
     roles: ['admin'],
   })

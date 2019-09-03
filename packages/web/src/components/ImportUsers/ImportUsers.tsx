@@ -1,6 +1,5 @@
-import React, { FC, useCallback, useState } from 'react'
+import React, { FC, useCallback, useMemo, useState } from 'react'
 
-import { useMutation } from '@apollo/react-hooks'
 import {
   Box,
   Button,
@@ -12,7 +11,8 @@ import {
   Typography,
 } from '@material-ui/core'
 import { green } from '@material-ui/core/colors'
-import { IMPORT_USERS } from 'apollo/users.gql'
+import { useImportUserMutation } from 'apollo/users'
+import { getGraphQLErrors } from 'apollo/utils'
 import ContentContainer from 'components/shared/ContentContainer'
 import PageTitle from 'components/shared/PageTitle'
 import { FileExcel, Upload } from 'mdi-material-ui'
@@ -21,29 +21,15 @@ import { useDropzone } from 'react-dropzone'
 import JSONTree from 'react-json-tree'
 import { Link } from 'react-router-dom'
 import { ERROR_BACKGROUND, SUCCESS_BACKGROUND } from 'theme'
-import IUser from 'typings/User'
+import { NotImportedUser } from 'typings'
 
 type ImportUsersProps = {}
-type NotImportedUser = {
-  user: {
-    username: IUser['username']
-    checkerId: IUser['checkerId']
-  }
-  reason: string
-}
 
 const ImportUsers: React.FC<ImportUsersProps> = (props) => {
-  // const loading = true
-
   const classes = useStyles(props)
   const [file, setFile] = useState<File | null>(null)
   const [overrideCheckerIds, setOverrideCheckerIds] = useState(false)
-  const [upload, { data, error, loading }] = useMutation<{
-    importUsers: {
-      importedUsers: IUser[]
-      notImportedUsers: NotImportedUser[]
-    }
-  }>(IMPORT_USERS)
+  const [upload, { data, error, loading }] = useImportUserMutation()
   const onDrop = useCallback(
     (acceptedFiles) => {
       // Do something with the files
@@ -57,6 +43,10 @@ const ImportUsers: React.FC<ImportUsersProps> = (props) => {
     multiple: false,
     accept: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
   })
+
+  const errors = useMemo(() => {
+    return getGraphQLErrors(error)
+  }, [error])
 
   const handleOpen = useCallback(() => {
     setTimeout(open, 500)
@@ -149,11 +139,11 @@ const ImportUsers: React.FC<ImportUsersProps> = (props) => {
             ) &&
               data.importUsers.notImportedUsers.map((notImportedUser, idx) => (
                 <Grid item key={idx}>
-                  <NotImportedUser notImportedUser={notImportedUser} />
+                  <TheNotImportedUser notImportedUser={notImportedUser} />
                 </Grid>
               ))}
-            {!!(error && error.graphQLErrors && error.graphQLErrors.length) &&
-              error.graphQLErrors.map((graphQLError, idx) => (
+            {errors &&
+              errors.map((graphQLError, idx) => (
                 <Grid item key={idx}>
                   <div className={classes.graphQLError}>
                     <Typography color="error">
@@ -169,7 +159,7 @@ const ImportUsers: React.FC<ImportUsersProps> = (props) => {
   )
 }
 
-const NotImportedUser: FC<{ notImportedUser: NotImportedUser }> = ({
+const TheNotImportedUser: FC<{ notImportedUser: NotImportedUser }> = ({
   notImportedUser,
 }) => {
   const classes = useStyles()

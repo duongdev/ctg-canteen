@@ -20,26 +20,13 @@ import { OutlinedTextFieldProps } from '@material-ui/core/TextField'
 import { selectValues } from 'constants/users'
 import { Field, FieldProps, Form, Formik, FormikActions } from 'formik'
 import { Check } from 'mdi-material-ui'
-import IUser from 'typings/User'
 import * as yup from 'yup'
+import { CreateUpdateUserValues } from 'typings'
 
-export type CreateUpdateUserValues = {
-  name: IUser['name']
-  username: IUser['username']
-  password: string
-  checkerId: string
-  birthdate: string
-  hometown: IUser['hometown']
-  sex: IUser['sex']
-  class: IUser['class']
-  schoolYear: IUser['schoolYear'] | null
-  group: IUser['group']
-  room: IUser['room']
-}
 type Values = CreateUpdateUserValues
 
 const fieldsProps: {
-  [field in keyof CreateUpdateUserValues]: Partial<OutlinedTextFieldProps> & {
+  [field in keyof Values]: Partial<OutlinedTextFieldProps> & {
     grid?: GridProps
     selectValues?: {
       [key: string]: ReactNode
@@ -106,7 +93,7 @@ const fieldsProps: {
     selectValues: selectValues.group,
     labelWidth: 49,
   },
-  room: {
+  boardingRoom: {
     grid: { sm: 6 },
     label: 'Phòng nội/ngoại trú',
   },
@@ -114,11 +101,11 @@ const fieldsProps: {
 
 const validationSchema = yup.object().shape({
   name: yup.string().required('Họ và tên không được để trống'),
-  username: yup.string().min(4, 'Mã người dùng phải có ít nhất 4 ký tự'),
-  password: yup
+  username: yup
     .string()
-    .min(3, 'Mật khẩu phải có ít nhất 3 ký tự')
-    .required('Mật khẩu không được để trống'),
+    .required('Mã người dùng không được để trống')
+    .min(4, 'Mã người dùng phải có ít nhất 4 ký tự'),
+  password: yup.string().min(3, 'Mật khẩu phải có ít nhất 3 ký tự'),
   checkerId: yup.string(),
   birthdate: yup.string(),
   hometown: yup.string(),
