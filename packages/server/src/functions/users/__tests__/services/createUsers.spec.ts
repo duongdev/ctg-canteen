@@ -77,6 +77,39 @@ describe('Test createUsers service', () => {
     }
   })
 
+  it('should throw an error if username is not a string', async () => {
+    try {
+      const mockUserList = [
+        {
+          username: 123,
+          birthdate: new Date().toISOString(),
+          boardingRoom: 'not_specified',
+          checkerId: 'not_specified',
+          class: 'english',
+          group: 'boarding',
+          hometown: 'not_specified',
+          schoolYear: 2013,
+          name: 'not_specified',
+          sex: 'male',
+        },
+      ]
+
+      const createdById = getObjectId()
+      const createdBy = {
+        id: createdById.toHexString(),
+        _id: createdById,
+        username: 'admin',
+      }
+
+      mockingoose(UserModel).toReturn(createdBy, 'findOne')
+
+      await createUsers(createdById, mockUserList as any)
+    } catch (error) {
+      expect.assertions(1)
+      expect(error.message).toEqual('Mã người dùng phải là chuỗi ký tự')
+    }
+  })
+
   it('should throw an error if class is incorrect', async () => {
     try {
       const mockUserList = [

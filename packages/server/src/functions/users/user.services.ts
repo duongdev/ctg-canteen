@@ -76,7 +76,14 @@ export const createUser = async (
     overrideCheckerId: false,
   },
 ) => {
-  const parsedUser = createUserValidation.validateSync(user)
+  const parsedUser = createUserValidation(
+    !generatePasswordFromUsername,
+  ).validateSync(user)
+
+  if (typeof user.username !== 'string') {
+    throw new Error('Mã người dùng phải là chuỗi ký tự')
+  }
+
   const normalizedUsername = normalize(user.username)
   const existedUser = await UserModel.findOne({
     username: normalizedUsername,
@@ -148,6 +155,12 @@ export const createUsers = async (
   const parsedUsers = createUsersValidation.validateSync(
     users,
   ) as CreateUserInput[]
+
+  users.forEach((user) => {
+    if (typeof user.username !== 'string') {
+      throw new Error('Mã người dùng phải là chuỗi ký tự')
+    }
+  })
 
   const notImportedUsers: {
     user: CreateUserInput
