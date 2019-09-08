@@ -24,3 +24,7 @@ export type GetMealPeriodsInput = {
   limit?: number
   orderBy?: typeof MEAL_PERIOD_ORDER_BY[number]
 }
+
+export type GetMealPeriodInput = {
+  mealPeriodId: string
+}

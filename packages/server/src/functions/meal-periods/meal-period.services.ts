@@ -1,9 +1,11 @@
 import {
   CreateMealPeriodInput,
+  GetMealPeriodInput,
   GetMealPeriodsInput,
 } from 'functions/meal-periods/meal-period.types'
 import {
   createMealPeriodValidation,
+  getMealPeriodInputValidation,
   getMealPeriodsInputValidation,
 } from 'functions/meal-periods/meal-period.validations'
 import { isEmpty } from 'lodash'
@@ -97,4 +99,12 @@ export const getMealPeriods = async ({
     limit,
     mealPeriods: mealPeriods.map((mealPeriod) => mealPeriod.toJSON()),
   }
+}
+
+export const getMealPeriod = async ({ mealPeriodId }: GetMealPeriodInput) => {
+  getMealPeriodInputValidation.validateSync({ mealPeriodId })
+
+  const mealPeriod = await MealPeriodModel.findById(mealPeriodId).exec()
+
+  return mealPeriod.toJSON()
 }

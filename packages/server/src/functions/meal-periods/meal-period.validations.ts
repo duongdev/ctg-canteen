@@ -108,3 +108,15 @@ export const getMealPeriodsInputValidation = yup
       .default('reverse_registrationStartsAt'),
   })
   .required()
+
+export const getMealPeriodInputValidation = yup
+  .object()
+  .shape({
+    mealPeriodId: yup
+      .string()
+      .ensure()
+      .trim()
+      .strict(true)
+      .required('Mã buổi ăn không được để trống'),
+  })
+  .required()
