@@ -280,6 +280,20 @@ describe('Test createUsers service', () => {
       sex: 'male',
     }
 
+    const expectedUser = {
+      username: 'test_username',
+      password: '',
+      birthdate: new Date(user.birthdate),
+      boardingRoom: 'Phòng 202',
+      checkerId: '09010002391121',
+      class: 'history',
+      group: 'boarding',
+      hometown: 'Nghệ An',
+      schoolYear: 2013,
+      name: 'Nguyễn Văn A',
+      sex: 'male',
+    }
+
     const createdById = getObjectId()
     const createdBy = {
       id: createdById.toHexString(),
@@ -303,7 +317,7 @@ describe('Test createUsers service', () => {
       overriddenCheckerIdUsers: [],
       notImportedUsers: [
         {
-          user,
+          user: expectedUser,
           reason: 'Mã máy chấm công đã được sử dụng',
         },
       ],

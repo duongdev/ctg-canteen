@@ -1,3 +1,4 @@
+import bcrypt from 'bcryptjs'
 import { createUser } from 'functions/users/user.services'
 import { mockingooseResetAll } from 'helpers/test-helpers'
 import { isEqual } from 'lodash'
@@ -97,9 +98,7 @@ describe('Test createUser service', () => {
       await createUser(user as any)
     } catch (error) {
       expect.assertions(1)
-      expect(error.message).toEqual(
-        'Giới tính phải là một trong male, female',
-      )
+      expect(error.message).toEqual('Giới tính phải là một trong male, female')
     }
   })
 
@@ -271,6 +270,115 @@ describe('Test createUser service', () => {
       expect.assertions(1)
       expect(error.message).toEqual('Mã người dùng đã được sử dụng')
     }
+  })
+
+  it('createdUser.password should be hashed', async () => {
+    expect.assertions(1)
+
+    const user = {
+      _id: '5d5584e295aa9906a4beb0ad',
+      id: '5d5584e295aa9906a4beb0ad',
+      username: 'username',
+      name: 'Trung Quân',
+      password: bcrypt.hashSync('12345678', 2),
+      birthdate: new Date(),
+      schoolYear: 2018,
+    }
+
+    mockingoose(UserModel).toReturn(user, 'save')
+
+    const data = await createUser({
+      username: 'username',
+      name: 'Trung Quân',
+      password: '12345678',
+      birthdate: new Date(),
+      schoolYear: 2018,
+    })
+
+    expect(data.createdUser.password).toEqual(user.password)
+  })
+
+  it('createdUser.password should be hashed of username if "generatePasswordFromUsername" is true', async () => {
+    expect.assertions(1)
+
+    const user = {
+      _id: '5d5584e295aa9906a4beb0ad',
+      id: '5d5584e295aa9906a4beb0ad',
+      username: 'username',
+      name: 'Trung Quân',
+      password: bcrypt.hashSync('username', 2),
+      birthdate: new Date(),
+      schoolYear: 2018,
+    }
+
+    mockingoose(UserModel).toReturn(user, 'save')
+
+    const data = await createUser(
+      {
+        username: 'username',
+        name: 'Trung Quân',
+        password: '12345678',
+        birthdate: new Date(),
+        schoolYear: 2018,
+      },
+      {
+        generatePasswordFromUsername: true,
+      },
+    )
+
+    expect(data.createdUser.password).toEqual(user.password)
+  })
+
+  it('should return created user correctly if birthdate is not specified', async () => {
+    expect.assertions(1)
+    const user = {
+      username: 'test_username',
+      boardingRoom: 'Phòng 202',
+      checkerId: '09010002391121',
+      class: 'math',
+      group: 'boarding',
+      password: 'password',
+      hometown: 'Nghệ An',
+      schoolYear: 2013,
+      name: 'Nguyễn Văn A',
+      sex: 'male',
+    }
+
+    mockingoose(UserModel).toReturn(user, 'save')
+
+    const data = await createUser(user as any)
+
+    expect(data).toMatchObject({
+      createdUser: user,
+    })
+  })
+
+  it('should return created user correctly if birthdate is empty string', async () => {
+    expect.assertions(1)
+    const user = {
+      username: 'test_username',
+      boardingRoom: 'Phòng 202',
+      birthdate: '',
+      checkerId: '09010002391121',
+      class: 'math',
+      group: 'boarding',
+      password: 'password',
+      hometown: 'Nghệ An',
+      schoolYear: 2013,
+      name: 'Nguyễn Văn A',
+      sex: 'male',
+    }
+
+    mockingoose(UserModel).toReturn(user, 'save')
+
+    const data = await createUser(user as any)
+
+    expect(data).toMatchObject({
+      createdUser: {
+        ...user,
+        birthdate: null,
+      },
+    })
   })
 
   it('should return created user correctly', async () => {

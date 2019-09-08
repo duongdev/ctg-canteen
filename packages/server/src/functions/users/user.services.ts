@@ -1,7 +1,5 @@
-import { UserInputError } from 'apollo-server'
 import bcrypt from 'bcryptjs'
 import bluebird from 'bluebird'
-import Chance from 'chance'
 import Debug from 'debug'
 import { environment } from 'environment'
 import {
@@ -16,12 +14,9 @@ import {
   getUsersFilterValidation,
 } from 'functions/users/user.validations'
 import { verify } from 'jsonwebtoken'
-import { isEmpty } from 'lodash'
-import UserModel, { IUser } from 'models/User'
-import mongoose from 'mongoose'
-import { getSortByFromString, normalize, string2Date } from 'utils/string'
 
-const chance = new Chance()
+import UserModel, { IUser } from 'models/User'
+import { getSortByFromString, normalize } from 'utils/string'
 
 const debug = Debug('app:users:services')
 
@@ -48,7 +43,7 @@ export const createDefaultAdmin = async () => {
   const admin = await UserModel.create({
     password,
     username: defaultAdmin.username,
-    name: chance.name(),
+    name: 'Administrator',
     group: 'other',
     roles: ['admin'],
   })
@@ -73,21 +68,30 @@ export const getUserFromToken = async (token: string) => {
 
 export const createUser = async (
   user: CreateUserInput,
-  { overrideCheckerId = false }: CreateUserOptions = {
+  {
+    overrideCheckerId = false,
+    generatePasswordFromUsername = false,
+  }: CreateUserOptions = {
+    generatePasswordFromUsername: false,
     overrideCheckerId: false,
   },
 ) => {
-  await createUserValidation.validate(user)
+  const parsedUser = createUserValidation.validateSync(user)
   const normalizedUsername = normalize(user.username)
   const existedUser = await UserModel.findOne({
     username: normalizedUsername,
   }).exec()
 
+  let password = user.password
+  if (generatePasswordFromUsername) {
+    password = user.username
+  }
+
   if (existedUser) {
     throw new Error('Mã người dùng đã được sử dụng')
   }
 
-  if (!overrideCheckerId) {
+  if (!overrideCheckerId && user.checkerId) {
     const assignedUser = await UserModel.findOne({
       checkerId: user.checkerId,
     }).exec()
@@ -112,10 +116,9 @@ export const createUser = async (
   )
 
   const createdUser = await UserModel.create({
-    ...user,
+    ...parsedUser,
     username: normalizedUsername,
-    birthdate: string2Date(user.birthdate),
-    password: bcrypt.hashSync(user.password, 2),
+    password: bcrypt.hashSync(password, 2),
   })
 
   return {
@@ -127,7 +130,7 @@ export const createUser = async (
 
 export const createUsers = async (
   createdByUserId: IUser['id'],
-  Users: CreateUserInput[],
+  users: CreateUserInput[],
   { overrideCheckerIds = false }: CreateUsersOptions = {
     overrideCheckerIds: false,
   },
@@ -142,7 +145,10 @@ export const createUsers = async (
     throw new Error('unauthorized')
   }
 
-  await createUsersValidation.validate(Users)
+  const parsedUsers = createUsersValidation.validateSync(
+    users,
+  ) as CreateUserInput[]
+
   const notImportedUsers: {
     user: CreateUserInput
     reason: string
@@ -150,7 +156,7 @@ export const createUsers = async (
 
   const overriddenCheckerIdUsers: IUser[] = []
 
-  const importedUsers = (await bluebird.map(Users, async (user) => {
+  const importedUsers = (await bluebird.map(parsedUsers, async (user) => {
     const normalizedUsername = normalize(user.username)
 
     if (overrideCheckerIds) {
@@ -175,7 +181,7 @@ export const createUsers = async (
       ) {
         overriddenCheckerIdUsers.push(overriddenCheckerIdUser.toJSON())
       }
-    } else {
+    } else if (user.checkerId) {
       const assignedUser = await UserModel.findOne({
         checkerId: user.checkerId,
       }).exec()
@@ -199,8 +205,7 @@ export const createUsers = async (
         ...user,
         createdByUserId,
         username: normalizedUsername,
-        birthdate: string2Date(user.birthdate),
-        roles: ['User'],
+        roles: ['student'],
         password: bcrypt.hashSync(normalizedUsername.toString(), 2),
       },
       { new: true, upsert: true },
