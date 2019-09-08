@@ -77,7 +77,7 @@ describe('Test createMealPeriod service', () => {
       registrationEndsAt: new Date('2019-09-31T06:54:43.349Z'),
     }
 
-    mockingoose(MealPeriodModel).toReturn(expectedMealPeriod, 'findOne')
+    mockingoose(MealPeriodModel).toReturn(expectedMealPeriod, 'save')
 
     const createdMealPeriod = await createMealPeriod({
       createdByUserId: '5d655ca269064112eabb2cb8',
