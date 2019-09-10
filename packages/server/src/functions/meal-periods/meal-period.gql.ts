@@ -42,5 +42,6 @@ export default gql`
 
   extend type Query {
     mealPeriods(filter: MealPeriodsFilter): MealPeriodsResult
+    mealPeriod(id: String!): MealPeriod
   }
 `
