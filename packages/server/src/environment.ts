@@ -1,6 +1,6 @@
 const defaultPort = 4000
-const defaultMaxFiles = 1
-const defaultMaxFileSize = 10000000 // 10MB
+const defaultMaxFiles = 3
+const defaultMaxFileSize = 1000000 // 1MB
 
 interface Environment {
   apollo: {
@@ -20,7 +20,7 @@ interface Environment {
   }
 
   upload: {
-    folder: string
+    folderPath: string
     maxFiles: number
     maxFileSize: number
   }
@@ -42,7 +42,7 @@ export const environment: Environment = {
     password: process.env.DEFAULT_ADMIN_PASSWORD,
   },
   upload: {
-    folder: process.env.UPLOAD_FOLDER || 'uploads',
+    folderPath: process.env.UPLOAD_FOLDER_PATH || '../../public',
     maxFiles: +process.env.UPLOAD_MAX_FILES || defaultMaxFiles,
     maxFileSize: +process.env.UPLOAD_MAX_FILE_SIZE || defaultMaxFileSize,
   },

@@ -1,6 +1,8 @@
-import { ApolloServer } from 'apollo-server'
+import { ApolloServer } from 'apollo-server-express'
 import chalk from 'chalk'
 import debug from 'debug'
+import express from 'express'
+
 import mongoose from 'mongoose'
 
 const log = debug('app:server')
@@ -11,12 +13,14 @@ import typeDefs from './typeDefs'
 
 import { getUserFromToken } from 'functions/users/user.services'
 import startup from 'startup'
+import { staticFolder } from 'utils/file-storage'
 
 const server = new ApolloServer({
   resolvers,
   typeDefs,
   introspection: environment.apollo.introspection,
   playground: environment.apollo.playground,
+  // TODO: Can configure for specific mutation
   uploads: {
     maxFileSize: environment.upload.maxFileSize,
     maxFiles: environment.upload.maxFiles,
@@ -37,6 +41,12 @@ const server = new ApolloServer({
   },
 })
 
+const app = express()
+
+app.use('/public', express.static(staticFolder))
+
+server.applyMiddleware({ app })
+
 mongoose
   .connect(environment.mongoUri, { useNewUrlParser: true })
   .then(async () => {
@@ -44,7 +54,9 @@ mongoose
 
     await startup()
 
-    server.listen(environment.server).then(async ({ url }) => {
+    app.listen(environment.server, () => {
+      const url = `http://${environment.server.host}:${environment.server.port}${server.graphqlPath}`
+      console.log(`🚀 Server ready at ${url}`)
       log(`Server ready at ${chalk.green(url)}.`)
     })
   })
