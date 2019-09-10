@@ -23,6 +23,7 @@ export type ResolverOptions<ReturnedValue, Args, Context, RootValue> = {
     hasRole?: UserRole
     /** Throws "unauthorized" error if ctx.user is empty. */
     isUser?: boolean
+    notDeactivate?: boolean
   }
 }
 
@@ -57,6 +58,20 @@ const hasRole = <RootValue, Args>(
   return
 }
 
+const notDeactivate = <RootValue, Args>(
+  parent: RootValue,
+  args: Args,
+  ctx: BaseContext,
+  info: GraphQLResolveInfo,
+) => () => {
+  isUser(parent, args, ctx, info)
+  if (ctx.user.roles.includes('deactivated')) {
+    throw new Error('permission_denied')
+  }
+
+  return
+}
+
 export const createResolver = <
   ReturnedValue = any,
   Args = any,
@@ -77,6 +92,10 @@ export const createResolver = <
 
     if (use.hasRole) {
       hasRole(parent, args, context, info)(use.hasRole)
+    }
+
+    if (use.notDeactivate) {
+      notDeactivate(parent, args, context, info)()
     }
   }
 
