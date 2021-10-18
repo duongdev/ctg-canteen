@@ -55,7 +55,7 @@
     "normalize-strings": "1.1.0",
     "ts-node-dev": "1.0.0-pre.42",
     "typegoose": "5.9.0",
-    "xlsx": "0.15.0",
+    "xlsx": "0.17.0",
     "yup": "0.27.0"
   }
 }
