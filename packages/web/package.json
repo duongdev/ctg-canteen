@@ -35,7 +35,7 @@
     "react-router-dom": "5.0.1",
     "react-scripts": "3.0.1",
     "typescript": "3.6.2",
-    "yup": "0.27.0"
+    "yup": "0.32.11"
   },
   "scripts": {
     "start": "react-scripts start",
@@ -65,6 +65,6 @@
     "@types/react-helmet": "5.0.9",
     "@types/react-json-tree": "0.6.11",
     "@types/react-router-dom": "4.3.5",
-    "@types/yup": "0.26.23"
+    "@types/yup": "0.32.0"
   }
 }
